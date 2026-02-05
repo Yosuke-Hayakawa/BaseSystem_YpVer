@@ -11,6 +11,34 @@
 - Spec（仕様）→ Plan（分解）→ Tasks（並列）→ Dashboard（進捗）の流れを、ファイルで運用する
 - docs/spec・docs/decisions・status/dashboard が常に更新される
 
+## VS Code 側で行うこと（設定）
+
+このリポジトリ側で「設定を自動でON」にすることはできません（VS Code のユーザー設定領域のため）。
+ただし、ここに挙げる3点が揃えば、このワークスペースの運用（将軍/家老/足軽 + Subagents）が成立します。
+
+### 1) Copilot Chat の Agent を有効化
+
+- Copilot Chat を開き、モードを **Agent** に切り替えて利用します。
+
+### 2) Instruction files（カスタム指示ファイル）を使う
+
+- VS Code 設定で instruction files の利用を有効化します。
+	- `github.copilot.chat.codeGeneration.useInstructionFiles: true`
+
+このワークスペースでは、以下が instruction files として効きます：
+
+- 全体：`.github/copilot-instructions.md`
+- 役割別：`.github/instructions/*.instructions.md`
+
+### 3) Subagents（サブエージェント）を使う
+
+- Copilot Chat のツールピッカーで `runSubagent`（または同等のサブエージェント起動ツール）を有効化します。
+- 可能なら設定（実験的）：
+	- `chat.customAgentInSubagent.enabled: true`（サブエージェントにカスタムエージェントを割り当てる）
+
+> 設定名は VS Code のバージョン/提供状況で変わる場合があります。
+> 見つからない場合は「ツールピッカーで runSubagent を有効化」だけで開始できます。
+
 ## 進め方（基本フロー）
 
 1. 将軍：`docs/spec/` に仕様を書く（目的/制約/受け入れ条件）
@@ -72,6 +100,41 @@
 - 実行結果（done/error、再現手順）を `status/dashboard.md` に残す
 
 参考：`.github/instructions/ashigaru.instructions.md`
+
+## 「やり取りが見える」テンプレ（Subagents並列の例）
+
+ここは *会話ログそのもの* ではなく、「こういう粒度で投げると役割分担が見えて面白い」例です。
+このテンプレを Copilot Chat（Agent）に貼って運用してください（成果物は `status/dashboard.md` に寄せます）。
+
+### 将軍 → 家老（分解/レビュー依頼）
+
+- 仕様：`docs/spec/<対象>.md` を前提に、ACを満たすためのタスク分割案をください
+- 制約：足軽同士が同じファイルを触らない切り方（ファイル単位で競合回避）
+- 出力：`status/dashboard.md` に貼れる形（担当/成果物/完了条件）
+- リスク：Top3 を添えて
+
+### 将軍 → 足軽（実装/調査タスクの委任）
+
+- あなたの担当：<タスク名>
+- 成果物：<ファイルパス or 変更内容の要約>
+- 完了条件：<ACのどれを満たすか>
+- 禁止：範囲外の変更、不要なリファクタ
+- 報告先：`status/dashboard.md` に start/done/error と要点
+
+### 家老 → 将軍（レビュー返却）
+
+- 結論：OK/NG
+- 仕様（AC）適合：どれが満たせていて、どれが未達か
+- 重大リスク Top3：
+- 最小修正案：
+- 追加テスト案：
+
+### 足軽 → 将軍（結果返却）
+
+- 何をしたか（要点）：
+- 変更の要旨：
+- リスク/前提：
+- 次に将軍が決めること：
 
 ## 必須のファイル更新
 

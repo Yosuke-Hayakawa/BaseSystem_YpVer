@@ -60,3 +60,13 @@ flowchart TB
 
 `docs/USAGE.md` を参照。
 
+## VS Code側の前提（これだけ設定）
+
+このリポジトリは、VS Code の Copilot Chat を前提にした“運用基盤”です（リポジトリ側から設定を強制はできません）。
+
+- Copilot Chat を **Agent** モードで使う
+- instruction files を有効化
+	- `github.copilot.chat.codeGeneration.useInstructionFiles: true`
+- Subagents を使う（ツールピッカーで `runSubagent` を有効化）
+	- 可能なら `chat.customAgentInSubagent.enabled: true`
+
