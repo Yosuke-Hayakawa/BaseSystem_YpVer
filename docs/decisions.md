@@ -10,6 +10,15 @@
 
 ---
 
+## テンプレ: Kaizen Decision（運用改善の採用判断）
+
+- いつ：YYYY-MM-DD
+- 何を：改善点（ナレッジ/手順/テンプレ/ルール変更）
+- なぜ：背景・痛み・期待効果
+- 代替案：採用しない場合/別案
+- 反映先：`docs/spec/` / `docs/USAGE.md` / `.github/instructions/` / `.vscode/tasks.json` など
+- 影響：利用者/運用への影響、移行の注意
+
 ## 2026-02-05: 実行基盤を「VS Code + ファイル運用」に統一（Python/シェルなし）
 
 - 何を：タスク実行エンジン（Python実装やシェルスクリプト）を内蔵せず、VS Code + Copilot Chat（Agentモード）と Markdown ファイルで運用する

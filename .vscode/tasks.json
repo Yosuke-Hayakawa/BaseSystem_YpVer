@@ -7,6 +7,52 @@
       "command": "echo",
       "args": ["Open docs/USAGE.md"],
       "problemMatcher": []
+    },
+    {
+      "label": "Docs: Open Dashboard",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Open status/dashboard.md"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Docs: Open Spec Template",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Open docs/spec/_template.md"],
+      "problemMatcher": []
+    },
+
+    {
+      "label": "Sample: Build (placeholder)",
+      "type": "shell",
+      "command": "echo",
+      "args": ["TODO: replace with your build command"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Sample: Lint (placeholder)",
+      "type": "shell",
+      "command": "echo",
+      "args": ["TODO: replace with your lint/static-analysis command"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Sample: Test (placeholder)",
+      "type": "shell",
+      "command": "echo",
+      "args": ["TODO: replace with your test command"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Sample: All (parallel)",
+      "dependsOn": [
+        "Sample: Build (placeholder)",
+        "Sample: Lint (placeholder)",
+        "Sample: Test (placeholder)"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
     }
   ]
 }

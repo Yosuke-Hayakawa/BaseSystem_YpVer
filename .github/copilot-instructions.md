@@ -28,6 +28,18 @@
 - 並列実行は `.vscode/tasks.json` の `dependsOrder: parallel` を使う。
 - 足軽は複数ターミナルで起動し、各自の担当領域のみ処理する（最小権限）。
 
+## Copilot Subagents（サブエージェント並列）
+
+- 将軍は Subagents を使って「家老（レビュー）」＋「足軽×N（実装/調査/テスト）」を並列起動し、成果を統合する。
+- サブエージェントに渡すタスクは **単機能・小さく・競合しない**単位にする。
+- 重要：成果物は会話に埋めず、必要に応じて `docs/spec/` / `docs/decisions.md` / `status/dashboard.md` に反映してから統合する。
+
+役割別エージェント定義：
+
+- `.github/agents/shogun.agent.md`
+- `.github/agents/karo.agent.md`
+- `.github/agents/ashigaru.agent.md`
+
 ## 禁止
 
 - 一度に巨大な改修（小さく分ける）
