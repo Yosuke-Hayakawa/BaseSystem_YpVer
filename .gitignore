@@ -1,0 +1,18 @@
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+
+# VS Code workspace state (keep settings/tasks in repo)
+.vscode/*.log
+.vscode/.ropeproject
+
+
+# --- Build outputs (project-specific; extend as needed) ---
+dist/
+build/
+out/
+
+# --- Logs / temp ---
+*.log
+*.tmp
+.tmp/

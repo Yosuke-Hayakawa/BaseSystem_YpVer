@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Docs: Open Usage",
+      "type": "shell",
+      "command": "echo",
+      "args": ["Open docs/USAGE.md"],
+      "problemMatcher": []
+    }
+  ]
+}
