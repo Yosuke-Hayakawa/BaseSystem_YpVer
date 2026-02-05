@@ -22,8 +22,10 @@
 
 ### 1) まず記録（発見を逃さない）
 
-- 進捗ログ/気づき（短期のメモ）: `status/dashboard.md`
-  - 例: `karo: kaizen found: <topic> (<one-line>)`
+- 気づき（短期のメモ/根拠）: 必要なら `output/` に残す
+  - 例: `output/reports/kaizen-<topic>.md`
+- 要点は家老へ返す（家老が `status/dashboard.md` に集約して残す）
+  - 重要判断が必要な場合は、将軍にも共有する（上様確認の材料）
 
 ### 2) 採用判断（将軍）
 
@@ -50,6 +52,7 @@
 
 | task | assignee | input | output |
 |---|---|---|---|
-| Kaizenエントリの書式をdashboardに追記 | ashigaru-1 | Spec（本書） | `status/dashboard.md` 更新 |
+| Kaizenエントリ書式案を作る | ashigaru-1 | Spec（本書） | `output/` 配下のメモ（例：`output/ashigaru/kaizen-entry-format.md`） |
+| ダッシュボードへ反映（集約） | karo | 上記メモ | `status/dashboard.md` 更新 |
 | USAGEに改善フローを追記 | ashigaru-2 | Spec（本書） | `docs/USAGE.md` 更新 |
 | decisionsに判断テンプレを追記 | ashigaru-3 | Spec（本書） | `docs/decisions.md` 更新 |

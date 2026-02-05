@@ -5,10 +5,17 @@
 - [2026-02-05 10:26:05] karo: plan done: sample (tasks written)
 - [2026-02-05] shogun: chore: expand .vscode/tasks.json (parallel placeholders)
 - [2026-02-05] shogun: docs: add kaizen-loop spec and feedback workflow
+- [2026-02-05] shogun: decision: dashboard single editor -> karo
+- [2026-02-05] karo: chore: dashboard becomes single editor (rules updated)
 
 ## コミュニケーションの見え方（上様向け）
 
 このファイルが、将軍・家老・足軽の「やり取りの要約ログ」です。
+
+重要：競合防止のため、このファイルは **家老（karo）が集約して更新**します（単一更新者）。
+ログ行の `role` は「実際に作業した役割」を表し、家老が要点を転記します。
+
+補足：報告テンプレ（YAML）など会話/報告の規約は `docs/spec/agent-communication-v1.md` を参照。
 
 - 書き方の推奨：`<date time> <role>: <event>: <topic> (<note>)`
 	- role: `shogun` / `karo` / `ashigaru-1` / `ashigaru-2` ...
@@ -19,6 +26,17 @@
 - 将軍：方針・受け入れ条件（AC）・優先度が固まったか
 - 家老：タスク分解と担当割当が済んだか（競合しない切り方か）
 - 足軽：担当タスクの start/done/error と、結果の要点が残っているか
+
+## 🚨 要対応（上様判断待ち）
+
+重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更、セキュリティ/権限、生成物の配置など）が出たら、将軍がここに集約します。
+
+- [ ] (date) <topic>
+	- 選択肢：A / B / C
+	- 推奨：B
+	- 理由：<one-line>
+	- リスク：<one-line>
+	- 期限：<任意>
 
 ## Kaizen（改善/ナレッジ）バックログ
 

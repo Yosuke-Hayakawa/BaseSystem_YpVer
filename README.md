@@ -11,11 +11,15 @@ flowchart TB
 	S -->|タスク分解を依頼| K[家老（karo）\n分解・調整・取りまとめ]
 	K -->|担当割当| A1[足軽（ashigaru-1）\n担当のみ実行]
 	K -->|担当割当| A2[足軽（ashigaru-2）\n担当のみ実行]
+	A1 -->|結果/要点を報告| K
+	A2 -->|結果/要点を報告| K
+	K -->|分解案/レビューを報告| S
 
 	subgraph Files[ファイル（真実のソース）]
 		SPEC[docs/spec/\n仕様（Intent/Constraints/AC）]
 		DEC[docs/decisions.md\n設計判断ログ]
 		DASH[status/dashboard.md\n進捗・結果]
+		OUT[output/\n生成物（調査メモ/検証ログ等）]
 		INS[.github/instructions/\n役割ごとのルール]
 	end
 
@@ -23,10 +27,10 @@ flowchart TB
 	K <--> SPEC
 	S <--> DEC
 	K <--> DEC
-	S <--> DASH
 	K <--> DASH
-	A1 -->|done/error を記録| DASH
-	A2 -->|done/error を記録| DASH
+	K --> OUT
+	A1 --> OUT
+	A2 --> OUT
 	S --> INS
 	K --> INS
 	A1 --> INS
@@ -45,6 +49,7 @@ flowchart TB
 - `docs/spec/` に仕様を Markdown で残す
 - `docs/decisions.md` に設計判断を残す
 - `status/dashboard.md` で進捗可視化
+- `output/` に生成物（調査メモ、検証ログ、ビルド生成物など）を集約
 - VS Code の `tasks.json` で、タスク（例：ビルド/解析/テスト）を **並列実行**
 
 ## 主要ファイル
@@ -54,6 +59,7 @@ flowchart TB
 - `docs/spec/`：仕様（Markdown）
 - `docs/decisions.md`：設計判断ログ
 - `status/dashboard.md`：進捗ダッシュボード
+- `output/`：生成物置き場（Git管理しないのが基本）
 - `.vscode/tasks.json`：並列実行の要
 
 ## 使い方
