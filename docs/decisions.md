@@ -62,3 +62,24 @@
 - 影響：
 	- 将軍/足軽は dashboard を直接編集しない（家老へ報告→家老が転記）
 	- 足軽の報告に `skill_candidate` フィールドが追加される（ボトムアップのスキル発見）
+
+## 2026-02-09: AgentHQ移行（Custom Agents / Subagents / Prompt Files / Handoffs）
+
+- 何を：
+	- `.github/agents/*.agent.md` の YAML frontmatter に `tools` / `agents` / `handoffs` を追加し、VS Code の Custom Agents 機能に正式対応
+	- `.github/prompts/*.prompt.md` を5つ作成（create-spec, decompose-tasks, review-request, report-done, escalate）
+	- Handoffs でエージェント間のワークフロー遷移を明示化
+	- 足軽は `agents: []` でサブエージェント起動を禁止（最小権限の強化）
+- なぜ：
+	- 現行の `.agent.md` は name/description のみで、VS Code の最新 Custom Agents 機能（tools/agents/handoffs）を活用できていなかった
+	- エージェント間の遷移が暗黙的で、ワークフローの再現性が低かった
+	- よく使うワークフロー（仕様作成、タスク分解等）をスラッシュコマンドで標準化し、上様が簡単に起動できるようにしたい
+- 代替案：
+	- 現状維持（frontmatter なしの agent.md + USAGE.md のテンプレのみ）→ 手動でツール選択/エージェント切替が必要
+	- MCP Server を自作してオーケストレーション → 実行エンジン不要の方針に反する
+- 反映先：`.github/agents/*.agent.md`, `.github/prompts/*.prompt.md`, `docs/ARCHITECTURE.md`, `docs/USAGE.md`, `docs/spec/agenthq-migration-v1.md`, `docs/decisions.md`, `status/dashboard.md`
+- 影響：
+	- エージェントドロップダウンで将軍/家老/足軽を選択可能に
+	- `/create-spec` 等のスラッシュコマンドでワークフローを即時起動可能に
+	- Handoffs ボタンでエージェント間遷移がワンクリックに
+	- 既存の運用ルール（ロギング契約、output/ 制約、上様確認ゲート）は維持

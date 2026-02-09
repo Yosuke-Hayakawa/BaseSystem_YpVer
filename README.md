@@ -62,7 +62,25 @@ flowchart TB
 - `output/`：生成物置き場（Git管理しないのが基本）
 - `.vscode/tasks.json`：並列実行の要
 
-## 使い方
+## クイックスタート（上様＝ユーザ向け）
+
+**初回セットアップ（1回だけ）:**
+
+1. VS Code に GitHub Copilot + Copilot Chat をインストール
+2. Copilot Chat のモードを **Agent** に切り替え
+3. `github.copilot.chat.codeGeneration.useInstructionFiles: true` を設定
+4. ツールピッカーで `runSubagent` を有効化
+
+**タスクの依頼方法（毎回）:**
+
+1. Copilot Chat でエージェントを **Shogun (Orchestrator)** に切り替え
+2. やりたいことを自然言語で指示（テンプレートは `docs/USAGE.md` 参照）
+3. 将軍が「お伺い」してきたら選択肢を選ぶ
+4. `status/dashboard.md` で進捗を確認
+
+> 詳しくは `docs/USAGE.md` の「上様（ユーザ）の役割：将軍への指示の出し方」を参照。
+
+## 使い方（詳細）
 
 `docs/USAGE.md` を参照。
 
