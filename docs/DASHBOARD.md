@@ -2,6 +2,9 @@
 
 進捗は `status/dashboard.md` に集約されます。
 
+- ひな形（記入例）：`status/dashboard.template.md`
+- テンプレートリポ自身の履歴：`status/dashboard.history.md`
+
 ## コミュニケーションはユーザが確認できる？
 
 できます。
@@ -18,6 +21,11 @@
 - 足軽の起動（家老が要点を転記）
 - タスクの start / done / error（作業者の役割名をログ行に含める）
 - plan生成（家老の分解結果の要点）
+
+## ログの書式
+
+- 推奨：`[YYYY-MM-DD-HH:MM] <role>: <event>: <topic> (<note>)`
+	- 時刻不明の場合は `00:00` を使用
 
 ## どう見る？
 

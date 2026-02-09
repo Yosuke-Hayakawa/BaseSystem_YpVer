@@ -3,6 +3,13 @@
 添付のまとめ（VS Code + Copilot Agent運用 / 仕様駆動 / SOLID / dashboard）を踏襲し、
 **Pythonやシェルスクリプトに依存しない**形で「将軍→家老→足軽×N（並列）」を運用するためのベース環境です。
 
+## 上様（ユーザ）向け：最初に押さえる4点
+
+- **ユーザの読むべき部分**：この `README.md` と `docs/USAGE.md`
+- **ユーザの準備すべき部分**：`docs/USAGE.md` の「VS Code 側で行うこと（設定）」
+- **ユーザが入力する部分**：Copilot Chat（Agentモード）で **Shogun (Orchestrator)** に依頼（テンプレは `docs/USAGE.md`）
+- **ユーザが監視する部分**：`status/dashboard.md`（見方の説明は `docs/DASHBOARD.md`）
+
 ## 概念図（この環境が提供するもの）
 
 ```mermaid
@@ -66,10 +73,7 @@ flowchart TB
 
 **初回セットアップ（1回だけ）:**
 
-1. VS Code に GitHub Copilot + Copilot Chat をインストール
-2. Copilot Chat のモードを **Agent** に切り替え
-3. `github.copilot.chat.codeGeneration.useInstructionFiles: true` を設定
-4. ツールピッカーで `runSubagent` を有効化
+- VS Code の前提設定は `docs/USAGE.md` を参照（Agent / instruction files / runSubagent）
 
 **タスクの依頼方法（毎回）:**
 
@@ -84,13 +88,8 @@ flowchart TB
 
 `docs/USAGE.md` を参照。
 
-## VS Code側の前提（これだけ設定）
+## VS Code側の前提（入口）
 
-このリポジトリは、VS Code の Copilot Chat を前提にした“運用基盤”です（リポジトリ側から設定を強制はできません）。
-
-- Copilot Chat を **Agent** モードで使う
-- instruction files を有効化
-	- `github.copilot.chat.codeGeneration.useInstructionFiles: true`
-- Subagents を使う（ツールピッカーで `runSubagent` を有効化）
-	- 可能なら `chat.customAgentInSubagent.enabled: true`
+このリポジトリは、VS Code の Copilot Chat（Agentモード）を前提にした“運用基盤”です。
+具体的な設定手順は `docs/USAGE.md` に集約しています（README では重複を避けます）。
 
