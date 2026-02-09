@@ -40,6 +40,17 @@
 - 重要：成果物は会話に埋めず、必要に応じて `docs/spec/` / `docs/decisions.md` / `status/dashboard.md` に反映してから統合する。
 	- 補足：調査結果や詳細ログなど「生成物」は `output/` に置き、家老が要点だけを `status/dashboard.md` に転記する。
 
+## AgentHQ（Custom Agents / Prompt Files / Handoffs）
+
+各エージェントは `.github/agents/*.agent.md` に YAML frontmatter（tools/agents/handoffs）で定義。
+
+- **tools**: そのエージェントが使えるツールを明示的に制限（最小権限）
+- **agents**: 起動可能なサブエージェントを制限（足軽は `agents: []` で禁止）
+- **handoffs**: エージェント間のワークフロー遷移ボタンを定義
+
+Prompt Files（`.github/prompts/*.prompt.md`）でワークフローをスラッシュコマンド化：
+- `/create-spec`, `/decompose-tasks`, `/review-request`, `/report-done`, `/escalate`
+
 役割別エージェント定義：
 
 - `.github/agents/shogun.agent.md`
