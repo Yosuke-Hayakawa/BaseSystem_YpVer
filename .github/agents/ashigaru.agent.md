@@ -2,11 +2,7 @@
 name: "Ashigaru (Executor)"
 description: "将軍から与えられた単一タスクを最小変更で実行し、成果と要点を返す足軽。"
 tools:
-  - read
-  - search
-  - editFiles
-  - runInTerminal
-  - problems
+  ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment', 'todo']
 agents: []
 handoffs:
   - label: "家老へ結果報告"
