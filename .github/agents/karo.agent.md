@@ -2,9 +2,10 @@
 name: "Karo (Reviewer/QA)"
 description: "仕様準拠・SOLID・安全性の観点でレビューし、修正提案/リスクを返す家老。"
 skills:
+  - task-decomposition
+  - dashboard-management
   - code-review
   - quality-assurance
-  - task-decomposition
   - solid-principles
   - security-analysis
   - risk-assessment

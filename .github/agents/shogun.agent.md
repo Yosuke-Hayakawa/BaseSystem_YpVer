@@ -2,6 +2,8 @@
 name: "Shogun (Orchestrator)"
 description: "仕様→計画→サブエージェント並列委任→統合→検証→記録までを統括する将軍。"
 skills:
+  - spec-creation
+  - multi-agent-orchestration
   - orchestration
   - specification-definition
   - requirements-analysis
