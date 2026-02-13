@@ -1,28 +1,28 @@
 ---
 name: spec-creation
-description: Guide for creating specification documents in the docs/spec/ directory. Use this when asked to create new specifications or feature requirements following the Intent/Constraints/AC pattern.
+description: docs/spec/ ディレクトリに仕様書を作成するためのガイド。Intent/Constraints/AC パターンに従った新規仕様や機能要件の作成時に使用します。
 license: MIT
 ---
 
-# Specification Creation Skill
+# 仕様作成スキル
 
-When creating a new specification document in `docs/spec/`, follow this structured approach:
+`docs/spec/` に新しい仕様書を作成する際は、以下の構造化されたアプローチに従ってください：
 
-## 1. Use the Template
+## 1. テンプレートの使用
 
-Base your specification on `docs/spec/_template.md` which provides the standard structure:
+`docs/spec/_template.md` の標準構造を基に仕様を作成します：
 
 ```markdown
 # 仕様（Spec）テンプレート
 
 ## 目的（Intent）
-- [What is the goal? What problem does this solve?]
+- [目標は何か？どんな問題を解決するか？]
 
 ## 制約（Constraints）
-- [What are the limitations, dependencies, or non-negotiable requirements?]
+- [制限事項、依存関係、譲れない要件は何か？]
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
-- [ ] [Testable criteria that define when this is complete]
+- [ ] [完了を定義するテスト可能な基準]
 
 ## Plan（家老が分解する観点）
 - 足軽が並列に実行できる粒度に分ける
@@ -34,36 +34,36 @@ Base your specification on `docs/spec/_template.md` which provides the standard 
 | | | | |
 ```
 
-## 2. Key Principles
+## 2. 重要な原則
 
-- **Intent**: State the purpose clearly in 1-3 sentences. What value does this deliver?
-- **Constraints**: List technical, security, or operational limitations upfront
-- **Acceptance Criteria (AC)**: Write testable conditions using checkboxes `- [ ]`
-  - Each AC should be verifiable (pass/fail)
-  - Format: "When X, then Y" or "Given X, when Y, then Z"
-  - Include edge cases and error conditions
-- **Plan**: Note how to decompose into parallel tasks (for Karo to implement)
-- **Task List**: Initial task breakdown (Karo will refine this)
+- **Intent（目的）**: 1〜3文で目的を明確に記述。どんな価値を提供するか？
+- **Constraints（制約）**: 技術的、セキュリティ、運用上の制限を最初に列挙
+- **Acceptance Criteria（受け入れ条件/AC）**: チェックボックス `- [ ]` を使用してテスト可能な条件を記述
+  - 各ACは検証可能（合格/不合格）であること
+  - 形式: "X のとき、Y となる" または "X が与えられ、Y のとき、Z となる"
+  - エッジケースとエラー条件を含める
+- **Plan（計画）**: 並列タスクへの分解方法をメモ（家老が実装）
+- **Task List（タスクリスト）**: 初期タスク分解（家老が洗練させる）
 
-## 3. File Naming
+## 3. ファイル命名
 
-Use descriptive kebab-case names:
-- Good: `multi-agent-orchestration-v1.md`, `dashboard-automation-v2.md`
-- Avoid: `spec1.md`, `new-feature.md`
+説明的なケバブケース名を使用：
+- 良い例: `multi-agent-orchestration-v1.md`, `dashboard-automation-v2.md`
+- 避ける: `spec1.md`, `new-feature.md`
 
-## 4. Version Control
+## 4. バージョン管理
 
-- Add version suffix for significant changes (e.g., `-v1`, `-v2`)
-- Record design decisions in `docs/decisions.md`
+- 重大な変更にはバージョン接尾辞を追加（例: `-v1`, `-v2`）
+- 設計判断は `docs/decisions.md` に記録
 
-## 5. Integration with Workflow
+## 5. ワークフローとの統合
 
-After creating the spec:
-1. Update `status/dashboard.md` with the new spec and initial status
-2. Have Karo (Reviewer/QA agent) decompose it into tasks
-3. Have Shogun (Orchestrator) assign tasks to Ashigaru (Executor) agents
+仕様作成後：
+1. `status/dashboard.md` に新規仕様と初期ステータスを更新
+2. Karo（レビュー/QA エージェント）にタスク分解を依頼
+3. Shogun（オーケストレーター）が Ashigaru（実行エージェント）にタスクを割り当て
 
-## Example
+## 例
 
 ```markdown
 # 仕様: Dashboard Auto-update
@@ -101,9 +101,9 @@ After creating the spec:
 | Test cases | ashigaru-4 | 全実装 | test/ |
 ```
 
-## Common Mistakes to Avoid
+## 避けるべき一般的なミス
 
-- ❌ Writing implementation details in Intent (keep it high-level)
-- ❌ Vague AC like "works well" (make it testable)
-- ❌ Mixing multiple features in one spec (split them)
-- ❌ Forgetting to consider parallel task decomposition
+- ❌ Intent に実装詳細を書く（高レベルに保つ）
+- ❌ 「うまく動く」のような曖昧なAC（テスト可能にする）
+- ❌ 1つの仕様に複数の機能を混在させる（分割する）
+- ❌ 並列タスク分解を考慮し忘れる

@@ -1,23 +1,23 @@
 ---
 name: dashboard-management
-description: Guide for managing the status/dashboard.md progress tracking file. Use this when updating project status, task completion, and progress reporting as Karo (home secretary).
+description: status/dashboard.md 進捗追跡ファイルを管理するためのガイド。Karo（家老）としてプロジェクトステータス、タスク完了、進捗報告を更新する際に使用します。
 license: MIT
 ---
 
-# Dashboard Management Skill
+# ダッシュボード管理スキル
 
-The `status/dashboard.md` file is the **single source of truth** for project progress. This skill provides guidance on maintaining it effectively.
+`status/dashboard.md` ファイルは、プロジェクト進捗の**単一の真実のソース**です。このスキルは、それを効果的に維持するためのガイダンスを提供します。
 
-## Ownership
+## 所有権
 
-**Karo (Reviewer/QA)** is the primary owner of `status/dashboard.md`.
-- Shogun and Ashigaru should **not directly edit** this file (prevents conflicts)
-- Ashigaru reports to Karo via YAML
-- Karo consolidates and updates dashboard
+**Karo（レビュー/QA）** が `status/dashboard.md` の主要な所有者です。
+- Shogun と Ashigaru はこのファイルを**直接編集すべきではない**（競合を防止）
+- Ashigaru は YAML 経由で Karo に報告
+- Karo が統合してダッシュボードを更新
 
-## Dashboard Structure
+## ダッシュボード構造
 
-### Standard Format
+### 標準形式
 
 ```markdown
 # プロジェクト進捗ダッシュボード
@@ -26,16 +26,16 @@ The `status/dashboard.md` file is the **single source of truth** for project pro
 
 ## 🎯 現在の目標
 
-<High-level goal from the spec>
+<仕様からの高レベルな目標>
 
 ## 📋 タスク一覧
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Task 1 | ashigaru-1 | done ✅ | src/file1.js | Completed on 2024-02-13 |
-| Task 2 | ashigaru-2 | in progress 🔄 | src/file2.js | Waiting for review |
-| Task 3 | ashigaru-3 | blocked ⛔ | test/file.test.js | Needs Task 1 output |
-| Task 4 | ashigaru-4 | not started ⏸️ | docs/api.md | Scheduled next |
+| タスク1 | ashigaru-1 | done ✅ | src/file1.js | 2024-02-13 に完了 |
+| タスク2 | ashigaru-2 | in progress 🔄 | src/file2.js | レビュー待ち |
+| タスク3 | ashigaru-3 | blocked ⛔ | test/file.test.js | タスク1の出力が必要 |
+| タスク4 | ashigaru-4 | not started ⏸️ | docs/api.md | 次に予定 |
 
 **完了率**: 25% (1/4)
 
@@ -43,19 +43,19 @@ The `status/dashboard.md` file is the **single source of truth** for project pro
 
 | 論点 | 選択肢 | 推奨 | 理由 |
 |------|--------|------|------|
-| <Decision needed> | A/B/C | A | <Rationale> |
+| <必要な決定> | A/B/C | A | <根拠> |
 
 ## 📊 最近の活動
 
 ### YYYY-MM-DD HH:MM - ashigaru-1
-- ✅ Implemented authentication service
+- ✅ 認証サービスを実装
 - Output: src/auth-service.js
 - Skills demonstrated: Node.js, JWT, error-handling
 
 ### YYYY-MM-DD HH:MM - karo
-- 📝 Reviewed authentication implementation
-- Issues: None
-- Risks: Rate limiting not implemented (low priority)
+- 📝 認証実装をレビュー
+- Issues: なし
+- Risks: レート制限が未実装（優先度低）
 
 ## 📚 関連ドキュメント
 
@@ -64,28 +64,28 @@ The `status/dashboard.md` file is the **single source of truth** for project pro
 - Previous dashboard: status/archive/dashboard-2024-02-12.md
 ```
 
-## Status Icons
+## ステータスアイコン
 
-Use consistent icons:
-- ✅ `done` - Task completed
-- 🔄 `in progress` - Currently working
-- ⛔ `blocked` - Cannot proceed (dependency or issue)
-- ⏸️ `not started` - Queued but not begun
-- ❌ `error` - Failed, needs retry or fix
+一貫したアイコンを使用：
+- ✅ `done` - タスク完了
+- 🔄 `in progress` - 現在作業中
+- ⛔ `blocked` - 進行不可（依存関係または問題）
+- ⏸️ `not started` - キュー済みだが未開始
+- ❌ `error` - 失敗、再試行または修正が必要
 
-## Update Triggers
+## 更新トリガー
 
-Karo should update dashboard when:
-1. **New spec created** (Shogun) → Add goal and initial task list
-2. **Task decomposition complete** (Karo) → Add detailed task breakdown
-3. **Ashigaru reports** (Ashigaru) → Update task status and add activity log
-4. **Review complete** (Karo) → Add review notes
-5. **Decision needed** (Shogun/Karo) → Add to "要対応" section
-6. **Decision made** (User) → Remove from "要対応", update tasks if needed
+Karo は以下の場合にダッシュボードを更新すべき：
+1. **新規仕様作成**（Shogun）→ 目標と初期タスクリストを追加
+2. **タスク分解完了**（Karo）→ 詳細なタスク分解を追加
+3. **Ashigaru 報告**（Ashigaru）→ タスクステータスを更新し、活動ログを追加
+4. **レビュー完了**（Karo）→ レビューノートを追加
+5. **決定が必要**（Shogun/Karo）→ "要対応" セクションに追加
+6. **決定済み**（ユーザー）→ "要対応" から削除し、必要に応じてタスクを更新
 
-## Receiving Ashigaru Reports (YAML)
+## Ashigaru 報告の受信（YAML）
 
-When Ashigaru reports in YAML format:
+Ashigaru が YAML 形式で報告する場合：
 
 ```yaml
 role: ashigaru-2
@@ -95,43 +95,43 @@ outputs:
   - src/logger.js
   - output/ashigaru-2/logger-design.md
 summary: |
-  - Implemented Winston-based logger with rotation
-  - Added error, warn, info, debug levels
-  - Configuration via environment variables
+  - Winston ベースのログローテーション付きロガーを実装
+  - error, warn, info, debug レベルを追加
+  - 環境変数による設定
 skill_candidate:
   - winston
   - logging-systems
   - configuration-management
 ```
 
-**Karo's Actions**:
-1. **Parse the YAML** to extract key info
-2. **Update task status** in the task table
-3. **Add activity log** entry with timestamp
-4. **Note skills** for future task assignments
-5. **Validate outputs** exist (check files/paths)
+**Karo のアクション**:
+1. **YAML を解析**して主要情報を抽出
+2. タスクテーブルで**タスクステータスを更新**
+3. タイムスタンプ付きで**活動ログ**エントリを追加
+4. 今後のタスク割り当てのため**スキルをメモ**
+5. 出力が存在することを**検証**（ファイル/パスを確認）
 
-Example Update:
+更新例:
 ```markdown
 ## 📋 タスク一覧
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Implement logger | ashigaru-2 | done ✅ | src/logger.js | Winston-based, env config |
+| ロガーを実装 | ashigaru-2 | done ✅ | src/logger.js | Winston ベース、環境変数設定 |
 
 ## 📊 最近の活動
 
 ### 2024-02-13 14:30 - ashigaru-2
-- ✅ Implemented Winston-based logger with rotation
+- ✅ Winston ベースのログローテーション付きロガーを実装
 - Output: src/logger.js, output/ashigaru-2/logger-design.md
 - Skills: winston, logging-systems, configuration-management
 ```
 
-## Handling Important Decisions (上様お伺い)
+## 重要な決定の扱い（上様お伺い）
 
-When Shogun or Karo identifies an important decision:
+Shogun または Karo が重要な決定を特定した場合：
 
-### 1. Add to "🚨 要対応" Section
+### 1. "🚨 要対応" セクションに追加
 
 ```markdown
 ## 🚨 要対応（上様判断待ち）
@@ -142,35 +142,35 @@ When Shogun or Karo identifies an important decision:
 | 認証方式 | A. JWT / B. Session / C. OAuth2 | A (JWT) | ステートレス、スケーラブル、API向き |
 ```
 
-### 2. Block Related Tasks
+### 2. 関連タスクをブロック
 
-Mark dependent tasks as "blocked ⛔" until decision is made:
+決定が行われるまで、依存タスクを "blocked ⛔" としてマーク：
 
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Implement auth | ashigaru-3 | blocked ⛔ | src/auth.js | 待ち: 認証方式の決定 |
+| 認証を実装 | ashigaru-3 | blocked ⛔ | src/auth.js | 待ち: 認証方式の決定 |
 ```
 
-### 3. After User Decides
+### 3. ユーザーが決定した後
 
-- **Remove** from "🚨 要対応"
-- **Unblock** related tasks
-- **Record decision** in `docs/decisions.md`
-- **Update** task notes with chosen approach
+- "🚨 要対応" から**削除**
+- 関連タスクを**ブロック解除**
+- `docs/decisions.md` に**決定を記録**
+- 選択されたアプローチでタスクノートを**更新**
 
-## Progress Calculation
+## 進捗計算
 
-Calculate completion rate:
+完了率を計算：
 ```
-完了率 = (done tasks / total tasks) × 100%
+完了率 = (完了タスク数 / 総タスク数) × 100%
 ```
 
-Example:
-- Total: 8 tasks
-- Done: 3 tasks
-- In progress: 2 tasks
-- Not started: 3 tasks
+例：
+- 合計: 8 タスク
+- 完了: 3 タスク
+- 進行中: 2 タスク
+- 未開始: 3 タスク
 
 ```markdown
 **完了率**: 37.5% (3/8)
@@ -178,143 +178,143 @@ Example:
 **残タスク**: 3
 ```
 
-## Activity Log Best Practices
+## 活動ログのベストプラクティス
 
-### Good Activity Entry
+### 良い活動エントリ
 ```markdown
 ### 2024-02-13 14:30 - ashigaru-2
-- ✅ Implemented Winston-based logger with rotation
+- ✅ Winston ベースのログローテーション付きロガーを実装
 - Output: src/logger.js, output/ashigaru-2/logger-design.md
 - Skills: winston, logging-systems, configuration-management
-- Notes: Config via env vars, ready for production
+- Notes: 環境変数による設定、本番環境対応
 ```
 
-### Bad Activity Entry (Too Vague)
+### 悪い活動エントリ（曖昧すぎる）
 ```markdown
 ### 2024-02-13 - ashigaru-2
-- Did some work on logging
+- ログ処理に関する作業を実施
 ```
 
-### What to Include
-- ✅ **Timestamp**: Date and time (HH:MM)
-- ✅ **Agent**: Who did the work
-- ✅ **Action**: What was accomplished (verb + object)
-- ✅ **Outputs**: Concrete file paths or artifacts
-- ✅ **Skills**: Demonstrated competencies
-- ❌ **Avoid**: Vague statements, opinions, unnecessary details
+### 含めるべき内容
+- ✅ **タイムスタンプ**: 日付と時刻（HH:MM）
+- ✅ **エージェント**: 作業を実施した人
+- ✅ **アクション**: 達成されたこと（動詞 + 目的語）
+- ✅ **出力**: 具体的なファイルパスまたは成果物
+- ✅ **スキル**: 実証された能力
+- ❌ **避ける**: 曖昧な発言、意見、不要な詳細
 
-## Dashboard Archiving
+## ダッシュボードのアーカイブ
 
-When starting a new major phase or sprint:
+新しい主要フェーズまたはスプリントを開始する場合：
 
-1. **Copy current dashboard** to `status/archive/dashboard-YYYY-MM-DD.md`
-2. **Reset task list** for new work
-3. **Keep** the "関連ドキュメント" section with archive link
-4. **Retain** unresolved "要対応" items
+1. **現在のダッシュボードをコピー**して `status/archive/dashboard-YYYY-MM-DD.md` へ
+2. 新しい作業のため**タスクリストをリセット**
+3. アーカイブリンク付きで "関連ドキュメント" セクションを**保持**
+4. 未解決の "要対応" 項目を**保持**
 
-Example:
+例：
 ```bash
 cp status/dashboard.md status/archive/dashboard-2024-02-13.md
-# Edit dashboard.md for new sprint
+# 新しいスプリント用に dashboard.md を編集
 ```
 
-## Integration with Other Files
+## 他のファイルとの統合
 
-### Spec Files (`docs/spec/`)
-- Dashboard **references** active specs
-- Task lists **derive from** spec AC and Plan sections
-- Link spec path in "関連ドキュメント"
+### 仕様ファイル（`docs/spec/`）
+- ダッシュボードはアクティブな仕様を**参照**
+- タスクリストは仕様の AC と Plan セクションから**派生**
+- "関連ドキュメント" に仕様パスを**リンク**
 
-### Decision Log (`docs/decisions.md`)
-- Dashboard **links to** specific decisions
-- Important decisions **start in** dashboard's "要対応"
-- After approval, decisions **recorded in** decisions.md
+### 決定ログ（`docs/decisions.md`）
+- ダッシュボードは特定の決定に**リンク**
+- 重要な決定はダッシュボードの "要対応" から**開始**
+- 承認後、決定は decisions.md に**記録**
 
-### Instructions (`.github/instructions/`)
-- Dashboard **follows format** defined in instructions
-- Karo **references** instructions for update rules
+### 指示書（`.github/instructions/`）
+- ダッシュボードは指示書で定義された形式に**従う**
+- Karo は更新ルールとして指示書を**参照**
 
-## Common Mistakes
+## よくあるミス
 
-### ❌ Don't Do This
-- Letting Shogun or Ashigaru directly edit dashboard (causes conflicts)
-- Forgetting to update after receiving reports
-- Using inconsistent status labels
-- Omitting timestamps in activity log
-- Deleting old activity (keep history)
-- Making up task status (always base on actual reports)
+### ❌ してはいけないこと
+- Shogun や Ashigaru にダッシュボードを直接編集させる（競合を引き起こす）
+- 報告受信後の更新を忘れる
+- 一貫性のないステータスラベルを使用
+- 活動ログでタイムスタンプを省略
+- 古い活動を削除（履歴を保持）
+- タスクステータスを作る（常に実際の報告に基づく）
 
-### ✅ Do This
-- Karo is the single editor (no conflicts)
-- Update immediately after events
-- Use standard icons consistently
-- Include precise timestamps
-- Archive when full, don't delete
-- Trust only verified reports from agents
+### ✅ すべきこと
+- Karo が単一の編集者（競合なし）
+- イベント後すぐに更新
+- アイコンを一貫して使用
+- 正確なタイムスタンプを含める
+- 満杯になったらアーカイブ、削除しない
+- エージェントからの検証済み報告のみを信頼
 
-## Example: Full Update Cycle
+## 例: 完全な更新サイクル
 
-### 1. Initial State (Shogun creates spec)
+### 1. 初期状態（Shogun が仕様を作成）
 ```markdown
 # プロジェクト進捗ダッシュボード
 
 ## 🎯 現在の目標
-Authentication機能の実装
+認証機能の実装
 
 ## 📋 タスク一覧
-(Empty - awaiting task decomposition)
+(空 - タスク分解を待機中)
 
 ## 📚 関連ドキュメント
 - Spec: docs/spec/auth-feature-v1.md
 ```
 
-### 2. After Karo Decomposes
+### 2. Karo が分解した後
 ```markdown
 ## 📋 タスク一覧
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Implement auth service | ashigaru-1 | not started ⏸️ | src/auth-service.js | |
-| Write auth tests | ashigaru-2 | not started ⏸️ | test/auth.test.js | Depends on ashigaru-1 |
-| Update API docs | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
+| 認証サービスを実装 | ashigaru-1 | not started ⏸️ | src/auth-service.js | |
+| 認証テストを書く | ashigaru-2 | not started ⏸️ | test/auth.test.js | ashigaru-1 に依存 |
+| API ドキュメントを更新 | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
 
 **完了率**: 0% (0/3)
 ```
 
-### 3. After Ashigaru-1 Reports Done
+### 3. Ashigaru-1 が完了を報告した後
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Implement auth service | ashigaru-1 | done ✅ | src/auth-service.js | JWT-based |
-| Write auth tests | ashigaru-2 | in progress 🔄 | test/auth.test.js | Started |
-| Update API docs | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
+| 認証サービスを実装 | ashigaru-1 | done ✅ | src/auth-service.js | JWT ベース |
+| 認証テストを書く | ashigaru-2 | in progress 🔄 | test/auth.test.js | 開始済み |
+| API ドキュメントを更新 | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
 
 **完了率**: 33% (1/3)
 
 ## 📊 最近の活動
 
 ### 2024-02-13 15:00 - ashigaru-1
-- ✅ Implemented JWT-based auth service
+- ✅ JWT ベースの認証サービスを実装
 - Output: src/auth-service.js
 - Skills: jwt, bcrypt, express-middleware
 ```
 
-### 4. After All Tasks Complete
+### 4. すべてのタスク完了後
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| Implement auth service | ashigaru-1 | done ✅ | src/auth-service.js | JWT-based |
-| Write auth tests | ashigaru-2 | done ✅ | test/auth.test.js | Coverage: 95% |
-| Update API docs | ashigaru-3 | done ✅ | docs/api/auth.md | Swagger integrated |
+| 認証サービスを実装 | ashigaru-1 | done ✅ | src/auth-service.js | JWT ベース |
+| 認証テストを書く | ashigaru-2 | done ✅ | test/auth.test.js | カバレッジ: 95% |
+| API ドキュメントを更新 | ashigaru-3 | done ✅ | docs/api/auth.md | Swagger 統合 |
 
 **完了率**: 100% (3/3) 🎉
 ```
 
-## Summary
+## まとめ
 
-- **Karo owns** status/dashboard.md (single editor)
-- **Update triggers**: spec creation, task decomposition, agent reports, reviews, decisions
-- **Standard format**: Goal, Task table, Important decisions, Activity log, Related docs
-- **Consistent icons**: ✅ done, 🔄 in progress, ⛔ blocked, ⏸️ not started, ❌ error
-- **Archive** when starting new phases
-- **Link** to specs and decisions
+- **Karo が所有** status/dashboard.md（単一の編集者）
+- **更新トリガー**: 仕様作成、タスク分解、エージェント報告、レビュー、決定
+- **標準形式**: 目標、タスクテーブル、重要な決定、活動ログ、関連ドキュメント
+- **一貫したアイコン**: ✅ done, 🔄 in progress, ⛔ blocked, ⏸️ not started, ❌ error
+- **アーカイブ**: 新フェーズ開始時
+- **リンク**: 仕様と決定へ

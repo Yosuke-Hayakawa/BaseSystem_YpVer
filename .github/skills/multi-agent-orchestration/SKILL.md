@@ -1,127 +1,127 @@
 ---
 name: multi-agent-orchestration
-description: Guide for orchestrating the Shogun/Karo/Ashigaru multi-agent workflow. Use this when coordinating multiple agents following the specification-driven, SOLID-based development process.
+description: Shogun/Karo/Ashigaru マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
 license: MIT
 ---
 
-# Multi-Agent Orchestration Skill
+# マルチエージェント オーケストレーション スキル
 
-This skill provides guidance for orchestrating the three-tier agent system: Shogun (Orchestrator), Karo (Reviewer/QA), and Ashigaru (Executor).
+このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：Shogun（オーケストレーター）、Karo（レビュー/QA）、Ashigaru（実行者）。
 
-## Agent Roles and Responsibilities
+## エージェントの役割と責任
 
-### Shogun (Orchestrator) - 将軍
-**Primary Role**: Strategic planning and decision-making
+### Shogun（オーケストレーター）- 将軍
+**主要な役割**: 戦略的計画と意思決定
 
-**Responsibilities**:
-- Create and validate specifications in `docs/spec/`
-- Make important decisions (escalate to user when needed)
-- Coordinate Karo and Ashigaru via subagents
-- Update `docs/decisions.md` with key decisions
-- Monitor overall progress
+**責任**:
+- `docs/spec/` に仕様を作成・検証
+- 重要な決定を行う（必要に応じてユーザーにエスカレーション）
+- サブエージェント経由で Karo と Ashigaru を調整
+- 重要な決定を `docs/decisions.md` に更新
+- 全体の進捗を監視
 
-**Key Skills**: orchestration, specification-definition, requirements-analysis, task-planning, multi-agent-coordination, progress-tracking, decision-making, stakeholder-communication
+**主要スキル**: orchestration, specification-definition, requirements-analysis, task-planning, multi-agent-coordination, progress-tracking, decision-making, stakeholder-communication
 
-**Agents Available**: Karo, Ashigaru, Plan
+**利用可能なエージェント**: Karo, Ashigaru, Plan
 
-### Karo (Reviewer/QA) - 家老
-**Primary Role**: Quality assurance and task management
+### Karo（レビュー/QA）- 家老
+**主要な役割**: 品質保証とタスク管理
 
-**Responsibilities**:
-- Decompose specs into parallel tasks (using task-decomposition skill)
-- Review code for SOLID principles, security, and spec compliance
-- Update `status/dashboard.md` (single source of truth for progress)
-- Manage Ashigaru assignments and resolve blockers
-- Report results to Shogun
+**責任**:
+- 仕様を並列タスクに分解（task-decomposition スキルを使用）
+- SOLID 原則、セキュリティ、仕様準拠のコードレビュー
+- `status/dashboard.md` を更新（進捗の単一の真実のソース）
+- Ashigaru の割り当てを管理し、ブロッカーを解決
+- 結果を Shogun に報告
 
-**Key Skills**: code-review, quality-assurance, task-decomposition, solid-principles, security-analysis, risk-assessment, test-planning, specification-validation
+**主要スキル**: code-review, quality-assurance, task-decomposition, solid-principles, security-analysis, risk-assessment, test-planning, specification-validation
 
-**Agents Available**: Ashigaru
+**利用可能なエージェント**: Ashigaru
 
-### Ashigaru (Executor) - 足軽
-**Primary Role**: Focused task execution
+### Ashigaru（実行者）- 足軽
+**主要な役割**: 集中的なタスク実行
 
-**Responsibilities**:
-- Execute assigned tasks ONLY (no scope creep)
-- Make minimal changes to achieve task goals
-- Report results in YAML format (with skill_candidate)
-- Place artifacts in `output/` directory
-- Never call other agents (agents: [])
+**責任**:
+- 割り当てられたタスクのみを実行（スコープクリープなし）
+- タスクゴールを達成するための最小限の変更
+- YAML 形式で結果を報告（skill_candidate を含む）
+- 成果物を `output/` ディレクトリに配置
+- 他のエージェントを呼び出さない（agents: []）
 
-**Key Skills**: code-implementation, focused-execution, minimal-changes, testing, debugging, file-operations, command-execution
+**主要スキル**: code-implementation, focused-execution, minimal-changes, testing, debugging, file-operations, command-execution
 
-**Agents Available**: None (enforces least privilege)
+**利用可能なエージェント**: なし（最小権限を強制）
 
-## Standard Workflow
+## 標準ワークフロー
 
-### Phase 1: Specification (Shogun)
+### フェーズ1: 仕様作成（Shogun）
 ```
-1. User provides high-level requirement
-2. Shogun creates spec in docs/spec/<name>.md
-   - Intent: What and why
-   - Constraints: Technical/security limitations
-   - AC: Testable acceptance criteria
-3. Shogun checks for important decisions
-   → If yes: Escalate to user for approval
-   → If no: Proceed to Phase 2
-4. Record decision in docs/decisions.md
-```
-
-### Phase 2: Task Decomposition (Karo)
-```
-1. Shogun handoffs to Karo: "Decompose this spec"
-2. Karo analyzes spec using task-decomposition skill
-   - Identify components
-   - Check file boundaries (avoid conflicts)
-   - Create parallel-safe task list
-3. Karo updates status/dashboard.md with tasks
-4. Karo reports back to Shogun:
-   - Task count and parallelization plan
-   - Risk assessment
-   - File ownership map
+1. ユーザーが高レベルの要件を提供
+2. Shogun が docs/spec/<name>.md に仕様を作成
+   - Intent: 何を、なぜ
+   - Constraints: 技術的/セキュリティ上の制限
+   - AC: テスト可能な受け入れ条件
+3. Shogun が重要な決定を確認
+   → はい: ユーザーの承認にエスカレーション
+   → いいえ: フェーズ2に進む
+4. docs/decisions.md に決定を記録
 ```
 
-### Phase 3: Parallel Execution (Ashigaru × N)
+### フェーズ2: タスク分解（Karo）
 ```
-1. Shogun launches multiple Ashigaru via subagents
-   - Each gets ONE task from the task list
-   - Each works on DIFFERENT files
-2. Ashigaru execute independently:
-   - Read spec and assigned task
-   - Make minimal changes
-   - Create artifacts in output/ if needed
-   - Report in YAML format
-3. Karo monitors progress (updates dashboard)
-```
-
-### Phase 4: Review and Integration (Karo)
-```
-1. Karo reviews Ashigaru outputs
-   - Check AC compliance
-   - Verify SOLID principles
-   - Security analysis (NULL checks, boundaries)
-   - Test coverage
-2. If issues found:
-   → Karo handoffs to specific Ashigaru for fixes
-3. If OK:
-   → Karo reports to Shogun: "Ready for final validation"
+1. Shogun が Karo にハンドオフ: "この仕様を分解してください"
+2. Karo が task-decomposition スキルを使用して仕様を分析
+   - コンポーネントを特定
+   - ファイル境界を確認（競合を回避）
+   - 並列安全なタスクリストを作成
+3. Karo が status/dashboard.md をタスクで更新
+4. Karo が Shogun に報告:
+   - タスク数と並列化計画
+   - リスク評価
+   - ファイル所有権マップ
 ```
 
-### Phase 5: Final Validation (Shogun)
+### フェーズ3: 並列実行（Ashigaru × N）
 ```
-1. Shogun performs final checks
-   - All ACs met?
-   - Dashboard shows all tasks complete?
-   - Decisions recorded?
-2. If OK:
-   → Mark complete, commit via report_progress
-3. If not OK:
-   → Loop back to appropriate phase
+1. Shogun がサブエージェント経由で複数の Ashigaru を起動
+   - 各自がタスクリストから1つのタスクを取得
+   - 各自が異なるファイルで作業
+2. Ashigaru が独立して実行:
+   - 仕様と割り当てられたタスクを読む
+   - 最小限の変更を行う
+   - 必要に応じて output/ に成果物を作成
+   - YAML 形式で報告
+3. Karo が進捗を監視（ダッシュボードを更新）
 ```
 
-## Communication Protocol
+### フェーズ4: レビューと統合（Karo）
+```
+1. Karo が Ashigaru の出力をレビュー
+   - AC 準拠を確認
+   - SOLID 原則を検証
+   - セキュリティ分析（NULL チェック、境界）
+   - テストカバレッジ
+2. 問題が見つかった場合:
+   → Karo が特定の Ashigaru に修正をハンドオフ
+3. OK の場合:
+   → Karo が Shogun に報告: "最終検証の準備完了"
+```
 
-### Shogun → Karo Handoff
+### フェーズ5: 最終検証（Shogun）
+```
+1. Shogun が最終チェックを実行
+   - すべての AC が満たされているか？
+   - ダッシュボードがすべてのタスクが完了していることを示しているか？
+   - 決定が記録されているか？
+2. OK の場合:
+   → 完了としてマークし、report_progress 経由でコミット
+3. OK でない場合:
+   → 適切なフェーズにループバック
+```
+
+## コミュニケーションプロトコル
+
+### Shogun → Karo ハンドオフ
 ```markdown
 以下の仕様をタスクに分解してください。
 - 足軽同士が同じファイルを触らない切り方（ファイル単位で競合回避）
@@ -131,174 +131,174 @@ This skill provides guidance for orchestrating the three-tier agent system: Shog
 Spec: docs/spec/feature-x-v1.md
 ```
 
-### Karo → Ashigaru Handoff
+### Karo → Ashigaru ハンドオフ
 ```markdown
 以下のタスクを実行してください。担当範囲のみ処理し、完了後に結果を返してください。
 
-Task: <specific task from task list>
-Input: <files or specs to read>
-Output: <files to create/modify>
-AC: <relevant acceptance criteria from spec>
+Task: <タスクリストから特定のタスク>
+Input: <読むべきファイルや仕様>
+Output: <作成/変更するファイル>
+AC: <仕様から関連する受け入れ条件>
 ```
 
-### Ashigaru → Karo Report (YAML)
+### Ashigaru → Karo 報告（YAML）
 ```yaml
 role: ashigaru-N
-topic: <task name>
+topic: <タスク名>
 status: done | error | blocked
 outputs:
-  - <file paths or output/ artifacts>
+  - <ファイルパスまたは output/ の成果物>
 summary: |
-  - What was done
-  - Key changes
-  - Risks or assumptions
+  - 何を行ったか
+  - 主要な変更
+  - リスクや前提条件
 skill_candidate:
-  - <discovered specialties>
+  - <発見された専門領域>
 ```
 
-### Karo → Shogun Report
+### Karo → Shogun 報告
 ```markdown
 タスク分解が完了しました。
 
 Task count: 5 (3並列、2直列)
 Files: src/a.js (ashigaru-1), src/b.js (ashigaru-2), test/ab.test.js (ashigaru-3)
 Risks:
-  1. Feature B depends on Feature A (must sequence)
-  2. API変更により既存機能への影響あり
+  1. 機能B は機能A に依存（順次実行が必要）
+  2. API 変更により既存機能への影響あり
   3. テストカバレッジが現時点で60%（目標80%）
 
 Dashboard: 更新済み (status/dashboard.md)
 ```
 
-## Important Decision Gate (上様お伺い)
+## 重要な決定ゲート（上様お伺い）
 
-When Shogun or Karo encounters an important decision:
+Shogun または Karo が重要な決定に遭遇した場合：
 
-**Format**:
+**形式**:
 ```markdown
 🚨 上様、お伺い申す
 
-論点: <decision needed>
+論点: <必要な決定>
 選択肢:
-  A. <option A>
-  B. <option B>
-  C. <option C>
+  A. <選択肢A>
+  B. <選択肢B>
+  C. <選択肢C>
 推奨: <A/B/C>
-理由: <why recommended>
-リスク: <risk of each option>
-期限: <optional deadline>
+理由: <推奨する理由>
+リスク: <各選択肢のリスク>
+期限: <任意の期限>
 ```
 
-**Important Decisions Include**:
-- Technology selection (libraries, frameworks)
-- External dependency addition/update
-- Breaking changes (API changes, file moves)
-- Security/auth/secrets handling
-- Artifact placement outside of output/
-- Operational flow changes
+**重要な決定に含まれるもの**:
+- 技術選定（ライブラリ、フレームワーク）
+- 外部依存関係の追加/更新
+- 破壊的変更（API 変更、ファイル移動）
+- セキュリティ/認証/シークレットの扱い
+- output/ 外への成果物の配置
+- 運用フロー変更
 
-**Wait for user response before proceeding with that decision.**
+**その決定を進める前にユーザーの応答を待ってください。**
 
-## File and Directory Conventions
+## ファイルとディレクトリの規則
 
-### Source of Truth (一次情報)
-- `docs/spec/`: Specifications (Intent/Constraints/AC)
-- `docs/decisions.md`: Design decision log
-- `status/dashboard.md`: Progress tracking (Karo owns this)
+### 真実のソース（一次情報）
+- `docs/spec/`: 仕様（Intent/Constraints/AC）
+- `docs/decisions.md`: 設計決定ログ
+- `status/dashboard.md`: 進捗追跡（Karo が所有）
 
-### Artifacts (生成物)
-- `output/`: All generated artifacts (research notes, logs, comparison tables, build outputs)
-  - Example: `output/ashigaru-1/`, `output/karo/review-2024-02-13.md`
+### 成果物（生成物）
+- `output/`: すべての生成された成果物（調査メモ、ログ、比較表、ビルド出力）
+  - 例: `output/ashigaru-1/`, `output/karo/review-2024-02-13.md`
 
-### Instructions
-- `.github/copilot-instructions.md`: Global rules
-- `.github/instructions/*.instructions.md`: Role-specific rules
+### 指示書
+- `.github/copilot-instructions.md`: グローバルルール
+- `.github/instructions/*.instructions.md`: 役割固有のルール
 
-### Agent Definitions
-- `.github/agents/*.agent.md`: Custom agent definitions with skills
+### エージェント定義
+- `.github/agents/*.agent.md`: スキルを持つカスタムエージェント定義
 
-### Skills
-- `.github/skills/*/SKILL.md`: Specialized task instructions
+### スキル
+- `.github/skills/*/SKILL.md`: 専門タスク指示
 
-## Parallelization Guidelines
+## 並列化ガイドライン
 
-### ✅ Safe to Parallelize
-- Different files entirely
-- Different modules/packages
-- Read-only operations on the same file
-- Independent test files
+### ✅ 並列化しても安全
+- 完全に異なるファイル
+- 異なるモジュール/パッケージ
+- 同じファイルへの読み取り専用操作
+- 独立したテストファイル
 
-### ❌ Cannot Parallelize
-- Same file edits (merge conflict risk)
-- Sequential dependencies (B needs A's output)
-- Shared mutable state
-- Global configuration changes
+### ❌ 並列化できない
+- 同じファイルの編集（マージ競合リスク）
+- 順次依存関係（B が A の出力を必要とする）
+- 共有可変状態
+- グローバル設定の変更
 
-### Example: Safe Parallelization
+### 例: 安全な並列化
 ```
-Task 1 (ashigaru-1): Implement src/auth.js
-Task 2 (ashigaru-2): Implement src/logger.js
-Task 3 (ashigaru-3): Write test/auth.test.js
-Task 4 (ashigaru-4): Write test/logger.test.js
-→ All 4 can run in parallel (no file conflicts)
-```
-
-## Error Handling
-
-### If Ashigaru Reports Error
-```
-1. Karo analyzes the error
-2. If fixable: Karo creates fix task, assigns to Ashigaru
-3. If blocker: Karo reports to Shogun
-4. Shogun decides: continue, pivot, or escalate to user
+タスク1 (ashigaru-1): src/auth.js を実装
+タスク2 (ashigaru-2): src/logger.js を実装
+タスク3 (ashigaru-3): test/auth.test.js を書く
+タスク4 (ashigaru-4): test/logger.test.js を書く
+→ 4つすべてが並列実行可能（ファイル競合なし）
 ```
 
-### If File Conflict Occurs
+## エラーハンドリング
+
+### Ashigaru がエラーを報告した場合
 ```
-1. STOP all parallel work on that file
-2. Karo sequences the tasks
-3. Restart with sequential execution
-4. Update dashboard with new plan
+1. Karo がエラーを分析
+2. 修正可能な場合: Karo が修正タスクを作成し、Ashigaru に割り当て
+3. ブロッカーの場合: Karo が Shogun に報告
+4. Shogun が決定: 続行、方向転換、またはユーザーにエスカレーション
 ```
 
-## Progress Tracking
+### ファイル競合が発生した場合
+```
+1. そのファイルでのすべての並列作業を停止
+2. Karo がタスクを順次化
+3. 順次実行で再開
+4. ダッシュボードを新しい計画で更新
+```
 
-Karo updates `status/dashboard.md` with:
-- [ ] Task list with status (start/done/error/blocked)
-- [ ] Ashigaru assignments
-- [ ] Completion percentage
-- [ ] Blockers (🚨 要対応)
+## 進捗追跡
 
-Format:
+Karo が `status/dashboard.md` を以下で更新：
+- [ ] ステータス付きタスクリスト（start/done/error/blocked）
+- [ ] Ashigaru の割り当て
+- [ ] 完了率
+- [ ] ブロッカー（🚨 要対応）
+
+形式:
 ```markdown
 ## 進捗状況
 
 | Task | Assignee | Status | Output |
 |------|----------|--------|--------|
-| Implement auth | ashigaru-1 | done ✅ | src/auth.js |
-| Write auth tests | ashigaru-2 | done ✅ | test/auth.test.js |
-| Update API docs | ashigaru-3 | in progress 🔄 | docs/api.md |
+| 認証を実装 | ashigaru-1 | done ✅ | src/auth.js |
+| 認証テストを書く | ashigaru-2 | done ✅ | test/auth.test.js |
+| API ドキュメントを更新 | ashigaru-3 | in progress 🔄 | docs/api.md |
 
 完了率: 66% (2/3)
 ```
 
-## Best Practices
+## ベストプラクティス
 
-1. **Always start with a spec** - No code before specification
-2. **Decompose carefully** - Avoid file conflicts
-3. **Use subagents** - Leverage parallelism
-4. **Update dashboard** - Single source of truth
-5. **Escalate important decisions** - Don't assume
-6. **Make minimal changes** - YAGNI principle
-7. **Test as you go** - Don't defer testing
-8. **Document decisions** - Future you will thank you
+1. **常に仕様から始める** - コードの前に仕様
+2. **慎重に分解する** - ファイル競合を避ける
+3. **サブエージェントを使う** - 並列性を活用
+4. **ダッシュボードを更新** - 単一の真実のソース
+5. **重要な決定をエスカレーション** - 推測しない
+6. **最小限の変更を行う** - YAGNI 原則
+7. **進めながらテスト** - テストを後回しにしない
+8. **決定を文書化** - 未来の自分が感謝する
 
-## Common Pitfalls
+## よくある落とし穴
 
-- ❌ Skipping spec creation (leads to scope creep)
-- ❌ Having Ashigaru call other agents (violates least privilege)
-- ❌ Multiple agents editing the same file (merge conflicts)
-- ❌ Making important decisions without user approval
-- ❌ Forgetting to update dashboard (loses progress visibility)
-- ❌ Creating artifacts outside of output/ (clutters repo)
-- ❌ Writing code before tests (reduces quality)
+- ❌ 仕様作成をスキップ（スコープクリープにつながる）
+- ❌ Ashigaru に他のエージェントを呼ばせる（最小権限違反）
+- ❌ 複数のエージェントが同じファイルを編集（マージ競合）
+- ❌ ユーザーの承認なしに重要な決定を行う
+- ❌ ダッシュボードの更新を忘れる（進捗の可視性を失う）
+- ❌ output/ 外に成果物を作成（リポジトリが散らかる）
+- ❌ テスト前にコードを書く（品質が低下）

@@ -1,150 +1,150 @@
 ---
 name: task-decomposition
-description: Guide for decomposing specifications into parallel, non-conflicting tasks for Ashigaru (executor) agents. Use this when breaking down a spec into actionable tasks following SOLID principles and avoiding file conflicts.
+description: 仕様を並列かつ競合しないタスクに分解して Ashigaru（実行エージェント）に割り当てるためのガイド。SOLID 原則に従い、ファイル競合を回避しながら仕様を実行可能なタスクに分解する際に使用します。
 license: MIT
 ---
 
-# Task Decomposition Skill
+# タスク分解スキル
 
-When decomposing a specification into tasks (typically done by Karo, the Reviewer/QA agent), follow these principles to enable parallel execution without conflicts.
+仕様をタスクに分解する際（通常は Karo（レビュー/QA エージェント）が実施）、競合なしで並列実行を可能にする以下の原則に従ってください。
 
-## Core Principles
+## 基本原則
 
-### 1. Single Responsibility (SRP)
-- Each task should have ONE clear responsibility
-- Bad: "Implement and test feature X"
-- Good: "Implement feature X" + separate "Write tests for feature X"
+### 1. 単一責任の原則（SRP）
+- 各タスクは1つの明確な責任を持つべき
+- 悪い例: "機能Xを実装してテストする"
+- 良い例: "機能Xを実装する" + 別タスク "機能Xのテストを書く"
 
-### 2. File-Level Separation
-- **Critical**: Assign different files to different Ashigaru to avoid merge conflicts
-- If multiple tasks need the same file, sequence them (not parallel)
-- Example:
+### 2. ファイルレベルでの分離
+- **重要**: マージ競合を避けるため、異なる Ashigaru に異なるファイルを割り当てる
+- 複数のタスクが同じファイルを必要とする場合は、順次実行する（並列にしない）
+- 例:
   ```
-  ✅ Good (parallel-safe):
-  - Task A: Edit file1.js (ashigaru-1)
-  - Task B: Edit file2.js (ashigaru-2)
+  ✅ 良い（並列安全）:
+  - タスクA: file1.js を編集 (ashigaru-1)
+  - タスクB: file2.js を編集 (ashigaru-2)
   
-  ❌ Bad (conflict risk):
-  - Task A: Edit config.js lines 1-10 (ashigaru-1)
-  - Task B: Edit config.js lines 20-30 (ashigaru-2)
+  ❌ 悪い（競合リスク）:
+  - タスクA: config.js の 1-10行目を編集 (ashigaru-1)
+  - タスクB: config.js の 20-30行目を編集 (ashigaru-2)
   ```
 
-### 3. Clear Inputs and Outputs
-Each task must specify:
-- **Input**: What the task depends on (files, data, specs)
-- **Output**: What the task produces (files, paths, documentation)
+### 3. 明確な入力と出力
+各タスクは以下を指定する必要があります：
+- **Input（入力）**: タスクが依存するもの（ファイル、データ、仕様）
+- **Output（出力）**: タスクが生成するもの（ファイル、パス、ドキュメント）
 
-### 4. Testable Completion Criteria
-- Each task should have clear done/not-done criteria
-- Link back to the spec's Acceptance Criteria
+### 4. テスト可能な完了条件
+- 各タスクは明確な完了/未完了の基準を持つべき
+- 仕様の受け入れ条件（AC）に紐付ける
 
-## Decomposition Process
+## 分解プロセス
 
-### Step 1: Identify Components
-Break the feature into logical components based on:
-- File boundaries (different modules, classes, configs)
-- Layers (UI, logic, data, tests)
-- Concerns (feature implementation vs. documentation vs. testing)
+### ステップ1: コンポーネントの特定
+機能を以下に基づいて論理的なコンポーネントに分割：
+- ファイル境界（異なるモジュール、クラス、設定）
+- レイヤー（UI、ロジック、データ、テスト）
+- 関心事（機能実装 vs. ドキュメント vs. テスト）
 
-### Step 2: Check Dependencies
-- Map which tasks depend on others
-- Group dependent tasks for sequential execution
-- Identify truly independent tasks for parallel execution
+### ステップ2: 依存関係の確認
+- どのタスクが他のタスクに依存するかをマッピング
+- 依存タスクを順次実行のためにグループ化
+- 真に独立したタスクを並列実行のために特定
 
-### Step 3: Assign Responsibility
-- Name each Ashigaru: `ashigaru-1`, `ashigaru-2`, etc.
-- Ensure no two Ashigaru modify the same file
-- Balance workload (roughly equal complexity)
+### ステップ3: 責任の割り当て
+- 各 Ashigaru に名前を付ける: `ashigaru-1`, `ashigaru-2`, など
+- 2つの Ashigaru が同じファイルを変更しないようにする
+- 作業負荷のバランスを取る（ほぼ同等の複雑さ）
 
-### Step 4: Document in Table Format
+### ステップ4: テーブル形式でドキュメント化
 
-Use the standard task list format:
+標準的なタスクリスト形式を使用：
 
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| Implement parser | ashigaru-1 | spec section 3.1 | src/parser.js |
-| Create tests | ashigaru-2 | spec AC 1-3 | test/parser.test.js |
-| Update docs | ashigaru-3 | src/parser.js | docs/api.md |
+| パーサーを実装 | ashigaru-1 | 仕様 3.1節 | src/parser.js |
+| テストを作成 | ashigaru-2 | 仕様 AC 1-3 | test/parser.test.js |
+| ドキュメントを更新 | ashigaru-3 | src/parser.js | docs/api.md |
 ```
 
-## Example: Multi-File Feature
+## 例: 複数ファイルの機能
 
-**Spec**: Add user authentication to the system
+**仕様**: システムにユーザー認証を追加
 
-**Bad Decomposition** (conflict risk):
+**悪い分解**（競合リスク）:
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| Add login route | ashigaru-1 | spec | server.js, auth.js |
-| Add logout route | ashigaru-2 | spec | server.js, auth.js |
+| ログインルート追加 | ashigaru-1 | spec | server.js, auth.js |
+| ログアウトルート追加 | ashigaru-2 | spec | server.js, auth.js |
 ```
-☠️ Both touch `server.js` and `auth.js` → merge conflicts!
+☠️ 両方が `server.js` と `auth.js` を触る → マージ競合！
 
-**Good Decomposition** (parallel-safe):
+**良い分解**（並列安全）:
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| Implement auth service | ashigaru-1 | spec AC 1-2 | src/auth-service.js |
-| Implement login route | ashigaru-2 | spec AC 3 | routes/login.js |
-| Implement logout route | ashigaru-3 | spec AC 4 | routes/logout.js |
-| Write auth tests | ashigaru-4 | spec AC 1-4 | test/auth.test.js |
-| Update API docs | ashigaru-5 | routes/*.js | docs/api/auth.md |
+| 認証サービス実装 | ashigaru-1 | 仕様 AC 1-2 | src/auth-service.js |
+| ログインルート実装 | ashigaru-2 | 仕様 AC 3 | routes/login.js |
+| ログアウトルート実装 | ashigaru-3 | 仕様 AC 4 | routes/logout.js |
+| 認証テスト作成 | ashigaru-4 | 仕様 AC 1-4 | test/auth.test.js |
+| API ドキュメント更新 | ashigaru-5 | routes/*.js | docs/api/auth.md |
 ```
-✅ Each Ashigaru has their own file(s)!
+✅ 各 Ashigaru が自分のファイルを持つ！
 
-## Handling Shared Files
+## 共有ファイルの扱い
 
-When a file MUST be edited by multiple tasks:
+ファイルが複数のタスクで編集される必要がある場合：
 
-### Option 1: Sequence Tasks
+### オプション1: タスクを順次化
 ```markdown
 | task | assignee | input | output | depends_on |
 |---|---|---|---|---|
-| Add base config | ashigaru-1 | spec | config.js | - |
-| Add feature A config | ashigaru-2 | config.js | config.js | ashigaru-1 |
-| Add feature B config | ashigaru-3 | config.js | config.js | ashigaru-2 |
+| 基本設定を追加 | ashigaru-1 | spec | config.js | - |
+| 機能A設定を追加 | ashigaru-2 | config.js | config.js | ashigaru-1 |
+| 機能B設定を追加 | ashigaru-3 | config.js | config.js | ashigaru-2 |
 ```
 
-### Option 2: Create Separate Files
+### オプション2: 別ファイルを作成
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| Create base config | ashigaru-1 | spec | config/base.js |
-| Create feature A config | ashigaru-2 | spec | config/feature-a.js |
-| Create feature B config | ashigaru-3 | spec | config/feature-b.js |
-| Integrate configs | ashigaru-4 | config/*.js | config/index.js |
+| 基本設定を作成 | ashigaru-1 | spec | config/base.js |
+| 機能A設定を作成 | ashigaru-2 | spec | config/feature-a.js |
+| 機能B設定を作成 | ashigaru-3 | spec | config/feature-b.js |
+| 設定を統合 | ashigaru-4 | config/*.js | config/index.js |
 ```
 
-## Task Size Guidelines
+## タスクサイズのガイドライン
 
-- **Too small**: "Add a single line to file.js" (not worth separate task)
-- **Too large**: "Implement the entire feature" (defeats parallel execution)
-- **Just right**: "Implement the user service class" (clear scope, file boundary)
+- **小さすぎ**: "file.js に1行追加"（別タスクにする価値なし）
+- **大きすぎ**: "全機能を実装" （並列実行の意味がない）
+- **ちょうど良い**: "ユーザーサービスクラスを実装" （明確なスコープ、ファイル境界）
 
-Aim for: **1-3 hours of work per task** (estimating for experienced developer)
+目標: **タスクあたり1〜3時間の作業**（経験豊富な開発者を想定）
 
-## Reporting Back to Shogun
+## Shogun への報告
 
-After decomposing, provide:
-1. **Task count**: "分解結果: 5タスク（3並列実行可）"
-2. **Parallelization plan**: Which tasks can run in parallel
-3. **Risk assessment**: Potential bottlenecks or dependencies
-4. **File map**: Which Ashigaru owns which files
+分解後、以下を提供：
+1. **タスク数**: "分解結果: 5タスク（3並列実行可）"
+2. **並列化計画**: どのタスクが並列実行可能か
+3. **リスク評価**: 潜在的なボトルネックや依存関係
+4. **ファイルマップ**: どの Ashigaru がどのファイルを担当するか
 
-## Common Mistakes
+## よくあるミス
 
-- ❌ Creating tasks that modify the same file in parallel
-- ❌ Forgetting to specify inputs/outputs
-- ❌ Making tasks too dependent (reducing parallelism)
-- ❌ Ignoring test task separation (tests should be separate tasks)
-- ❌ Not considering `output/` directory for intermediate artifacts
+- ❌ 同じファイルを並列で変更するタスクを作る
+- ❌ 入力/出力の指定を忘れる
+- ❌ タスクを依存させすぎる（並列性を減らす）
+- ❌ テストタスクの分離を無視する（テストは別タスクにすべき）
+- ❌ 中間成果物用の `output/` ディレクトリを考慮しない
 
-## Integration with Workflow
+## ワークフローとの統合
 
-1. **Receive** spec from Shogun (Orchestrator)
-2. **Decompose** using this skill's guidelines
-3. **Validate** no file conflicts exist
-4. **Report** to Shogun with task list
-5. **Update** `status/dashboard.md` with task assignments
-6. **Monitor** Ashigaru progress and resolve blockers
+1. **受領**: Shogun（オーケストレーター）から仕様を受け取る
+2. **分解**: このスキルのガイドラインを使用して分解
+3. **検証**: ファイル競合がないことを確認
+4. **報告**: タスクリストと共に Shogun に報告
+5. **更新**: `status/dashboard.md` にタスク割り当てを更新
+6. **監視**: Ashigaru の進捗を監視し、ブロッカーを解決
