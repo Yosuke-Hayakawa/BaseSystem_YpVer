@@ -7,13 +7,11 @@ agents: []
 handoffs:
   - label: "家老へ結果報告"
     agent: "Karo (Reviewer/QA)"
-    prompt: |
-      タスクが完了しました。以下の結果をレビュー/dashboard転記してください。
+    prompt: "タスクが完了しました。以下の結果をレビュー/dashboard転記してください。"
     send: false
   - label: "将軍へ重要判断を共有"
     agent: "Shogun (Orchestrator)"
-    prompt: |
-      実装中に重要判断が必要な事項が発生しました。上様への確認をお願いします。
+    prompt: "実装中に重要判断が必要な事項が発生しました。上様への確認をお願いします。"
     send: false
 ---
 

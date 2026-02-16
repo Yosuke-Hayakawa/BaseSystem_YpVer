@@ -8,13 +8,11 @@ agents:
 handoffs:
   - label: "将軍へ統合報告"
     agent: "Shogun (Orchestrator)"
-    prompt: |
-      レビュー/タスク分解が完了しました。以下の結果を統合してください。
+    prompt: "レビュー/タスク分解が完了しました。以下の結果を統合してください。"
     send: false
   - label: "足軽へ修正指示"
     agent: "Ashigaru (Executor)"
-    prompt: |
-      以下の修正を実施してください。担当範囲のみ処理し、完了後に結果を返してください。
+    prompt: "以下の修正を実施してください。担当範囲のみ処理し、完了後に結果を返してください。"
     send: false
 ---
 
