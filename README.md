@@ -8,7 +8,7 @@
 - **ユーザの読むべき部分**：この `README.md` と `docs/USAGE.md`
 - **ユーザの準備すべき部分**：`docs/USAGE.md` の「VS Code 側で行うこと（設定）」
 - **ユーザが入力する部分**：Copilot Chat（Agentモード）で **Shogun (Orchestrator)** に依頼（テンプレは `docs/USAGE.md`）
-- **ユーザが監視する部分**：`status/dashboard.md`（見方の説明は `docs/DASHBOARD.md`）
+- **ユーザが監視する部分**：`status/dashboard.md`（見方の説明は `docs/ARCHITECTURE.md`）
 
 ## 概念図（この環境が提供するもの）
 

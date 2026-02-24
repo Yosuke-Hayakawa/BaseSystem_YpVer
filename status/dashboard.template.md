@@ -3,18 +3,9 @@
 このファイルは `status/dashboard.md` の記入ガイド（ひな形）です。
 
 - 実運用：`status/dashboard.md`
-- 見方：`docs/DASHBOARD.md`
+- 見方（役割・更新ルール・よくある見方）：`docs/ARCHITECTURE.md`（「ダッシュボードの見方」セクション）
 
 ---
-
-## コミュニケーションの見え方（上様向け）
-
-`status/dashboard.md` が、将軍・家老・足軽の「やり取りの要約ログ」になります。
-
-重要：競合防止のため、dashboard は **家老（karo）が集約して更新**します（単一更新者）。
-ログ行の `role` は「実際に作業した役割」を表し、家老が要点を転記します。
-
-補足：報告テンプレ（YAML）など会話/報告の規約は `docs/spec/agent-communication-v1.md` を参照。
 
 ## ログ書式
 
