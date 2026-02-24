@@ -2,7 +2,7 @@
 
 進捗とやり取りの要点は、このファイルに集約します（単一更新者：家老）。
 
-- 見方：`docs/DASHBOARD.md`
+- 見方：`docs/ARCHITECTURE.md`（「ダッシュボードの見方」セクション）
 - ひな形：`status/dashboard.template.md`
 - テンプレートリポ自身の履歴：`status/dashboard.history.md`
 

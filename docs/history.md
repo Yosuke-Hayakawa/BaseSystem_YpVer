@@ -93,6 +93,40 @@
 - 影響：
 	- 初見ユーザは `docs/USAGE.md` を上から読めば開始でき、詳細は必要時に `docs/ARCHITECTURE.md` へ移動する
 
+### 2026-02-13: Custom Agent 定義（`.agent.md`）に `skills` フィールドを追加
+
+- 何を：Custom Agent 定義（`.agent.md`）に `skills` フィールドを追加
+- なぜ：GitHub Copilot の Custom Agents 機能において、各エージェントの得意領域（skills）を明示することで、タスクルーティングの精度向上と、エージェント選択時の可視性向上が期待される。Qiita 記事などのベストプラクティスに基づき、標準的な agent.md 形式に準拠する。
+- 代替案：
+	- skills フィールドなし：エージェント選択が description のみに依存し、機械的なルーティングが困難
+	- skills を description に統合：人間の可読性は向上するが、構造化された情報が失われる
+- 反映先：
+	- `.github/agents/shogun.agent.md`
+	- `.github/agents/karo.agent.md`
+	- `.github/agents/ashigaru.agent.md`
+	- `docs/spec/agenthq-migration-v1.md`（受け入れ条件に skills を追記）
+	- `docs/ARCHITECTURE.md`（Custom Agents の表に skills を追記）
+- 影響：
+	- 既存のエージェント動作には影響なし（skills は追加情報）
+	- 将来的なタスク自動割り当て機能で活用可能
+	- エージェント選択時の UI で skills が表示される可能性あり
+
+### 2026-02-24: ドキュメント構成の見直し（重複削除 + 整理）
+
+- 何を：
+	- `docs/DASHBOARD.md`（薄いラッパーファイル）を削除し、内容を `docs/ARCHITECTURE.md` の「ダッシュボードの見方」セクションへ統合
+	- `status/dashboard.template.md` の重複セクション（コミュニケーションの見え方）を削除し、`docs/ARCHITECTURE.md` へ参照を統一
+	- `docs/decisions.md` のテンプレートリポ固有エントリ（skills フィールド）を `docs/history.md` へ移動し、`docs/decisions.md` を利用プロジェクト向けの純粋なテンプレートに整理
+- なぜ：
+	- 同じ内容が複数ファイルに散在し、どれが正しい情報か判断しにくかった
+	- `docs/decisions.md` にテンプレートリポ自身の履歴が混在していた（利用者が誤読するリスク）
+	- ファイル数を減らして「どこを見ればよいか」を明確にする
+- 代替案：
+	- `docs/DASHBOARD.md` を残し、内容を補充する：ファイル数が増え、参照先が分散する
+- 反映先：`docs/ARCHITECTURE.md`, `docs/decisions.md`, `docs/history.md`, `status/dashboard.md`, `status/dashboard.template.md`, `README.md`
+- 影響：
+	- `docs/DASHBOARD.md` は存在しなくなる（旧リンクは `docs/ARCHITECTURE.md` へ読み替える）
+
 ---
 
 ## メモ
