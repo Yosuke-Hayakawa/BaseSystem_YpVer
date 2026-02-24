@@ -11,7 +11,7 @@
 - 書式：`[YYYY-MM-DD-HH:MM] <role>: <event>: <topic> (<note>)`
 	- role: `shogun` / `karo` / `ashigaru-1` / `ashigaru-2` ...
 	- event: `start` / `plan start` / `plan done` / `done` / `error` / `blocked`
-	- 時刻不明の場合は `00:00` を使用
+	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
 <!-- ここにログ行を追記していく -->
 

@@ -21,7 +21,7 @@
 - 推奨：`[YYYY-MM-DD-HH:MM] <role>: <event>: <topic> (<note>)`
 	- role: `shogun` / `karo` / `ashigaru-1` / `ashigaru-2` ...
 	- event: `start` / `plan start` / `plan done` / `done` / `error` / `blocked`
-	- 時刻不明の場合は `00:00` を使用
+	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
 ## 記入例（上様→将軍の依頼が来た直後）
 
@@ -35,8 +35,8 @@
 
 ### ログ（時系列）
 
-- [2026-xx-xx-00:00] shogun: start: <topic>
-- [2026-xx-xx-00:00] karo: plan start: <topic>
-- [2026-xx-xx-00:00] karo: plan done: <topic>
-- [2026-xx-xx-00:00] ashigaru-1: start: <task>
-- [2026-xx-xx-00:00] ashigaru-1: done: <task> (<note>)
+- [2026-xx-xx-HH:MM] shogun: start: <topic>
+- [2026-xx-xx-HH:MM] karo: plan start: <topic>
+- [2026-xx-xx-HH:MM] karo: plan done: <topic>
+- [2026-xx-xx-HH:MM] ashigaru-1: start: <task>
+- [2026-xx-xx-HH:MM] ashigaru-1: done: <task> (<note>)

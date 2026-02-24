@@ -180,6 +180,15 @@ Shogun または Karo が重要な決定を特定した場合：
 
 ## 活動ログのベストプラクティス
 
+### タイムスタンプの取得方法
+
+ログ行を書く際は、**必ず現在の日時（YYYY-MM-DD HH:MM）を使用**すること。
+`00:00` はデフォルトではなく「時刻がどうしても取得できない場合のみ使う例外」です。
+
+現在時刻の確認方法（例）：
+- bash: `date '+%Y-%m-%d %H:%M'`
+- Python: `from datetime import datetime; datetime.now().strftime('%Y-%m-%d %H:%M')`
+
 ### 良い活動エントリ
 ```markdown
 ### 2024-02-13 14:30 - ashigaru-2
