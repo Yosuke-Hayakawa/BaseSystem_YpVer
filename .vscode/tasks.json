@@ -6,6 +6,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["Open docs/USAGE.md"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
     {
@@ -13,6 +14,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["Open status/dashboard.md"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
     {
@@ -20,6 +22,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["Open docs/spec/_template.md"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
 
@@ -28,6 +31,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["TODO: replace with your build command"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
     {
@@ -35,6 +39,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["TODO: replace with your lint/static-analysis command"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
     {
@@ -42,6 +47,7 @@
       "type": "shell",
       "command": "echo",
       "args": ["TODO: replace with your test command"],
+      "presentation": { "close": true },
       "problemMatcher": []
     },
     {

@@ -32,3 +32,12 @@
 - 代替案：採用しない場合/別案
 - 反映先：`docs/spec/` / `docs/USAGE.md` / `.github/instructions/` / `.vscode/tasks.json` など
 - 影響：利用者/運用への影響、移行の注意
+
+## Decision: ゾンビターミナル解消（2026-02-26）
+
+- いつ：2026-02-26
+- 何を：`.vscode/tasks.json` の全シェルタスクに `"presentation": { "close": true }` を追加
+- なぜ：エージェントがターミナルを使った際、タスク完了後もターミナルが残留しパフォーマンスが低下する（ゾンビターミナル）ため
+- 代替案：`"reveal": "silent"` のみ設定（ターミナルを非表示にするが削除はしない）→ 根本解消にならないため不採用
+- 反映先：`.vscode/tasks.json`、`docs/spec/zombie-terminal-fix-v1.md`
+- 影響：タスク完了後にターミナルパネルが自動クローズされる。既存の実行動作（コマンド・引数）は変更なし。
