@@ -32,6 +32,13 @@
 
 - 並列実行は `.vscode/tasks.json` の `dependsOrder: parallel` を使う。
 - 足軽は複数ターミナルで起動し、各自の担当領域のみ処理する（最小権限）。
+- 全タスクに `"presentation": { "close": true }` を設定し、完了後のゾンビターミナルを防止する。
+
+## ターミナルクリーンアップ（ゾンビターミナル防止）
+
+- エージェントが `execute` ツールでシェルコマンドを実行した後、不要なターミナルは `workbench.action.terminal.kill` で閉じること。
+- VS Code Tasks 経由の場合は `"presentation": { "close": true }` が自動クローズする。
+- 残留ターミナルは挙動を重くするため、使い終わったターミナルは必ず削除する。
 
 ## Copilot Subagents（サブエージェント並列）
 
