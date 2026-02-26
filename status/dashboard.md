@@ -14,7 +14,6 @@
 	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
 <!-- ここにログ行を追記していく -->
-- [2026-02-26-06:15] shogun: done: ゾンビターミナル解消 `.vscode/tasks.json` に `presentation.close:true` 追加 (spec: `docs/spec/zombie-terminal-fix-v1.md`)
 
 ## 🚨 要対応（上様判断待ち）
 
