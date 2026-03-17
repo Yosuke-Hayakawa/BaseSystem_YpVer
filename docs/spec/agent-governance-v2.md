@@ -3,7 +3,7 @@
 ## 目的（Intent）
 
 - Race Director/Pit Chief/Mechanicの指示書・定義を更新し、運用のブレと競合（同一ファイル編集）を減らす。
-- Race Directorが「重要判断」を上様（ユーザー）に確認してから進める仕組みを明文化する。
+- Race Directorが「重要判断」をチームオーナー（担当者）に確認してから進める仕組みを明文化する。
 - ログ/成果物の置き場所を明確化し、生成物がリポジトリ直下に散らばらないようにする。
 
 ## 制約（Constraints）
@@ -12,16 +12,16 @@
 - SOLID（特に SRP/DIP）と最小変更を優先する。
 - 生成物（調査メモ、比較表、スクリーンショット解析結果、ビルド成果物、tmp等）は `output/` 配下に限定する。
   - 例外：運用の一次情報（Spec/Decisions/Dashboard/Instructions）は既存どおり `docs/` と `status/` に置く。
-- 参考: https://github.com/yohey-w/multi-agent-race-director の「上様お伺い（要対応集約）」「単一更新者」「イベント駆動」などの思想を、当リポジトリ（VS Code + Markdown運用）に合わせて移植する。
+- 参考: https://github.com/yohey-w/multi-agent-race-director の「チームオーナーお伺い（要対応集約）」「単一更新者」「イベント駆動」などの思想を、当リポジトリ（VS Code + Markdown運用）に合わせて移植する。
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 
-- [ ] `.github/agents/race-director.agent.md` に「重要判断は上様に確認する」ルールが明文化され、質問フォーマット（選択肢と推奨）を含む。
+- [ ] `.github/agents/race-director.agent.md` に「重要判断はチームオーナーに確認する」ルールが明文化され、質問フォーマット（選択肢と推奨）を含む。
 - [ ] `.github/agents/pit-chief.agent.md` / `.github/agents/mechanic.agent.md` にも、判断が必要な場合のエスカレーション先（Race Director）とログ場所が明記される。
 - [ ] `.github/instructions/*.instructions.md` に、以下が明記される。
   - [ ] どの役割がどのファイルへ何を書くか（ロギング契約）
   - [ ] 生成物は `output/` 配下に限定（例外も明記）
-- [ ] `status/dashboard.md` に「🚨 要対応（上様判断待ち）」のセクションが追加され、Pit Chiefが判断待ち事項を集約する運用が書かれている（Race Directorは上様確認ゲートを担当）。
+- [ ] `status/dashboard.md` に「🚨 要対応（チームオーナー判断待ち）」のセクションが追加され、Pit Chiefが判断待ち事項を集約する運用が書かれている（Race Directorはチームオーナー確認ゲートを担当）。
 - [ ] `.gitignore` に `output/` 配下の生成物を基本的に追跡しない設定（例: `output/**` + `output/.gitkeep` 例外）が追加される。
 - [ ] `docs/USAGE.md` に、`output/` の使い方（例: `output/build` を使う、調査結果は `output/reports/` 等）と例外（docs/statusは運用一次情報）が追記される。
 - [ ] `docs/decisions.md` に本変更の採用判断が記録される。
@@ -29,7 +29,7 @@
 ## Plan（Pit Chiefが分解する観点）
 
 - 役割ごとの責務（誰が何を決め、どこに記録するか）を先に固定する
-- 「上様お伺い」を必要とする判断点（技術選択/破壊的変更/生成物管理/外部依存/セキュリティ等）を列挙する
+- 「チームオーナーお伺い」を必要とする判断点（技術選択/破壊的変更/生成物管理/外部依存/セキュリティ等）を列挙する
 - 既存テンプレ（dashboard/usage）に無理なく差し込む（全面刷新はしない）
 
 ## タスクリスト（Mechanicへ配布する単位）

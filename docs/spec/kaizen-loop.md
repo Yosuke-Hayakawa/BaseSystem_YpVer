@@ -25,7 +25,7 @@
 - 気づき（短期のメモ/根拠）: 必要なら `output/` に残す
   - 例: `output/reports/kaizen-<topic>.md`
 - 要点はPit Chiefへ返す（Pit Chiefが `status/dashboard.md` に集約して残す）
-  - 重要判断が必要な場合は、Race Directorにも共有する（上様確認の材料）
+  - 重要判断が必要な場合は、Race Directorにも共有する（チームオーナー確認の材料）
 
 ### 2) 採用判断（Race Director）
 

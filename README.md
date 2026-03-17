@@ -3,7 +3,7 @@
 添付のまとめ（VS Code + Copilot Agent運用 / 仕様駆動 / SOLID / dashboard）を踏襲し、
 **Pythonやシェルスクリプトに依存しない**形で「Race Director→Pit Chief→Mechanic×N（並列）」を運用するためのベース環境です。
 
-## 上様（ユーザ）向け：最初に押さえる4点
+## チームオーナー（担当者）向け：最初に押さえる4点
 
 - **ユーザの読むべき部分**：この `README.md` と `docs/USAGE.md`
 - **ユーザの準備すべき部分**：`docs/USAGE.md` の「VS Code 側で行うこと（設定）」
@@ -14,7 +14,7 @@
 
 ```mermaid
 flowchart TB
-	U[上様（ユーザ）\n意思決定・方向付け] -->|指示/AC/優先度| S[Race Director（race-director）\n仕様確定・判断]
+	U[チームオーナー（担当者）\n意思決定・方向付け] -->|指示/AC/優先度| S[Race Director（race-director）\n仕様確定・判断]
 	S -->|タスク分解を依頼| K[Pit Chief（pit-chief）\n分解・調整・取りまとめ]
 	K -->|担当割当| A1[Mechanic（mechanic-1）\n担当のみ実行]
 	K -->|担当割当| A2[Mechanic（mechanic-2）\n担当のみ実行]
@@ -69,7 +69,7 @@ flowchart TB
 - `output/`：生成物置き場（Git管理しないのが基本）
 - `.vscode/tasks.json`：並列実行の要
 
-## クイックスタート（上様＝ユーザ向け）
+## クイックスタート（チームオーナー（担当者）向け）
 
 **初回セットアップ（1回だけ）:**
 
@@ -82,7 +82,7 @@ flowchart TB
 3. Race Directorが「お伺い」してきたら選択肢を選ぶ
 4. `status/dashboard.md` で進捗を確認
 
-> 詳しくは `docs/USAGE.md` の「上様（ユーザ）の役割：Race Directorへの指示の出し方」を参照。
+> 詳しくは `docs/USAGE.md` の「チームオーナー（担当者）の役割：Race Directorへの指示の出し方」を参照。
 
 ## 使い方（詳細）
 

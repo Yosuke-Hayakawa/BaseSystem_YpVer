@@ -16,17 +16,17 @@
 - 代替案：Node/Pythonで実行エンジンを実装 / bashでキュー処理
 - 影響：ドキュメントと instruction を運用の中心にする（`docs/spec/`, `docs/decisions.md`, `status/dashboard.md`）。`.vscode/tasks.json` はプロジェクト固有コマンドの“器”として任意。
 
-### 2026-02-05: 重要判断の上様確認ゲート + ロギング契約 + output/ 生成物制約を採用
+### 2026-02-05: 重要判断のチームオーナー確認ゲート + ロギング契約 + output/ 生成物制約を採用
 
 - 何を：
-	- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）はRace Directorが上様に確認してから確定する
+	- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）はRace Directorがチームオーナーに確認してから確定する
 	- ロギング契約を明確化する（Spec/Decisions/Dashboard/Output）
 	- 生成物（調査メモ、比較表、検証ログ、ビルド生成物、tmp等）は `output/` 配下に限定する
 	- `status/dashboard.md` は（当時）Race Directorが集約して更新する（単一更新者）
 		- 注：後続判断で dashboard の単一更新者は「Race Director→Pit Chief」へ変更済み
 - なぜ：
 	- 複数エージェントが同一ファイルを編集して競合する事故を避けたい
-	- 判断待ちを見失わず、上様が“どこを見ればよいか”を固定したい
+	- 判断待ちを見失わず、チームオーナーが“どこを見ればよいか”を固定したい
 	- 生成物がリポジトリ直下に散らばる運用コストを下げたい
 - 代替案：
 	- Pit Chief/Mechanicも直接 `status/dashboard.md` を更新する（競合リスクが高い）
@@ -38,11 +38,11 @@
 ### 2026-02-05: 会話/報告プロトコル（v1）を導入し、dashboard単一更新者をPit Chiefに変更
 
 - 何を：
-	- `docs/spec/agent-communication-v1.md` を追加し、話法（チャットのみ戦国風）・上様お伺いテンプレ・報告YAML（skill_candidate含む）を標準化
+	- `docs/spec/agent-communication-v1.md` を追加し、話法（チャットのみ戦国風）・チームオーナーお伺いテンプレ・報告YAML（skill_candidate含む）を標準化
 	- `status/dashboard.md` の単一更新者を「Race Director」から「Pit Chief」へ変更
 - なぜ：
 	- 判断待ち集約、報告フォーマット統一により運用の再現性を上げる
-	- dashboard更新をPit Chiefに集約し、Race Directorは上様対応と意思決定に集中できる
+	- dashboard更新をPit Chiefに集約し、Race Directorはチームオーナー対応と意思決定に集中できる
 - 代替案：
 	- dashboard更新者はRace Directorのまま
 - 反映先：`docs/spec/agent-communication-v1.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md`, `.github/agents/*.agent.md`, `docs/USAGE.md`, `status/dashboard.md`
@@ -78,7 +78,7 @@
 	- `status/dashboard.md` に説明/履歴/例を同居させる（将来の追記が読みにくくなる）
 - 反映先：`status/dashboard.md`, `status/dashboard.template.md`, `status/dashboard.history.md`, `docs/DASHBOARD.md`
 - 影響：
-	- 上様（ユーザ）は `status/dashboard.md` を主に監視し、必要に応じて template/history を参照する
+	- チームオーナー（担当者）は `status/dashboard.md` を主に監視し、必要に応じて template/history を参照する
 
 ### 2026-02-09: `docs/USAGE.md` を「準備 → Race Directorへの指示」中心に最小化（認知負荷低減）
 

@@ -7,7 +7,7 @@
 
 | 役割 | Instructions ファイル | 担当業務ステップ |
 |---|---|---|
-| Race Director（レースディレクター） | `race-director.instructions.md` | 全体指揮・仕様確定・上様対応 |
+| Race Director（レースディレクター） | `race-director.instructions.md` | 全体指揮・仕様確定・チームオーナー対応 |
 | Pit Chief（ピットチーフ） | `pit-chief.instructions.md` | タスク分解・進捗管理・Mechanic調整 |
 | 仕様解析（Mechanic-1） | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
 | VT環境（Mechanic-2） | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
@@ -23,7 +23,7 @@
 - 仕様（`docs/spec/`）を起点に作業する。
 - Mechanic（worker）は **自分のタスクだけ** 実行する（最小権限）。
 - 進捗は `status/dashboard.md` に集約して可視化する（更新責任者はPit Chief。競合防止のため、Race Director/サブエージェントは直接編集しない）。
-- 重要判断（試験観点の確定、仕様解釈の相違、スコープ変更など）は、Race Directorが上様（担当者）に確認してから確定する。
+- 重要判断（試験観点の確定、仕様解釈の相違、スコープ変更など）は、Race Directorがチームオーナー（担当者）に確認してから確定する。
 - AI生成物は必ず `output/` 配下に限定する。**人間によるレビュー・承認なしに最終成果物として使用しない。**
 	- 例外：運用の一次情報（`docs/spec/`, `docs/decisions.md`, `status/dashboard.md`）は従来どおり。
 

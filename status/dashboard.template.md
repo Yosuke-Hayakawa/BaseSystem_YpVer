@@ -14,11 +14,11 @@
 	- event: `start` / `plan start` / `plan done` / `done` / `error` / `blocked`
 	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
-## 記入例（上様→Race Directorの依頼が来た直後）
+## 記入例（チームオーナー→Race Directorの依頼が来た直後）
 
 > 実案件ではこのセクションを消してOK。
 
-- request: <上様の依頼の短い要約>
+- request: <チームオーナーの依頼の短い要約>
 	- status: triage
 	- race-director: pending
 	- pit-chief: pending

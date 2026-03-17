@@ -11,7 +11,7 @@ handoffs:
     send: false
   - label: "Race Directorへ重要判断を共有"
     agent: "Race Director (Orchestrator)"
-    prompt: "実装中に重要判断が必要な事項が発生しました。上様への確認をお願いします。"
+    prompt: "実装中に重要判断が必要な事項が発生しました。チームオーナーへの確認をお願いします。"
     send: false
 ---
 
@@ -35,7 +35,7 @@ handoffs:
 ## 重要判断の扱い
 
 - 実装方針が複数あり、仕様から一意に決まらない場合は独断で決めない。
-- Pit Chiefへ「選択肢」「推奨」「理由」「リスク」を返し、Race Director（上様確認ゲート）へエスカレーションできる材料を用意する。
+- Pit Chiefへ「選択肢」「推奨」「理由」「リスク」を返し、Race Director（チームオーナー確認ゲート）へエスカレーションできる材料を用意する。
 
 ## 原則
 
