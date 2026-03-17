@@ -21,3 +21,6 @@ out/
 # Keep all non-source artifacts under output/ and do not track them.
 output/**
 !output/.gitkeep
+
+# --- Local sandbox (personal experiments, practice copies; never shared) ---
+sandbox/

@@ -1,15 +1,30 @@
-# Copilot workspace instructions（multiAgent）
+# Copilot workspace instructions（車載ソフトウェア第三者評価 multiAgent）
 
-このリポジトリは「仕様駆動 + SOLID」で、将軍・家老・足軽の役割分担を模したマルチエージェント基盤を作る。
+このリポジトリは「仕様駆動 + SOLID」で、将軍・家老・足軽の役割分担を模したマルチエージェント基盤を
+**車載ソフトウェア第三者評価業務**に適用する。
+
+## 評価業務エージェント構成
+
+| 役割 | Instructions ファイル | 担当業務ステップ |
+|---|---|---|
+| 将軍（Shogun） | `shogun.instructions.md` | 全体指揮・仕様確定・上様対応 |
+| 家老（Karo） | `karo.instructions.md` | タスク分解・進捗管理・足軽調整 |
+| 仕様解析（足軽-1） | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
+| VT環境（足軽-2） | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
+| テスト仕様書（足軽-3） | `test-spec.instructions.md` | ステップ4：テスト設計仕様書ドラフト |
+| テストケース（足軽-4） | `testcase.instructions.md` | ステップ5：テストケース一覧生成 |
+| 結果解析（足軽-5） | `result-analyzer.instructions.md` | ステップ7：NG解析・ログ解析 |
+| 報告書（足軽-6） | `report-writer.instructions.md` | ステップ8・9：懸念点シート・報告書生成 |
+
+> AI化スコープ外：ステップ2（ハードウェア準備）・ステップ6（テスト実行）は人間が担当
 
 ## 最重要ルール
 
-- 仕様（`docs/spec/`）を起点に実装する。コード変更時は、まず仕様/受け入れ条件を更新する。
-- SOLID を意識し、Port/Adapter（依存性逆転）を守る。
+- 仕様（`docs/spec/`）を起点に作業する。
 - 足軽（worker）は **自分のタスクだけ** 実行する（最小権限）。
 - 進捗は `status/dashboard.md` に集約して可視化する（更新責任者は家老。競合防止のため、将軍/サブエージェントは直接編集しない）。
-- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）は、将軍が上様（ユーザー）に確認してから確定する。
-- 生成物（調査メモ、比較表、検証ログ、ビルド生成物、tmp等）は `output/` 配下に限定する。
+- 重要判断（試験観点の確定、仕様解釈の相違、スコープ変更など）は、将軍が上様（担当者）に確認してから確定する。
+- AI生成物は必ず `output/` 配下に限定する。**人間によるレビュー・承認なしに最終成果物として使用しない。**
 	- 例外：運用の一次情報（`docs/spec/`, `docs/decisions.md`, `status/dashboard.md`）は従来どおり。
 
 補足：会話/報告のルールは `docs/spec/agent-communication-v1.md` を正とする。
@@ -20,13 +35,32 @@
 - 設計判断ログ：`docs/decisions.md`
 - 進捗：`status/dashboard.md`
 
-変更を入れたら、上の3点のどれか（必要なら複数）を必ず更新する。
+作業を進めたら、上の3点のどれか（必要なら複数）を必ず更新する。
+
+## 成果物管理（output/ 配下）
+
+| 成果物 | ファイルパス | 担当足軽 |
+|---|---|---|
+| 仕様サマリー | `output/spec_summary.md` | 足軽-1（仕様解析） |
+| 信号一覧 | `output/signal_list.md` | 足軽-1（仕様解析） |
+| DBCドラフト | `output/dbc_draft.md` | 足軽-2（VT環境） |
+| CAPLスケルトン | `output/capl_skeleton.can` | 足軽-2（VT環境） |
+| テスト仕様書ドラフト | `output/test_spec_draft.md` | 足軽-3（テスト仕様書） |
+| テストケース一覧 | `output/testcase_list.md` | 足軽-4（テストケース） |
+| NG解析レポート | `output/ng_analysis.md` | 足軽-5（結果解析） |
+| 懸念点確認シート | `output/concern_sheet_draft.md` | 足軽-6（報告書） |
+| 試験報告書 | `output/test_report_draft.md` | 足軽-6（報告書） |
+
+## ハルシネーション対策（全エージェント必須）
+
+- 仕様書に明記されていない数値・仕様を生成することを禁止する
+- 不明な点は「TODO: 要確認 — <質問内容>（ref: 仕様書名 p.XX）」と明記して推測で埋めない
+- 根拠となる仕様書の参照箇所（ページ番号・セクション番号）を必ず記載する
+- 全成果物の先頭に「このファイルはAIが生成したドラフトです。承認前に必ずレビューしてください。」を入れる
 
 ## 変更時の作法
 
-- 追加機能は「Spec→Plan→Tasks→Run→Dashboard更新」の流れに沿わせる。
-- コマンドや自動化の追加は、プロジェクトの言語/ビルド方式に合わせて小さく導入し、既存運用を壊さない。
-- 可能ならプロジェクト標準のテスト（例：ユニットテスト）を最低1本（成功 + 失敗/境界）追加する。
+- 追加・変更は「Spec→Plan→Tasks→Run→Dashboard更新」の流れに沿わせる。
 
 ## VS Code Tasks（並列実行）
 
@@ -37,15 +71,13 @@
 ## ターミナルクリーンアップ（ゾンビターミナル防止）
 
 - エージェントが `execute` ツールでシェルコマンドを実行した後、不要なターミナルは `workbench.action.terminal.kill` で閉じること。
-- VS Code Tasks 経由の場合は `"presentation": { "close": true }` が自動クローズする。
 - 残留ターミナルは挙動を重くするため、使い終わったターミナルは必ず削除する。
 
 ## Copilot Subagents（サブエージェント並列）
 
-- 将軍は Subagents を使って「家老（レビュー）」＋「足軽×N（実装/調査/テスト）」を並列起動し、成果を統合する。
-- サブエージェントに渡すタスクは **単機能・小さく・競合しない**単位にする。
-- 重要：成果物は会話に埋めず、必要に応じて `docs/spec/` / `docs/decisions.md` / `status/dashboard.md` に反映してから統合する。
-	- 補足：調査結果や詳細ログなど「生成物」は `output/` に置き、家老が要点だけを `status/dashboard.md` に転記する。
+- 将軍は Subagents を使って「家老（調整）」＋「足軽×N（仕様解析/テスト設計/解析）」を並列起動し、成果を統合する。
+- サブエージェントに渡すタスクは **単機能・小さく・競合しない** 単位にする。
+- 重要：成果物は会話に埋めず、`output/` に配置してから家老が `status/dashboard.md` に要点をまとめる。
 
 ## AgentHQ（Custom Agents / Prompt Files / Handoffs）
 
@@ -55,9 +87,6 @@
 - **agents**: 起動可能なサブエージェントを制限（足軽は `agents: []` で禁止）
 - **handoffs**: エージェント間のワークフロー遷移ボタンを定義
 
-Prompt Files（`.github/prompts/*.prompt.md`）でワークフローをスラッシュコマンド化：
-- `/create-spec`, `/decompose-tasks`, `/review-request`, `/report-done`, `/escalate`
-
 役割別エージェント定義：
 
 - `.github/agents/shogun.agent.md`
@@ -66,5 +95,7 @@ Prompt Files（`.github/prompts/*.prompt.md`）でワークフローをスラッ
 
 ## 禁止
 
-- 一度に巨大な改修（小さく分ける）
+- AI生成物をレビューなしに最終成果物として使用する
+- 仕様書に根拠のない数値・仕様を生成する
 - 役割を曖昧にする（誰が何をやるかを明文化する）
+- 一度に巨大な改修（小さく分ける）
