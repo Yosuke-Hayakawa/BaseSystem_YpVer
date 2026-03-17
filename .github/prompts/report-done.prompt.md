@@ -1,7 +1,7 @@
----
+﻿---
 name: report-done
-description: "足軽（Ashigaru）がタスク完了を報告する YAML テンプレート。"
-agent: "Ashigaru (Executor)"
+description: "Mechanic（メカニック）がタスク完了を報告する YAML テンプレート。"
+agent: "Mechanic (Executor)"
 tools:
   - read
 ---
@@ -9,7 +9,7 @@ tools:
 タスクが完了しました。以下の YAML テンプレートに従って報告してください。
 
 ```yaml
-role: ashigaru-N
+role: mechanic-N
 topic: <作業トピック>
 status: done
 outputs:
@@ -27,6 +27,6 @@ skill_candidate:
 
 - `status` は `done` / `error` / `blocked` のいずれか
 - `error` / `blocked` の場合は原因と再現手順（最小）を `summary` に含める
-- 重要判断が必要な場合は、家老だけでなく将軍にも共有する
-- 調査メモや検証ログなど詳細な成果物は `output/ashigaru/<task>/` に配置する
+- 重要判断が必要な場合は、Pit ChiefだけでなくRace Directorにも共有する
+- 調査メモや検証ログなど詳細な成果物は `output/mechanic/<task>/` に配置する
 - `skill_candidate` は0個でもフィールドは必須

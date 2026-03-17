@@ -1,44 +1,44 @@
----
+﻿---
 name: multi-agent-orchestration
-description: Shogun/Karo/Ashigaru マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
+description: Race Director/Pit Chief/Mechanic マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
 license: MIT
 ---
 
 # マルチエージェント オーケストレーション スキル
 
-このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：Shogun（オーケストレーター）、Karo（レビュー/QA）、Ashigaru（実行者）。
+このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：Race Director（オーケストレーター）、Pit Chief（レビュー/QA）、Mechanic（実行者）。
 
 ## エージェントの役割と責任
 
-### Shogun（オーケストレーター）- 将軍
+### Race Director（オーケストレーター）- Race Director
 **主要な役割**: 戦略的計画と意思決定
 
 **責任**:
 - `docs/spec/` に仕様を作成・検証
 - 重要な決定を行う（必要に応じてユーザーにエスカレーション）
-- サブエージェント経由で Karo と Ashigaru を調整
+- サブエージェント経由で Pit Chief と Mechanic を調整
 - 重要な決定を `docs/decisions.md` に更新
 - 全体の進捗を監視
 
 **主要スキル**: orchestration, specification-definition, requirements-analysis, task-planning, multi-agent-coordination, progress-tracking, decision-making, stakeholder-communication
 
-**利用可能なエージェント**: Karo, Ashigaru, Plan
+**利用可能なエージェント**: Pit Chief, Mechanic, Plan
 
-### Karo（レビュー/QA）- 家老
+### Pit Chief（レビュー/QA）- Pit Chief
 **主要な役割**: 品質保証とタスク管理
 
 **責任**:
 - 仕様を並列タスクに分解（task-decomposition スキルを使用）
 - SOLID 原則、セキュリティ、仕様準拠のコードレビュー
 - `status/dashboard.md` を更新（進捗の単一の真実のソース）
-- Ashigaru の割り当てを管理し、ブロッカーを解決
-- 結果を Shogun に報告
+- Mechanic の割り当てを管理し、ブロッカーを解決
+- 結果を Race Director に報告
 
 **主要スキル**: code-review, quality-assurance, task-decomposition, solid-principles, security-analysis, risk-assessment, test-planning, specification-validation
 
-**利用可能なエージェント**: Ashigaru
+**利用可能なエージェント**: Mechanic
 
-### Ashigaru（実行者）- 足軽
+### Mechanic（実行者）- Mechanic
 **主要な役割**: 集中的なタスク実行
 
 **責任**:
@@ -54,62 +54,62 @@ license: MIT
 
 ## 標準ワークフロー
 
-### フェーズ1: 仕様作成（Shogun）
+### フェーズ1: 仕様作成（Race Director）
 ```
 1. ユーザーが高レベルの要件を提供
-2. Shogun が docs/spec/<name>.md に仕様を作成
+2. Race Director が docs/spec/<name>.md に仕様を作成
    - Intent: 何を、なぜ
    - Constraints: 技術的/セキュリティ上の制限
    - AC: テスト可能な受け入れ条件
-3. Shogun が重要な決定を確認
+3. Race Director が重要な決定を確認
    → はい: ユーザーの承認にエスカレーション
    → いいえ: フェーズ2に進む
 4. docs/decisions.md に決定を記録
 ```
 
-### フェーズ2: タスク分解（Karo）
+### フェーズ2: タスク分解（Pit Chief）
 ```
-1. Shogun が Karo にハンドオフ: "この仕様を分解してください"
-2. Karo が task-decomposition スキルを使用して仕様を分析
+1. Race Director が Pit Chief にハンドオフ: "この仕様を分解してください"
+2. Pit Chief が task-decomposition スキルを使用して仕様を分析
    - コンポーネントを特定
    - ファイル境界を確認（競合を回避）
    - 並列安全なタスクリストを作成
-3. Karo が status/dashboard.md をタスクで更新
-4. Karo が Shogun に報告:
+3. Pit Chief が status/dashboard.md をタスクで更新
+4. Pit Chief が Race Director に報告:
    - タスク数と並列化計画
    - リスク評価
    - ファイル所有権マップ
 ```
 
-### フェーズ3: 並列実行（Ashigaru × N）
+### フェーズ3: 並列実行（Mechanic × N）
 ```
-1. Shogun がサブエージェント経由で複数の Ashigaru を起動
+1. Race Director がサブエージェント経由で複数の Mechanic を起動
    - 各自がタスクリストから1つのタスクを取得
    - 各自が異なるファイルで作業
-2. Ashigaru が独立して実行:
+2. Mechanic が独立して実行:
    - 仕様と割り当てられたタスクを読む
    - 最小限の変更を行う
    - 必要に応じて output/ に成果物を作成
    - YAML 形式で報告
-3. Karo が進捗を監視（ダッシュボードを更新）
+3. Pit Chief が進捗を監視（ダッシュボードを更新）
 ```
 
-### フェーズ4: レビューと統合（Karo）
+### フェーズ4: レビューと統合（Pit Chief）
 ```
-1. Karo が Ashigaru の出力をレビュー
+1. Pit Chief が Mechanic の出力をレビュー
    - AC 準拠を確認
    - SOLID 原則を検証
    - セキュリティ分析（NULL チェック、境界）
    - テストカバレッジ
 2. 問題が見つかった場合:
-   → Karo が特定の Ashigaru に修正をハンドオフ
+   → Pit Chief が特定の Mechanic に修正をハンドオフ
 3. OK の場合:
-   → Karo が Shogun に報告: "最終検証の準備完了"
+   → Pit Chief が Race Director に報告: "最終検証の準備完了"
 ```
 
-### フェーズ5: 最終検証（Shogun）
+### フェーズ5: 最終検証（Race Director）
 ```
-1. Shogun が最終チェックを実行
+1. Race Director が最終チェックを実行
    - すべての AC が満たされているか？
    - ダッシュボードがすべてのタスクが完了していることを示しているか？
    - 決定が記録されているか？
@@ -121,17 +121,17 @@ license: MIT
 
 ## コミュニケーションプロトコル
 
-### Shogun → Karo ハンドオフ
+### Race Director → Pit Chief ハンドオフ
 ```markdown
 以下の仕様をタスクに分解してください。
-- 足軽同士が同じファイルを触らない切り方（ファイル単位で競合回避）
+- Mechanic同士が同じファイルを触らない切り方（ファイル単位で競合回避）
 - 担当/成果物/完了条件を明記
 - リスクTop3を添えて
 
 Spec: docs/spec/feature-x-v1.md
 ```
 
-### Karo → Ashigaru ハンドオフ
+### Pit Chief → Mechanic ハンドオフ
 ```markdown
 以下のタスクを実行してください。担当範囲のみ処理し、完了後に結果を返してください。
 
@@ -141,9 +141,9 @@ Output: <作成/変更するファイル>
 AC: <仕様から関連する受け入れ条件>
 ```
 
-### Ashigaru → Karo 報告（YAML）
+### Mechanic → Pit Chief 報告（YAML）
 ```yaml
-role: ashigaru-N
+role: mechanic-N
 topic: <タスク名>
 status: done | error | blocked
 outputs:
@@ -156,12 +156,12 @@ skill_candidate:
   - <発見された専門領域>
 ```
 
-### Karo → Shogun 報告
+### Pit Chief → Race Director 報告
 ```markdown
 タスク分解が完了しました。
 
 Task count: 5 (3並列、2直列)
-Files: src/a.js (ashigaru-1), src/b.js (ashigaru-2), test/ab.test.js (ashigaru-3)
+Files: src/a.js (mechanic-1), src/b.js (mechanic-2), test/ab.test.js (mechanic-3)
 Risks:
   1. 機能B は機能A に依存（順次実行が必要）
   2. API 変更により既存機能への影響あり
@@ -172,7 +172,7 @@ Dashboard: 更新済み (status/dashboard.md)
 
 ## 重要な決定ゲート（上様お伺い）
 
-Shogun または Karo が重要な決定に遭遇した場合：
+Race Director または Pit Chief が重要な決定に遭遇した場合：
 
 **形式**:
 ```markdown
@@ -204,11 +204,11 @@ Shogun または Karo が重要な決定に遭遇した場合：
 ### 真実のソース（一次情報）
 - `docs/spec/`: 仕様（Intent/Constraints/AC）
 - `docs/decisions.md`: 設計決定ログ
-- `status/dashboard.md`: 進捗追跡（Karo が所有）
+- `status/dashboard.md`: 進捗追跡（Pit Chief が所有）
 
 ### 成果物（生成物）
 - `output/`: すべての生成された成果物（調査メモ、ログ、比較表、ビルド出力）
-  - 例: `output/ashigaru-1/`, `output/karo/review-2024-02-13.md`
+  - 例: `output/mechanic-1/`, `output/pit-chief/review-2024-02-13.md`
 
 ### 指示書
 - `.github/copilot-instructions.md`: グローバルルール
@@ -236,36 +236,36 @@ Shogun または Karo が重要な決定に遭遇した場合：
 
 ### 例: 安全な並列化
 ```
-タスク1 (ashigaru-1): src/auth.js を実装
-タスク2 (ashigaru-2): src/logger.js を実装
-タスク3 (ashigaru-3): test/auth.test.js を書く
-タスク4 (ashigaru-4): test/logger.test.js を書く
+タスク1 (mechanic-1): src/auth.js を実装
+タスク2 (mechanic-2): src/logger.js を実装
+タスク3 (mechanic-3): test/auth.test.js を書く
+タスク4 (mechanic-4): test/logger.test.js を書く
 → 4つすべてが並列実行可能（ファイル競合なし）
 ```
 
 ## エラーハンドリング
 
-### Ashigaru がエラーを報告した場合
+### Mechanic がエラーを報告した場合
 ```
-1. Karo がエラーを分析
-2. 修正可能な場合: Karo が修正タスクを作成し、Ashigaru に割り当て
-3. ブロッカーの場合: Karo が Shogun に報告
-4. Shogun が決定: 続行、方向転換、またはユーザーにエスカレーション
+1. Pit Chief がエラーを分析
+2. 修正可能な場合: Pit Chief が修正タスクを作成し、Mechanic に割り当て
+3. ブロッカーの場合: Pit Chief が Race Director に報告
+4. Race Director が決定: 続行、方向転換、またはユーザーにエスカレーション
 ```
 
 ### ファイル競合が発生した場合
 ```
 1. そのファイルでのすべての並列作業を停止
-2. Karo がタスクを順次化
+2. Pit Chief がタスクを順次化
 3. 順次実行で再開
 4. ダッシュボードを新しい計画で更新
 ```
 
 ## 進捗追跡
 
-Karo が `status/dashboard.md` を以下で更新：
+Pit Chief が `status/dashboard.md` を以下で更新：
 - [ ] ステータス付きタスクリスト（start/done/error/blocked）
-- [ ] Ashigaru の割り当て
+- [ ] Mechanic の割り当て
 - [ ] 完了率
 - [ ] ブロッカー（🚨 要対応）
 
@@ -275,9 +275,9 @@ Karo が `status/dashboard.md` を以下で更新：
 
 | Task | Assignee | Status | Output |
 |------|----------|--------|--------|
-| 認証を実装 | ashigaru-1 | done ✅ | src/auth.js |
-| 認証テストを書く | ashigaru-2 | done ✅ | test/auth.test.js |
-| API ドキュメントを更新 | ashigaru-3 | in progress 🔄 | docs/api.md |
+| 認証を実装 | mechanic-1 | done ✅ | src/auth.js |
+| 認証テストを書く | mechanic-2 | done ✅ | test/auth.test.js |
+| API ドキュメントを更新 | mechanic-3 | in progress 🔄 | docs/api.md |
 
 完了率: 66% (2/3)
 ```
@@ -296,7 +296,7 @@ Karo が `status/dashboard.md` を以下で更新：
 ## よくある落とし穴
 
 - ❌ 仕様作成をスキップ（スコープクリープにつながる）
-- ❌ Ashigaru に他のエージェントを呼ばせる（最小権限違反）
+- ❌ Mechanic に他のエージェントを呼ばせる（最小権限違反）
 - ❌ 複数のエージェントが同じファイルを編集（マージ競合）
 - ❌ ユーザーの承認なしに重要な決定を行う
 - ❌ ダッシュボードの更新を忘れる（進捗の可視性を失う）

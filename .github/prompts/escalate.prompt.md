@@ -1,7 +1,7 @@
----
+﻿---
 name: escalate
 description: "上様（ユーザー）への判断依頼（お伺い）を構造化する。"
-agent: "Shogun (Orchestrator)"
+agent: "Race Director (Orchestrator)"
 tools:
   - read
   - search

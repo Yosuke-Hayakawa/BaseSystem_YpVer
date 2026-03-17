@@ -1,4 +1,4 @@
----
+﻿---
 name: spec-creation
 description: docs/spec/ ディレクトリに仕様書を作成するためのガイド。Intent/Constraints/AC パターンに従った新規仕様や機能要件の作成時に使用します。
 license: MIT
@@ -24,11 +24,11 @@ license: MIT
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 - [ ] [完了を定義するテスト可能な基準]
 
-## Plan（家老が分解する観点）
-- 足軽が並列に実行できる粒度に分ける
+## Plan（Pit Chiefが分解する観点）
+- Mechanicが並列に実行できる粒度に分ける
 - 競合（同じファイル編集）が起きないように分担する
 
-## タスクリスト（足軽へ配布する単位）
+## タスクリスト（Mechanicへ配布する単位）
 | task | assignee | input | output |
 |---|---|---|---|
 | | | | |
@@ -42,8 +42,8 @@ license: MIT
   - 各ACは検証可能（合格/不合格）であること
   - 形式: "X のとき、Y となる" または "X が与えられ、Y のとき、Z となる"
   - エッジケースとエラー条件を含める
-- **Plan（計画）**: 並列タスクへの分解方法をメモ（家老が実装）
-- **Task List（タスクリスト）**: 初期タスク分解（家老が洗練させる）
+- **Plan（計画）**: 並列タスクへの分解方法をメモ（Pit Chiefが実装）
+- **Task List（タスクリスト）**: 初期タスク分解（Pit Chiefが洗練させる）
 
 ## 3. ファイル命名
 
@@ -60,8 +60,8 @@ license: MIT
 
 仕様作成後：
 1. `status/dashboard.md` に新規仕様と初期ステータスを更新
-2. Karo（レビュー/QA エージェント）にタスク分解を依頼
-3. Shogun（オーケストレーター）が Ashigaru（実行エージェント）にタスクを割り当て
+2. Pit Chief（レビュー/QA エージェント）にタスク分解を依頼
+3. Race Director（オーケストレーター）が Mechanic（実行エージェント）にタスクを割り当て
 
 ## 例
 
@@ -70,7 +70,7 @@ license: MIT
 
 ## 目的（Intent）
 
-- 家老（Karo）が進捗を status/dashboard.md に手動で転記する作業を自動化し、足軽の報告YAML から自動更新する。
+- Pit Chief（ピットチーフ）が進捗を status/dashboard.md に手動で転記する作業を自動化し、Mechanicの報告YAML から自動更新する。
 
 ## 制約（Constraints）
 
@@ -80,25 +80,25 @@ license: MIT
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 
-- [ ] 足軽が報告YAMLを提出したとき、status/dashboard.md が自動更新される
+- [ ] Mechanicが報告YAMLを提出したとき、status/dashboard.md が自動更新される
 - [ ] 更新後の dashboard.md が人間に読みやすい形式を維持している
-- [ ] エラー時は家老に通知され、手動フォールバックが可能である
+- [ ] エラー時はPit Chiefに通知され、手動フォールバックが可能である
 
-## Plan（家老が分解する観点）
+## Plan（Pit Chiefが分解する観点）
 
-- YAML parser の実装（足軽A）
-- Dashboard updater の実装（足軽B）
-- Error handling の実装（足軽C）
-- テストケース作成（足軽D）
+- YAML parser の実装（MechanicA）
+- Dashboard updater の実装（MechanicB）
+- Error handling の実装（MechanicC）
+- テストケース作成（MechanicD）
 
-## タスクリスト（足軽へ配布する単位）
+## タスクリスト（Mechanicへ配布する単位）
 
 | task | assignee | input | output |
 |---|---|---|---|
-| YAML parser | ashigaru-1 | 報告YAML例 | parser.js |
-| Dashboard updater | ashigaru-2 | parser.js | updater.js |
-| Error handling | ashigaru-3 | updater.js | error-handler.js |
-| Test cases | ashigaru-4 | 全実装 | test/ |
+| YAML parser | mechanic-1 | 報告YAML例 | parser.js |
+| Dashboard updater | mechanic-2 | parser.js | updater.js |
+| Error handling | mechanic-3 | updater.js | error-handler.js |
+| Test cases | mechanic-4 | 全実装 | test/ |
 ```
 
 ## 避けるべき一般的なミス

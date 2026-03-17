@@ -1,6 +1,6 @@
-# 履歴（このテンプレートリポジトリ自身）
+﻿# 履歴（このテンプレートリポジトリ自身）
 
-このファイルは、このテンプレートリポジトリ（shogun）の変更履歴・判断履歴を残すためのものです。
+このファイルは、このテンプレートリポジトリ（race-director）の変更履歴・判断履歴を残すためのものです。
 
 - 利用者がテンプレートとして使用する際、`docs/decisions.md` は各プロジェクトの設計判断ログとして使えるよう **テンプレ化**します。
 - テンプレート側の履歴（いつ何を決めたか）は、この `docs/history.md` に退避します。
@@ -19,36 +19,36 @@
 ### 2026-02-05: 重要判断の上様確認ゲート + ロギング契約 + output/ 生成物制約を採用
 
 - 何を：
-	- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）は将軍が上様に確認してから確定する
+	- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）はRace Directorが上様に確認してから確定する
 	- ロギング契約を明確化する（Spec/Decisions/Dashboard/Output）
 	- 生成物（調査メモ、比較表、検証ログ、ビルド生成物、tmp等）は `output/` 配下に限定する
-	- `status/dashboard.md` は（当時）将軍が集約して更新する（単一更新者）
-		- 注：後続判断で dashboard の単一更新者は「将軍→家老」へ変更済み
+	- `status/dashboard.md` は（当時）Race Directorが集約して更新する（単一更新者）
+		- 注：後続判断で dashboard の単一更新者は「Race Director→Pit Chief」へ変更済み
 - なぜ：
 	- 複数エージェントが同一ファイルを編集して競合する事故を避けたい
 	- 判断待ちを見失わず、上様が“どこを見ればよいか”を固定したい
 	- 生成物がリポジトリ直下に散らばる運用コストを下げたい
 - 代替案：
-	- 家老/足軽も直接 `status/dashboard.md` を更新する（競合リスクが高い）
+	- Pit Chief/Mechanicも直接 `status/dashboard.md` を更新する（競合リスクが高い）
 	- 生成物を各自の任意フォルダに置く（探索コストが高い）
 - 反映先：`docs/spec/agent-governance-v2.md`, `docs/USAGE.md`, `.github/agents/*.agent.md`, `.github/instructions/*.instructions.md`, `status/dashboard.md`, `.gitignore`
 - 影響：
 	- `output/` は基本的にGit管理しない（`output/.gitkeep` のみ例外）
 
-### 2026-02-05: 会話/報告プロトコル（v1）を導入し、dashboard単一更新者を家老に変更
+### 2026-02-05: 会話/報告プロトコル（v1）を導入し、dashboard単一更新者をPit Chiefに変更
 
 - 何を：
 	- `docs/spec/agent-communication-v1.md` を追加し、話法（チャットのみ戦国風）・上様お伺いテンプレ・報告YAML（skill_candidate含む）を標準化
-	- `status/dashboard.md` の単一更新者を「将軍」から「家老」へ変更
+	- `status/dashboard.md` の単一更新者を「Race Director」から「Pit Chief」へ変更
 - なぜ：
 	- 判断待ち集約、報告フォーマット統一により運用の再現性を上げる
-	- dashboard更新を家老に集約し、将軍は上様対応と意思決定に集中できる
+	- dashboard更新をPit Chiefに集約し、Race Directorは上様対応と意思決定に集中できる
 - 代替案：
-	- dashboard更新者は将軍のまま
+	- dashboard更新者はRace Directorのまま
 - 反映先：`docs/spec/agent-communication-v1.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md`, `.github/agents/*.agent.md`, `docs/USAGE.md`, `status/dashboard.md`
 - 影響：
-	- 将軍/足軽は dashboard を直接編集しない（家老へ報告→家老が転記）
-	- 足軽の報告に `skill_candidate` フィールドが追加
+	- Race Director/Mechanicは dashboard を直接編集しない（Pit Chiefへ報告→Pit Chiefが転記）
+	- Mechanicの報告に `skill_candidate` フィールドが追加
 
 ### 2026-02-09: AgentHQ移行（Custom Agents / Subagents / Prompt Files / Handoffs）
 
@@ -56,7 +56,7 @@
 	- `.github/agents/*.agent.md` の YAML frontmatter に `tools` / `agents` / `handoffs` を追加
 	- `.github/prompts/*.prompt.md` を作成（create-spec, decompose-tasks, review-request, report-done, escalate）
 	- Handoffs でエージェント間のワークフロー遷移を明示化
-	- 足軽は `agents: []` でサブエージェント起動を禁止
+	- Mechanicは `agents: []` でサブエージェント起動を禁止
 - なぜ：
 	- VS Code の Custom Agents 機能に正式対応し、ワークフローの再現性を上げる
 - 代替案：
@@ -80,7 +80,7 @@
 - 影響：
 	- 上様（ユーザ）は `status/dashboard.md` を主に監視し、必要に応じて template/history を参照する
 
-### 2026-02-09: `docs/USAGE.md` を「準備 → 将軍への指示」中心に最小化（認知負荷低減）
+### 2026-02-09: `docs/USAGE.md` を「準備 → Race Directorへの指示」中心に最小化（認知負荷低減）
 
 - 何を：
 	- `docs/USAGE.md` の補足（運用フロー、生成物、VS Code Tasks 等）を削減し、最短導線に寄せた
@@ -101,9 +101,9 @@
 	- skills フィールドなし：エージェント選択が description のみに依存し、機械的なルーティングが困難
 	- skills を description に統合：人間の可読性は向上するが、構造化された情報が失われる
 - 反映先：
-	- `.github/agents/shogun.agent.md`
-	- `.github/agents/karo.agent.md`
-	- `.github/agents/ashigaru.agent.md`
+	- `.github/agents/race-director.agent.md`
+	- `.github/agents/pit-chief.agent.md`
+	- `.github/agents/mechanic.agent.md`
 	- `docs/spec/agenthq-migration-v1.md`（受け入れ条件に skills を追記）
 	- `docs/ARCHITECTURE.md`（Custom Agents の表に skills を追記）
 - 影響：

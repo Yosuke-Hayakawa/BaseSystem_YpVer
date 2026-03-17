@@ -1,7 +1,7 @@
-# 使い方（車載ソフトウェア第三者評価 — VS Code + Copilot Agent 運用）
+﻿# 使い方（車載ソフトウェア第三者評価 — VS Code + Copilot Agent 運用）
 
 このワークスペースは、**車載ソフトウェア第三者評価業務**を AI 化するための「ファイル運用基盤」です。
-VS Code と Copilot Chat（Agent モード）で「将軍/家老/足軽」の役割分担を使って評価業務を進めます。
+VS Code と Copilot Chat（Agent モード）で「Race Director/Pit Chief/Mechanic」の役割分担を使って評価業務を進めます。
 
 ---
 
@@ -28,36 +28,36 @@ VS Code のユーザー設定（JSON）に以下を追加してください。
 参照される instruction files：
 
 - 全体ルール：`.github/copilot-instructions.md`
-- 将軍：`.github/instructions/shogun.instructions.md`
-- 家老：`.github/instructions/karo.instructions.md`
-- 仕様解析（足軽-1）：`.github/instructions/spec-analyzer.instructions.md`
-- VT環境（足軽-2）：`.github/instructions/vt-environment.instructions.md`
-- テスト仕様書（足軽-3）：`.github/instructions/test-spec.instructions.md`
-- テストケース（足軽-4）：`.github/instructions/testcase.instructions.md`
-- 結果解析（足軽-5）：`.github/instructions/result-analyzer.instructions.md`
-- 報告書（足軽-6）：`.github/instructions/report-writer.instructions.md`
+- Race Director：`.github/instructions/race-director.instructions.md`
+- Pit Chief：`.github/instructions/pit-chief.instructions.md`
+- 仕様解析（Mechanic-1）：`.github/instructions/spec-analyzer.instructions.md`
+- VT環境（Mechanic-2）：`.github/instructions/vt-environment.instructions.md`
+- テスト仕様書（Mechanic-3）：`.github/instructions/test-spec.instructions.md`
+- テストケース（Mechanic-4）：`.github/instructions/testcase.instructions.md`
+- 結果解析（Mechanic-5）：`.github/instructions/result-analyzer.instructions.md`
+- 報告書（Mechanic-6）：`.github/instructions/report-writer.instructions.md`
 
 ---
 
-## 担当者（上様）の役割：将軍への指示の出し方
+## 担当者（上様）の役割：Race Directorへの指示の出し方
 
 あなた（上様）は **手を動かす人ではなく、判断と方向付けを担当** します。
-将軍がオーケストレーションを全て行うため、やることは「指示を出す → 判断を返す → 成果物を承認する」の3つだけです。
+Race Directorがオーケストレーションを全て行うため、やることは「指示を出す → 判断を返す → 成果物を承認する」の3つだけです。
 
 ### 🚀 最短ルート（3ステップ）
 
 ```
-Step 1: Copilot Chat で Shogun を選択し、評価業務の依頼を投げる
-Step 2: 将軍が「お伺い」してきたら A/B/C を選ぶ
+Step 1: Copilot Chat で Race Director を選択し、評価業務の依頼を投げる
+Step 2: Race Directorが「お伺い」してきたら A/B/C を選ぶ
 Step 3: status/dashboard.md を見て output/ 配下の成果物を承認する
 ```
 
-### Step 1: 将軍に依頼を投げる
+### Step 1: Race Directorに依頼を投げる
 
 **操作手順:**
 1. VS Code で Copilot Chat を開く（`Ctrl+Shift+I` またはサイドバー）
 2. チャットモードを **Agent** に切り替える
-3. エージェントを **Shogun (Orchestrator)** に選択する
+3. エージェントを **Race Director (Orchestrator)** に選択する
 4. 業務別のテンプレート（下記）を参考に依頼を送信する
 
 ---
@@ -130,9 +130,9 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 
 ---
 
-## Step 2: 将軍の「お伺い」に答える
+## Step 2: Race Directorの「お伺い」に答える
 
-将軍は重要判断のたびに「🚨 上様お伺い」として確認を求めてきます：
+Race Directorは重要判断のたびに「🚨 上様お伺い」として確認を求めてきます：
 
 ```
 論点: 〈何を決めるか〉
@@ -150,25 +150,25 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 - 補足付き: `Bで。ただし〇〇は△△にしてほしい`
 - 複数一括: `判断1→A、判断2→推奨、判断3→Cで`
 
-> 将軍は回答が来るまで該当作業をブロックするので、早めに返すとスムーズです。
+> Race Directorは回答が来るまで該当作業をブロックするので、早めに返すとスムーズです。
 
 ---
 
 ## Step 3: 成果物を確認・承認する
 
-将軍が完了報告したら、`status/dashboard.md` でステータスを確認し、`output/` 配下の成果物をレビューします。
+Race Directorが完了報告したら、`status/dashboard.md` でステータスを確認し、`output/` 配下の成果物をレビューします。
 
-| 成果物 | パス | 担当足軽 |
+| 成果物 | パス | 担当Mechanic |
 |---|---|---|
-| 仕様サマリー | `output/spec_summary.md` | 足軽-1 |
-| 信号一覧 | `output/signal_list.md` | 足軽-1 |
-| DBCドラフト | `output/dbc_draft.md` | 足軽-2 |
-| CAPLスケルトン | `output/capl_skeleton.can` | 足軽-2 |
-| テスト仕様書ドラフト | `output/test_spec_draft.md` | 足軽-3 |
-| テストケース一覧 | `output/testcase_list.md` | 足軽-4 |
-| NG解析レポート | `output/ng_analysis.md` | 足軽-5 |
-| 懸念点確認シート | `output/concern_sheet_draft.md` | 足軽-6 |
-| 試験報告書 | `output/test_report_draft.md` | 足軽-6 |
+| 仕様サマリー | `output/spec_summary.md` | Mechanic-1 |
+| 信号一覧 | `output/signal_list.md` | Mechanic-1 |
+| DBCドラフト | `output/dbc_draft.md` | Mechanic-2 |
+| CAPLスケルトン | `output/capl_skeleton.can` | Mechanic-2 |
+| テスト仕様書ドラフト | `output/test_spec_draft.md` | Mechanic-3 |
+| テストケース一覧 | `output/testcase_list.md` | Mechanic-4 |
+| NG解析レポート | `output/ng_analysis.md` | Mechanic-5 |
+| 懸念点確認シート | `output/concern_sheet_draft.md` | Mechanic-6 |
+| 試験報告書 | `output/test_report_draft.md` | Mechanic-6 |
 
 > **⚠️ 重要:** `output/` 配下の成果物はすべてAIが生成したドラフトです。
 > **人間によるレビュー・承認なしに最終成果物として使用しないでください。**

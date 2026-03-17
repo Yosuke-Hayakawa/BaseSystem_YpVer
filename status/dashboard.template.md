@@ -1,4 +1,4 @@
-# Dashboard template
+﻿# Dashboard template
 
 このファイルは `status/dashboard.md` の記入ガイド（ひな形）です。
 
@@ -10,24 +10,24 @@
 ## ログ書式
 
 - 推奨：`[YYYY-MM-DD-HH:MM] <role>: <event>: <topic> (<note>)`
-	- role: `shogun` / `karo` / `ashigaru-1` / `ashigaru-2` ...
+	- role: `race-director` / `pit-chief` / `mechanic-1` / `mechanic-2` ...
 	- event: `start` / `plan start` / `plan done` / `done` / `error` / `blocked`
 	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
-## 記入例（上様→将軍の依頼が来た直後）
+## 記入例（上様→Race Directorの依頼が来た直後）
 
 > 実案件ではこのセクションを消してOK。
 
 - request: <上様の依頼の短い要約>
 	- status: triage
-	- shogun: pending
-	- karo: pending
-	- ashigaru: pending
+	- race-director: pending
+	- pit-chief: pending
+	- mechanic: pending
 
 ### ログ（時系列）
 
-- [2026-xx-xx-HH:MM] shogun: start: <topic>
-- [2026-xx-xx-HH:MM] karo: plan start: <topic>
-- [2026-xx-xx-HH:MM] karo: plan done: <topic>
-- [2026-xx-xx-HH:MM] ashigaru-1: start: <task>
-- [2026-xx-xx-HH:MM] ashigaru-1: done: <task> (<note>)
+- [2026-xx-xx-HH:MM] race-director: start: <topic>
+- [2026-xx-xx-HH:MM] pit-chief: plan start: <topic>
+- [2026-xx-xx-HH:MM] pit-chief: plan done: <topic>
+- [2026-xx-xx-HH:MM] mechanic-1: start: <task>
+- [2026-xx-xx-HH:MM] mechanic-1: done: <task> (<note>)

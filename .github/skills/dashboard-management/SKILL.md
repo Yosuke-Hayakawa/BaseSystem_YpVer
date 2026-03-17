@@ -1,6 +1,6 @@
----
+﻿---
 name: dashboard-management
-description: status/dashboard.md 進捗追跡ファイルを管理するためのガイド。Karo（家老）としてプロジェクトステータス、タスク完了、進捗報告を更新する際に使用します。
+description: status/dashboard.md 進捗追跡ファイルを管理するためのガイド。Pit Chief（Pit Chief）としてプロジェクトステータス、タスク完了、進捗報告を更新する際に使用します。
 license: MIT
 ---
 
@@ -10,10 +10,10 @@ license: MIT
 
 ## 所有権
 
-**Karo（レビュー/QA）** が `status/dashboard.md` の主要な所有者です。
-- Shogun と Ashigaru はこのファイルを**直接編集すべきではない**（競合を防止）
-- Ashigaru は YAML 経由で Karo に報告
-- Karo が統合してダッシュボードを更新
+**Pit Chief（レビュー/QA）** が `status/dashboard.md` の主要な所有者です。
+- Race Director と Mechanic はこのファイルを**直接編集すべきではない**（競合を防止）
+- Mechanic は YAML 経由で Pit Chief に報告
+- Pit Chief が統合してダッシュボードを更新
 
 ## ダッシュボード構造
 
@@ -32,10 +32,10 @@ license: MIT
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| タスク1 | ashigaru-1 | done ✅ | src/file1.js | 2024-02-13 に完了 |
-| タスク2 | ashigaru-2 | in progress 🔄 | src/file2.js | レビュー待ち |
-| タスク3 | ashigaru-3 | blocked ⛔ | test/file.test.js | タスク1の出力が必要 |
-| タスク4 | ashigaru-4 | not started ⏸️ | docs/api.md | 次に予定 |
+| タスク1 | mechanic-1 | done ✅ | src/file1.js | 2024-02-13 に完了 |
+| タスク2 | mechanic-2 | in progress 🔄 | src/file2.js | レビュー待ち |
+| タスク3 | mechanic-3 | blocked ⛔ | test/file.test.js | タスク1の出力が必要 |
+| タスク4 | mechanic-4 | not started ⏸️ | docs/api.md | 次に予定 |
 
 **完了率**: 25% (1/4)
 
@@ -47,12 +47,12 @@ license: MIT
 
 ## 📊 最近の活動
 
-### YYYY-MM-DD HH:MM - ashigaru-1
+### YYYY-MM-DD HH:MM - mechanic-1
 - ✅ 認証サービスを実装
 - Output: src/auth-service.js
 - Skills demonstrated: Node.js, JWT, error-handling
 
-### YYYY-MM-DD HH:MM - karo
+### YYYY-MM-DD HH:MM - pit-chief
 - 📝 認証実装をレビュー
 - Issues: なし
 - Risks: レート制限が未実装（優先度低）
@@ -75,25 +75,25 @@ license: MIT
 
 ## 更新トリガー
 
-Karo は以下の場合にダッシュボードを更新すべき：
-1. **新規仕様作成**（Shogun）→ 目標と初期タスクリストを追加
-2. **タスク分解完了**（Karo）→ 詳細なタスク分解を追加
-3. **Ashigaru 報告**（Ashigaru）→ タスクステータスを更新し、活動ログを追加
-4. **レビュー完了**（Karo）→ レビューノートを追加
-5. **決定が必要**（Shogun/Karo）→ "要対応" セクションに追加
+Pit Chief は以下の場合にダッシュボードを更新すべき：
+1. **新規仕様作成**（Race Director）→ 目標と初期タスクリストを追加
+2. **タスク分解完了**（Pit Chief）→ 詳細なタスク分解を追加
+3. **Mechanic 報告**（Mechanic）→ タスクステータスを更新し、活動ログを追加
+4. **レビュー完了**（Pit Chief）→ レビューノートを追加
+5. **決定が必要**（Race Director/Pit Chief）→ "要対応" セクションに追加
 6. **決定済み**（ユーザー）→ "要対応" から削除し、必要に応じてタスクを更新
 
-## Ashigaru 報告の受信（YAML）
+## Mechanic 報告の受信（YAML）
 
-Ashigaru が YAML 形式で報告する場合：
+Mechanic が YAML 形式で報告する場合：
 
 ```yaml
-role: ashigaru-2
+role: mechanic-2
 topic: implement-logger
 status: done
 outputs:
   - src/logger.js
-  - output/ashigaru-2/logger-design.md
+  - output/mechanic-2/logger-design.md
 summary: |
   - Winston ベースのログローテーション付きロガーを実装
   - error, warn, info, debug レベルを追加
@@ -104,7 +104,7 @@ skill_candidate:
   - configuration-management
 ```
 
-**Karo のアクション**:
+**Pit Chief のアクション**:
 1. **YAML を解析**して主要情報を抽出
 2. タスクテーブルで**タスクステータスを更新**
 3. タイムスタンプ付きで**活動ログ**エントリを追加
@@ -117,19 +117,19 @@ skill_candidate:
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| ロガーを実装 | ashigaru-2 | done ✅ | src/logger.js | Winston ベース、環境変数設定 |
+| ロガーを実装 | mechanic-2 | done ✅ | src/logger.js | Winston ベース、環境変数設定 |
 
 ## 📊 最近の活動
 
-### 2024-02-13 14:30 - ashigaru-2
+### 2024-02-13 14:30 - mechanic-2
 - ✅ Winston ベースのログローテーション付きロガーを実装
-- Output: src/logger.js, output/ashigaru-2/logger-design.md
+- Output: src/logger.js, output/mechanic-2/logger-design.md
 - Skills: winston, logging-systems, configuration-management
 ```
 
 ## 重要な決定の扱い（上様お伺い）
 
-Shogun または Karo が重要な決定を特定した場合：
+Race Director または Pit Chief が重要な決定を特定した場合：
 
 ### 1. "🚨 要対応" セクションに追加
 
@@ -149,7 +149,7 @@ Shogun または Karo が重要な決定を特定した場合：
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| 認証を実装 | ashigaru-3 | blocked ⛔ | src/auth.js | 待ち: 認証方式の決定 |
+| 認証を実装 | mechanic-3 | blocked ⛔ | src/auth.js | 待ち: 認証方式の決定 |
 ```
 
 ### 3. ユーザーが決定した後
@@ -191,16 +191,16 @@ Shogun または Karo が重要な決定を特定した場合：
 
 ### 良い活動エントリ
 ```markdown
-### 2024-02-13 14:30 - ashigaru-2
+### 2024-02-13 14:30 - mechanic-2
 - ✅ Winston ベースのログローテーション付きロガーを実装
-- Output: src/logger.js, output/ashigaru-2/logger-design.md
+- Output: src/logger.js, output/mechanic-2/logger-design.md
 - Skills: winston, logging-systems, configuration-management
 - Notes: 環境変数による設定、本番環境対応
 ```
 
 ### 悪い活動エントリ（曖昧すぎる）
 ```markdown
-### 2024-02-13 - ashigaru-2
+### 2024-02-13 - mechanic-2
 - ログ処理に関する作業を実施
 ```
 
@@ -241,12 +241,12 @@ cp status/dashboard.md status/archive/dashboard-2024-02-13.md
 
 ### 指示書（`.github/instructions/`）
 - ダッシュボードは指示書で定義された形式に**従う**
-- Karo は更新ルールとして指示書を**参照**
+- Pit Chief は更新ルールとして指示書を**参照**
 
 ## よくあるミス
 
 ### ❌ してはいけないこと
-- Shogun や Ashigaru にダッシュボードを直接編集させる（競合を引き起こす）
+- Race Director や Mechanic にダッシュボードを直接編集させる（競合を引き起こす）
 - 報告受信後の更新を忘れる
 - 一貫性のないステータスラベルを使用
 - 活動ログでタイムスタンプを省略
@@ -254,7 +254,7 @@ cp status/dashboard.md status/archive/dashboard-2024-02-13.md
 - タスクステータスを作る（常に実際の報告に基づく）
 
 ### ✅ すべきこと
-- Karo が単一の編集者（競合なし）
+- Pit Chief が単一の編集者（競合なし）
 - イベント後すぐに更新
 - アイコンを一貫して使用
 - 正確なタイムスタンプを含める
@@ -263,7 +263,7 @@ cp status/dashboard.md status/archive/dashboard-2024-02-13.md
 
 ## 例: 完全な更新サイクル
 
-### 1. 初期状態（Shogun が仕様を作成）
+### 1. 初期状態（Race Director が仕様を作成）
 ```markdown
 # プロジェクト進捗ダッシュボード
 
@@ -277,32 +277,32 @@ cp status/dashboard.md status/archive/dashboard-2024-02-13.md
 - Spec: docs/spec/auth-feature-v1.md
 ```
 
-### 2. Karo が分解した後
+### 2. Pit Chief が分解した後
 ```markdown
 ## 📋 タスク一覧
 
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| 認証サービスを実装 | ashigaru-1 | not started ⏸️ | src/auth-service.js | |
-| 認証テストを書く | ashigaru-2 | not started ⏸️ | test/auth.test.js | ashigaru-1 に依存 |
-| API ドキュメントを更新 | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
+| 認証サービスを実装 | mechanic-1 | not started ⏸️ | src/auth-service.js | |
+| 認証テストを書く | mechanic-2 | not started ⏸️ | test/auth.test.js | mechanic-1 に依存 |
+| API ドキュメントを更新 | mechanic-3 | not started ⏸️ | docs/api/auth.md | |
 
 **完了率**: 0% (0/3)
 ```
 
-### 3. Ashigaru-1 が完了を報告した後
+### 3. Mechanic-1 が完了を報告した後
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| 認証サービスを実装 | ashigaru-1 | done ✅ | src/auth-service.js | JWT ベース |
-| 認証テストを書く | ashigaru-2 | in progress 🔄 | test/auth.test.js | 開始済み |
-| API ドキュメントを更新 | ashigaru-3 | not started ⏸️ | docs/api/auth.md | |
+| 認証サービスを実装 | mechanic-1 | done ✅ | src/auth-service.js | JWT ベース |
+| 認証テストを書く | mechanic-2 | in progress 🔄 | test/auth.test.js | 開始済み |
+| API ドキュメントを更新 | mechanic-3 | not started ⏸️ | docs/api/auth.md | |
 
 **完了率**: 33% (1/3)
 
 ## 📊 最近の活動
 
-### 2024-02-13 15:00 - ashigaru-1
+### 2024-02-13 15:00 - mechanic-1
 - ✅ JWT ベースの認証サービスを実装
 - Output: src/auth-service.js
 - Skills: jwt, bcrypt, express-middleware
@@ -312,16 +312,16 @@ cp status/dashboard.md status/archive/dashboard-2024-02-13.md
 ```markdown
 | Task | Assignee | Status | Output | Notes |
 |------|----------|--------|--------|-------|
-| 認証サービスを実装 | ashigaru-1 | done ✅ | src/auth-service.js | JWT ベース |
-| 認証テストを書く | ashigaru-2 | done ✅ | test/auth.test.js | カバレッジ: 95% |
-| API ドキュメントを更新 | ashigaru-3 | done ✅ | docs/api/auth.md | Swagger 統合 |
+| 認証サービスを実装 | mechanic-1 | done ✅ | src/auth-service.js | JWT ベース |
+| 認証テストを書く | mechanic-2 | done ✅ | test/auth.test.js | カバレッジ: 95% |
+| API ドキュメントを更新 | mechanic-3 | done ✅ | docs/api/auth.md | Swagger 統合 |
 
 **完了率**: 100% (3/3) 🎉
 ```
 
 ## まとめ
 
-- **Karo が所有** status/dashboard.md（単一の編集者）
+- **Pit Chief が所有** status/dashboard.md（単一の編集者）
 - **更新トリガー**: 仕様作成、タスク分解、エージェント報告、レビュー、決定
 - **標準形式**: 目標、タスクテーブル、重要な決定、活動ログ、関連ドキュメント
 - **一貫したアイコン**: ✅ done, 🔄 in progress, ⛔ blocked, ⏸️ not started, ❌ error
