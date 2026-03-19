@@ -27,6 +27,35 @@
     },
 
     {
+      "label": "Python: セットアップ（仮想環境作成）",
+      "type": "shell",
+      "command": "python -m venv .venv && .venv\\Scripts\\pip install -r requirements.txt",
+      "presentation": { "reveal": "always", "close": false },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Python: セットアップ（プロキシ経由）",
+      "type": "shell",
+      "command": "python -m venv .venv && .venv\\Scripts\\pip install --proxy http://192.168.14.55:8080 -r requirements.txt",
+      "presentation": { "reveal": "always", "close": false },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Spec: 仕様書→Markdown変換",
+      "type": "shell",
+      "command": ".venv\\Scripts\\python",
+      "args": [
+        "tools/spec_to_md.py",
+        "${input:specFilePath}",
+        "--out",
+        "${input:outDir}"
+      ],
+      "presentation": { "reveal": "always", "close": false },
+      "problemMatcher": []
+    },
+    {
       "label": "Sample: Build (placeholder)",
       "type": "shell",
       "command": "echo",
@@ -59,6 +88,19 @@
       ],
       "dependsOrder": "parallel",
       "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "specFilePath",
+      "type": "promptString",
+      "description": "変換する仕様書ファイルのパス（例: docs/spec/03_仕様書/product_spec.xlsx）"
+    },
+    {
+      "id": "outDir",
+      "type": "promptString",
+      "description": "出力先ディレクトリ（デフォルト: docs/spec）",
+      "default": "docs/spec"
     }
   ]
 }

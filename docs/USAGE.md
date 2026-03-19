@@ -189,9 +189,100 @@ Race Directorが完了報告したら、`status/dashboard.md` でステータス
 
 ---
 
+## Python 仮想環境のセットアップ（xlsx / xlsm / pdf / docx / pptx 読み取り）
+
+仕様書が `.xlsx`・`.xlsm`・`.pdf`・`.docx`・`.pptx` 形式の場合、`tools/spec_to_md.py` で Markdown へ変換してから
+エージェントに渡します。初回のみ以下の手順で環境を構築してください。
+
+### 前提
+
+- Python 3.10 以上がインストールされていること（`python --version` で確認）
+
+### セットアップ手順（1 回だけ）
+
+```powershell
+# リポジトリのルートで実行
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+または VS Code のタスクから実行できます：
+
+> **ターミナル → タスクの実行 → `Python: セットアップ（仮想環境作成）`**
+
+### 仕様書を Markdown へ変換する
+
+```powershell
+# 仮想環境が有効な状態で実行
+.venv\Scripts\python tools/spec_to_md.py docs/spec/03_仕様書/product_spec.xlsx    # Excel
+.venv\Scripts\python tools/spec_to_md.py docs/spec/03_仕様書/product_spec.xlsm    # マクロ付き Excel（マクロは実行せず読み取りのみ）
+.venv\Scripts\python tools/spec_to_md.py docs/spec/03_仕様書/product_spec.pdf     # PDF
+.venv\Scripts\python tools/spec_to_md.py docs/spec/03_仕様書/product_spec.docx    # Word
+.venv\Scripts\python tools/spec_to_md.py docs/spec/03_仕様書/product_spec.pptx    # PowerPoint
+```
+
+または VS Code のタスクから：
+
+> **ターミナル → タスクの実行 → `Spec: 仕様書→Markdown変換`**
+> （ファイルパスと出力先を対話入力します）
+
+**各形式の動作**
+
+| 拡張子 | 抽出内容 | 備考 |
+|---|---|---|
+| `.xlsx` | 全シートをテーブル形式で抽出 | シートごとに `##` 見出しを付与 |
+| `.xlsm` | マクロ付き Excel。マクロは実行せずデータのみ読み取り | `.xlsx` と同一の出力 |
+| `.pdf` | ページごとにテキスト・テーブルを抽出 | 画像埋め込み PDF はテキスト無し |
+| `.docx` | 見出し・段落・テーブルを Markdown に変換 | 見出しスタイルは日英両対応 |
+| `.pptx` | スライドごとにタイトル・本文・テーブルを抽出 | 画像・図形は非対応 |
+
+変換後のファイルは `docs/spec/<元ファイル名>.md`（デフォルト）または `--out` で指定したディレクトリに出力されます。
+その後、Race Director へ「`docs/spec/product_spec.md` を参照して…」と依頼するだけです。
+
+### インストールされるライブラリ
+
+| ライブラリ | 用途 |
+|---|---|
+| `openpyxl` | `.xlsx` / `.xlsm` シート読み取り |
+| `pdfplumber` | `.pdf` テキスト・テーブル抽出 |
+| `python-docx` | `.docx` 見出し・段落・テーブル抽出 |
+| `python-pptx` | `.pptx` スライド・テキスト・テーブル抽出 |
+| `pandas` | xlsx/xlsm の後続データ解析・集計用 |
+
+> `.venv/` は `.gitignore` で除外済みです。各メンバーがローカルで `pip install` を実行してください。
+
+---
+
 ## うまくいかない時（トラブルシュート）
 
 - まず VS Code / Copilot 拡張を最新版に更新
 - 組織管理PCの場合、ポリシーで無効化されていることがあります（管理者への許可申請が必要）
 - instruction files が読まれているか確認：`github.copilot.chat.codeGeneration.useInstructionFiles: true`
+
+### pip インストール時にプロキシが必要な場合
+
+ネットワークがプロキシ経由の環境の場合、次のいずれかの方法でインストールしてください。
+
+**方法1：VS Code タスクを使う（推奨）**
+
+> **ターミナル → タスクの実行 → `Python: セットアップ（プロキシ経由）`**
+
+**方法2：ターミナルで手動実行**
+
+```powershell
+python -m venv .venv
+.venv\Scripts\pip install --proxy http://192.168.14.55:8080 -r requirements.txt
+```
+
+**方法3：環境変数で永続設定（セッション内有効）**
+
+```powershell
+$env:https_proxy = "http://192.168.14.55:8080"
+$env:http_proxy  = "http://192.168.14.55:8080"
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+```
+
+> プロキシアドレスが変わった場合は `tasks.json` の `Python: セットアップ（プロキシ経由）` のコマンド内の IP アドレスを更新してください。
 

@@ -22,5 +22,12 @@ out/
 output/**
 !output/.gitkeep
 
+# --- Python 仮想環境 / キャッシュ ---
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
 # --- Local sandbox (personal experiments, practice copies; never shared) ---
 sandbox/
