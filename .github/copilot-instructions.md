@@ -91,9 +91,9 @@
 
 役割別エージェント定義：
 
-- `.github/agents/orchestrator.agent.md`（デフォルト名: Orchestrator (Tier-1)）
-- `.github/agents/coordinator.agent.md`（デフォルト名: Coordinator (Tier-2)）
-- `.github/agents/worker.agent.md`（デフォルト名: Worker (Tier-3)）
+- `.github/agents/Orchestrator (Tier-1).agent.md`（現在の表示名: Orchestrator (Tier-1)）
+- `.github/agents/Coordinator (Tier-2).agent.md`（現在の表示名: Coordinator (Tier-2)）
+- `.github/agents/Worker (Tier-3).agent.md`（現在の表示名: Worker (Tier-3)）
 
 > 名前を変えるために定義を変更するとキは `.github/persona.md` を編集し、同時に各 agent.md の `name:` を合わせる（詳細は persona.md 参照）。
 

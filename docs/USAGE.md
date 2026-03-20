@@ -321,13 +321,84 @@ python -m venv .venv
 | Tier-3 | worker       | Mechanic      | `Mechanic (Worker)` | 「私はMechanicです」 | 作業ログ形式 |
 ```
 
-**ステップ 3:** `agents/*.agent.md` の `name:` フィールドを「VS Code Agent名」列の値に合わせて更新する（3ファイル）
+**ステップ 3:** `.github/agents/` の 3 つのファイルを **リネーム** する
 
-- `.github/agents/orchestrator.agent.md` → `name: "Race Director (Orchestrator)"`
-- `.github/agents/coordinator.agent.md`  → `name: "Pit Chief (Coordinator)"`
-- `.github/agents/worker.agent.md`       → `name: "Mechanic (Worker)"`
+> ⚠️ VS Code のエージェント選択 UI はファイル内の `name:` フィールドではなく**ファイル名**を表示します。
+> ファイル名を変えないと UI にはデフォルト名のままが表示されます。
 
-以上でテーマ切り替え完了です。ロールロジックファイル（`instructions/`）は**触らない**でください。
+Racing テーマの場合:
+
+```powershell
+# .github/agents/ ディレクトリで実行
+Rename-Item "orchestrator.agent.md" "Race Director (Orchestrator).agent.md"
+Rename-Item "coordinator.agent.md"  "Pit Chief (Coordinator).agent.md"
+Rename-Item "worker.agent.md"       "Mechanic (Worker).agent.md"
+```
+
+**ステップ 4:** リネーム後、各ファイルの内部フィールドも「VS Code Agent名」列の値に合わせて更新する
+
+各ファイルで変更が必要な箇所は以下のとおりです。
+
+| フィールド | 説明 |
+|---|---|
+| `name:` | 自分自身のAgent名（ファイル名と一致させる） |
+| `agents:` リスト | 他エージェントの `name:` と完全一致させる |
+| `handoffs[].agent:` | 引き渡し先エージェントの `name:` と完全一致させる |
+| `> **ペルソナ** ブロック（本文）` | 表示名・口調・自己紹介フレーズを新テーマに書き換える |
+
+> **なぜ本文にも直書きするのか？**  
+> `persona.instructions.md` は「`persona.md` を参照せよ」という間接指示しか行わず、エージェント起動時に AI が自動でファイルを読みに行かない場合は口調が反映されません。  
+> `.agent.md` の本文はエージェント起動時にプロンプトへ必ず組み込まれるため、ここにペルソナを直書きするのが最も確実な方法です。
+
+各 `agent.md` 本文の先頭付近にある以下のブロックを書き換えてください：
+
+```markdown
+> **ペルソナ（必須・常に適用）**
+> - 名前：「〈表示名〉」
+> - 口調：〈口調スタイルの説明〉
+> - 自己紹介：「〈自己紹介フレーズ〉」
+> - 成果物（docs/ / output/ / status/ / コード）には口調・テーマ語彙を混入しない（常に中立な標準日本語で記録）
+>
+> ※ペルソナ変更は `.github/persona.md` を編集してから本ファイルの上記ペルソナ欄も合わせて更新すること。
+```
+
+Racing テーマの例:
+
+```yaml
+# orchestrator.agent.md
+name: "Race Director (Orchestrator)"
+agents:
+  - "Pit Chief (Coordinator)"
+  - "Mechanic (Worker)"
+handoffs:
+  - agent: "Pit Chief (Coordinator)"
+    ...
+  - agent: "Mechanic (Worker)"
+    ...
+```
+
+```yaml
+# coordinator.agent.md
+name: "Pit Chief (Coordinator)"
+agents:
+  - "Race Director (Orchestrator)"
+  - "Mechanic (Worker)"
+```
+
+```yaml
+# worker.agent.md
+name: "Mechanic (Worker)"
+```
+
+以上でテーマ切り替え完了です。
+
+**ステップ 5:** VS Code ウィンドウをリロードする
+
+コマンドパレット（`Ctrl+Shift+P`）→ `Developer: Reload Window`
+
+エージェント選択 UI に新しい名前が反映されます。
+
+> ロールロジックファイル（`instructions/`）は**触らない**でください。
 
 ### 利用可能なプリセット
 
