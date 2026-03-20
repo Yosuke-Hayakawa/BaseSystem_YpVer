@@ -3,8 +3,8 @@
 ## 目的（Intent）
 
 - 参考リポ（multi-agent-race-director 等）から「話法」「チームオーナーお伺い（判断待ちの集約）」「報告フォーマット」を、当リポジトリ（VS Code + Markdown運用）に適合させて導入する。
-- Race Director/Pit Chief/Mechanicのやり取りを、短く・再利用可能・レビュー可能な形に統一する。
-- Mechanicの作業から「skill_candidate（得意領域の候補）」をボトムアップで収集し、以後のタスク割当精度を上げる。
+- Orchestrator/Coordinator/Workerのやり取りを、短く・再利用可能・レビュー可能な形に統一する。
+- Workerの作業から「skill_candidate（得意領域の候補）」をボトムアップで収集し、以後のタスク割当粿度を上げる。
 
 ## 制約（Constraints）
 
@@ -19,7 +19,7 @@
 - [ ] 役割別の指示書（`.github/instructions/*.instructions.md`）に、以下が明記されている。
   - [ ] チャットのみ戦国風口調、ドキュメント/成果物は標準語
   - [ ] 報告テンプレ（YAML）と必須フィールド
-  - [ ] skill_candidate の提出（Mechanicの報告に必須）
+  - [ ] skill_candidate の提出（Workerの報告に必須）
 - [ ] `status/dashboard.md` に、報告テンプレの要点（どこを見れば何が分かるか）が追記されている。
 - [ ] `docs/USAGE.md` に、実運用での「報告テンプレ」「skill_candidate の使い方」が追記されている。
 
@@ -36,7 +36,7 @@
 
 ### 2) チームオーナーお伺い（判断依頼）テンプレ
 
-Race Director（またはRace Director経由）で、以下の形に揃える：
+Orchestrator（またはOrchestrator経由）で、以下の形に揃える：
 
 - 論点（1行）：
 - 選択肢：A / B / C
@@ -47,28 +47,28 @@ Race Director（またはRace Director経由）で、以下の形に揃える：
 
 ### 3) 報告テンプレ（YAML）
 
-Pit Chief/Mechanicの「Race Director（または dashboard 更新者）への報告」は、先頭に YAML を付ける。
+Coordinator/Workerの「Orchestrator（または dashboard 更新者）への報告」は、先頭に YAML を付ける。
 
 必須フィールド：
 
-- `role`: `race-director` / `pit-chief` / `mechanic-<n>`
+- `role`: `orchestrator` / `coordinator` / `worker-<n>`
 - `topic`: 作業トピック
 - `status`: `start` / `done` / `blocked` / `error`
 - `outputs`: 変更したファイルパス or 生成物パス（`output/` 配下）
 - `summary`: 要点（3行以内）
 
-Mechanicは追加で必須：
+Workerは追加で必須：
 
 - `skill_candidate`: 今回の作業で判明した「得意領域候補」（配列、0個でも可だがフィールドは必須）
 
-例（Mechanic→Race Director/Pit Chief）：
+例（Worker→Orchestrator/Coordinator）：
 
 ```yaml
-role: mechanic-1
+role: worker-1
 topic: <topic>
 status: done
 outputs:
-  - output/mechanic/<task>/result.md
+  - output/worker/<task>/result.md
 summary: |
   - <1>
   - <2>
@@ -85,16 +85,16 @@ skill_candidate:
     - NG: 「進捗どう？」を連投
     - OK: 「X までに done/error を報告。ブロッカーは即報告」
 
-## Plan（Pit Chiefが分解する観点）
+## Plan（Coordinatorが分解する観点）
 
 - 指示書・USAGE・dashboard の三点に同じ概念を二重三重に書かず、参照関係を明確にする（SRP）。
 - ルール変更（特に dashboard 更新責任者など）は `docs/decisions.md` で理由を残す。
 
-## タスクリスト（Mechanicへ配布する単位）
+## タスクリスト（Workerへ配布する単位）
 
 | task | assignee | input | output |
 |---|---|---|---|
-| 会話/報告プロトコルSpec追加 | mechanic | `docs/spec/_template.md` | `docs/spec/agent-communication-v1.md` |
-| 指示書へテンプレ反映 | mechanic | `.github/instructions/*.instructions.md` | 更新パッチ |
-| USAGE/dashboardへ反映 | mechanic | `docs/USAGE.md`, `status/dashboard.md` | 更新パッチ |
-| 採用判断を記録 | mechanic | `docs/decisions.md` | 更新パッチ |
+| 会話/報告プロトコルSpec追加 | worker | `docs/spec/_template.md` | `docs/spec/agent-communication-v1.md` |
+| 指示書へテンプレ反映 | worker | `.github/instructions/*.instructions.md` | 更新パッチ |
+| USAGE/dashboardへ反映 | worker | `docs/USAGE.md`, `status/dashboard.md` | 更新パッチ |
+| 採用判断を記録 | worker | `docs/decisions.md` | 更新パッチ |

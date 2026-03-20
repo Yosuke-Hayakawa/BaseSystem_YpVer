@@ -1,23 +1,23 @@
 ﻿# multiAgent（Python・シェルなし / 仕様駆動 + SOLID）
 
 添付のまとめ（VS Code + Copilot Agent運用 / 仕様駆動 / SOLID / dashboard）を踏襲し、
-**Pythonやシェルスクリプトに依存しない**形で「Race Director→Pit Chief→Mechanic×N（並列）」を運用するためのベース環境です。
+**Pythonやシェルスクリプトに依存しない**形で「Orchestrator→Coordinator→Worker×N（並列）」を運用するためのベース環境です。
 
-## チームオーナー（担当者）向け：最初に押さえる4点
+## ユーザ向け：最初に押さえる4点
 
 - **ユーザの読むべき部分**：この `README.md` と `docs/USAGE.md`
 - **ユーザの準備すべき部分**：`docs/USAGE.md` の「VS Code 側で行うこと（設定）」
-- **ユーザが入力する部分**：Copilot Chat（Agentモード）で **Race Director (Orchestrator)** に依頼（テンプレは `docs/USAGE.md`）
+- **ユーザが入力する部分**：Copilot Chat（Agentモード）で **Orchestrator (Tier-1)** に依頼（テンプレは `docs/USAGE.md`）
 - **ユーザが監視する部分**：`status/dashboard.md`（見方の説明は `docs/ARCHITECTURE.md`）
 
 ## 概念図（この環境が提供するもの）
 
 ```mermaid
 flowchart TB
-	U[チームオーナー（担当者）\n意思決定・方向付け] -->|指示/AC/優先度| S[Race Director（race-director）\n仕様確定・判断]
-	S -->|タスク分解を依頼| K[Pit Chief（pit-chief）\n分解・調整・取りまとめ]
-	K -->|担当割当| A1[Mechanic（mechanic-1）\n担当のみ実行]
-	K -->|担当割当| A2[Mechanic（mechanic-2）\n担当のみ実行]
+	U[ユーザ\n意思決定・方向付け] -->|指示/AC/優先度| S[Orchestrator（Tier-1）\n仕様確定・判断]
+	S -->|タスク分解を依頼| K[Coordinator（Tier-2）\n分解・調整・取りまとめ]
+	K -->|担当割当| A1[Worker（Tier-3 / No.1）\n担当のみ実行]
+	K -->|担当割当| A2[Worker（Tier-3 / No.2）\n担当のみ実行]
 	A1 -->|結果/要点を報告| K
 	A2 -->|結果/要点を報告| K
 	K -->|分解案/レビューを報告| S
@@ -62,14 +62,14 @@ flowchart TB
 ## 主要ファイル
 
 - `.github/copilot-instructions.md`：全体ルール（仕様駆動/ SOLID / 小さく変更 / docs更新）
-- `.github/instructions/`：用途別ルール（Race Director/Pit Chief/Mechanic/ドキュメント）
+- `.github/instructions/`：用途別ルール（Orchestrator/Coordinator/Worker/ドキュメント）
 - `docs/spec/`：仕様（Markdown）
 - `docs/decisions.md`：設計判断ログ
 - `status/dashboard.md`：進捗ダッシュボード
 - `output/`：生成物置き場（Git管理しないのが基本）
 - `.vscode/tasks.json`：並列実行の要
 
-## クイックスタート（チームオーナー（担当者）向け）
+## クイックスタート（ユーザ向け）
 
 **初回セットアップ（1回だけ）:**
 
@@ -77,12 +77,12 @@ flowchart TB
 
 **タスクの依頼方法（毎回）:**
 
-1. Copilot Chat でエージェントを **Race Director (Orchestrator)** に切り替え
+1. Copilot Chat でエージェントを **Orchestrator (Tier-1)** に切り替え
 2. やりたいことを自然言語で指示（テンプレートは `docs/USAGE.md` 参照）
-3. Race Directorが「お伺い」してきたら選択肢を選ぶ
+3. Orchestratorが「お伺い」してきたら選択肢を選ぶ
 4. `status/dashboard.md` で進捗を確認
 
-> 詳しくは `docs/USAGE.md` の「チームオーナー（担当者）の役割：Race Directorへの指示の出し方」を参照。
+> 詳しくは `docs/USAGE.md` の「チームオーナー（担当者）の役割：Orchestratorへの指示の出し方」を参照。
 
 ## 使い方（詳細）
 

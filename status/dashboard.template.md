@@ -10,24 +10,24 @@
 ## ログ書式
 
 - 推奨：`[YYYY-MM-DD-HH:MM] <role>: <event>: <topic> (<note>)`
-	- role: `race-director` / `pit-chief` / `mechanic-1` / `mechanic-2` ...
+	- role: `orchestrator` / `coordinator` / `worker-1` / `worker-2` ...
 	- event: `start` / `plan start` / `plan done` / `done` / `error` / `blocked`
 	- **必ず現在時刻（HH:MM）を記録する**こと。時刻をどうしても取得できない場合のみ `00:00` を使用
 
-## 記入例（チームオーナー→Race Directorの依頼が来た直後）
+## 記入例（チームオーナー→Orchestratorの依頼が来た直後）
 
 > 実案件ではこのセクションを消してOK。
 
 - request: <チームオーナーの依頼の短い要約>
 	- status: triage
-	- race-director: pending
-	- pit-chief: pending
-	- mechanic: pending
+	- orchestrator: pending
+	- coordinator: pending
+	- worker: pending
 
 ### ログ（時系列）
 
-- [2026-xx-xx-HH:MM] race-director: start: <topic>
-- [2026-xx-xx-HH:MM] pit-chief: plan start: <topic>
-- [2026-xx-xx-HH:MM] pit-chief: plan done: <topic>
-- [2026-xx-xx-HH:MM] mechanic-1: start: <task>
-- [2026-xx-xx-HH:MM] mechanic-1: done: <task> (<note>)
+- [2026-xx-xx-HH:MM] orchestrator: start: <topic>
+- [2026-xx-xx-HH:MM] coordinator: plan start: <topic>
+- [2026-xx-xx-HH:MM] coordinator: plan done: <topic>
+- [2026-xx-xx-HH:MM] worker-1: start: <task>
+- [2026-xx-xx-HH:MM] worker-1: done: <task> (<note>)

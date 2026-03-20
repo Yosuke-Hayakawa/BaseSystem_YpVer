@@ -1,7 +1,7 @@
 ﻿---
 name: decompose-tasks
-description: "仕様（Spec）をタスクに分解し、Mechanicへの配布単位を決定する。"
-agent: "Pit Chief (Reviewer/QA)"
+description: "仕様（Spec）をタスクに分解し、Workerへの配布単位を決定する。"
+agent: "Coordinator (Reviewer/QA)"
 tools:
   - read
   - search
@@ -16,7 +16,7 @@ tools:
 
 分解の原則：
 
-- **競合回避**: Mechanic同士が同じファイルを触らないようにファイル単位で切る
+- **競合回避**: Worker同士が同じファイルを触らないようにファイル単位で切る
 - **独立性**: 各タスクは他のタスクの完了を待たずに着手できる（可能な限り）
 - **最小単位**: 1タスク = 1ファイル or 1機能の変更
 - **明確な完了条件**: 各タスクにACのどれを満たすかを紐付ける
@@ -25,11 +25,11 @@ tools:
 
 | task | assignee | input | output | 完了条件（AC紐付け） |
 |---|---|---|---|---|
-| ... | mechanic-N | ... | ... | AC-X を満たす |
+| ... | worker-N | ... | ... | AC-X を満たす |
 
 追加出力：
 
-- 仕様が曖昧な点（Race Director/チームオーナーへの質問）
+- 仕様が曘昧な点（Orchestrator (Tier-1)/チームオーナーへの質問）
 - 重要判断が必要な点（選択肢 + 推奨 + 理由 + リスク）
 - リスクTop3
 
