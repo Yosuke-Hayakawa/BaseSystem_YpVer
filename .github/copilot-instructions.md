@@ -1,6 +1,6 @@
 ﻿# Copilot workspace instructions（車載ソフトウェア第三者評価 multiAgent）
 
-このリポジトリは「仕様駆動 + SOLID」で、Tier-1（Orchestrator）・Tier-2（Coordinator）・Tier-3（Worker）の役割分担を模したマルチエージェント基盤を
+このリポジトリは「仕様駆動 + SOLID」で、Tier-1（boss）・Tier-2（elite）・Tier-3（mob）の役割分担を模したマルチエージェント基盤を
 **車載ソフトウェア第三者評価業務**に適用する。
 
 > 🎨 **表示名・口調のカスタマイズは `.github/persona.md` 1ファイルだけで行う。ロールロジックは変わらない。**
@@ -9,23 +9,23 @@
 
 | 層 | ロールID | デフォルト表示名 | Instructions ファイル | 担当業務ステップ |
 |---|---|---|---|---|
-| Tier-1 | orchestrator | Orchestrator | `orchestrator.instructions.md` | 全体指挥・仕様確定・担当者対応 |
-| Tier-2 | coordinator  | Coordinator  | `coordinator.instructions.md` | タスク分解・進捗管理・Worker調整 |
-| 仕様解析（Worker-1） | worker | Worker | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
-| VT環境（Worker-2） | worker | Worker | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
-| テスト仕様書（Worker-3） | worker | Worker | `test-spec.instructions.md` | ステップ4：テスト設計仕様書ドラフト |
-| テストケース（Worker-4） | worker | Worker | `testcase.instructions.md` | ステップ5：テストケース一覧生成 |
-| 結果解析（Worker-5） | worker | Worker | `result-analyzer.instructions.md` | ステップ7：NG解析・ログ解析 |
-| 報告書（Worker-6） | worker | Worker | `report-writer.instructions.md` | ステップ8・9：懸念点シート・報告書生成 |
+| Tier-1 | boss | boss | `orchestrator.instructions.md` | 全体指挥・仕様確定・担当者対応 |
+| Tier-2 | elite | elite | `coordinator.instructions.md` | タスク分解・進捗管理・mob調整 |
+| 仕様解析（mob-1） | mob | mob | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
+| VT環境（mob-2） | mob | mob | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
+| テスト仕様書（mob-3） | mob | mob | `test-spec.instructions.md` | ステップ4：テスト設計仕様書ドラフト |
+| テストケース（mob-4） | mob | mob | `testcase.instructions.md` | ステップ5：テストケース一覧生成 |
+| 結果解析（mob-5） | mob | mob | `result-analyzer.instructions.md` | ステップ7：NG解析・ログ解析 |
+| 報告書（mob-6） | mob | mob | `report-writer.instructions.md` | ステップ8・9：懸念点シート・報告書生成 |
 
 > AI化スコープ外：ステップ2（ハードウェア準備）・ステップ6（テスト実行）は人間が担当
 
 ## 最重要ルール
 
 - 仕様（`docs/spec/`）を起点に作業する。
-- Tier-3（Worker層）は **自分のタスクだけ** 実行する（最小権限）。
-- 進捗は `status/dashboard.md` に集約して可視化する（更新責任者はTier-2。競合防止のため、Tier-1/サブエージェントは直接編集しない）。
-- 重要判断（試験観点の確定、仕様解釈の相違、スコープ変更など）は、Tier-1が担当者に確認してから確定する。
+- mob層は **自分のタスクだけ** 実行する（最小権限）。
+- 進捗は `status/dashboard.md` に集約して可視化する（更新責任者はelite。競合防止のため、boss/サブエージェントは直接編集しない）。
+- 重要判断（試験観点の確定、仕様解釈の相違、スコープ変更など）は、bossが担当者に確認してから確定する。
 - AI生成物は必ず `output/` 配下に限定する。**人間によるレビュー・承認なしに最終成果物として使用しない。**
 	- 例外：運用の一次情報（`docs/spec/`, `docs/decisions.md`, `status/dashboard.md`）は従来どおり。
 
@@ -41,17 +41,17 @@
 
 ## 成果物管理（output/ 配下）
 
-| 成果物 | ファイルパス | 担当Worker |
+| 成果物 | ファイルパス | 担当mob |
 |---|---|---|
-| 仕様サマリー | `output/spec_summary.md` | Worker-1（仕様解析） |
-| 信号一覧 | `output/signal_list.md` | Worker-1（仕様解析） |
-| DBCドラフト | `output/dbc_draft.md` | Worker-2（VT環境） |
-| CAPLスケルトン | `output/capl_skeleton.can` | Worker-2（VT環境） |
-| テスト仕様書ドラフト | `output/test_spec_draft.md` | Worker-3（テスト仕様書） |
-| テストケース一覧 | `output/testcase_list.md` | Worker-4（テストケース） |
-| NG解析レポート | `output/ng_analysis.md` | Worker-5（結果解析） |
-| 懸念点確認シート | `output/concern_sheet_draft.md` | Worker-6（報告書） |
-| 試験報告書 | `output/test_report_draft.md` | Worker-6（報告書） |
+| 仕様サマリー | `output/spec_summary.md` | mob-1（仕様解析） |
+| 信号一覧 | `output/signal_list.md` | mob-1（仕様解析） |
+| DBCドラフト | `output/dbc_draft.md` | mob-2（VT環境） |
+| CAPLスケルトン | `output/capl_skeleton.can` | mob-2（VT環境） |
+| テスト仕様書ドラフト | `output/test_spec_draft.md` | mob-3（テスト仕様書） |
+| テストケース一覧 | `output/testcase_list.md` | mob-4（テストケース） |
+| NG解析レポート | `output/ng_analysis.md` | mob-5（結果解析） |
+| 懸念点確認シート | `output/concern_sheet_draft.md` | mob-6（報告書） |
+| 試験報告書 | `output/test_report_draft.md` | mob-6（報告書） |
 
 ## ハルシネーション対策（全エージェント必須）
 
@@ -67,7 +67,7 @@
 ## VS Code Tasks（並列実行）
 
 - 並列実行は `.vscode/tasks.json` の `dependsOrder: parallel` を使う。
-- Worker層は複数ターミナルで起動し、各自の担当領域のみ処理する（最小権限）。
+- mob層は複数ターミナルで起動し、各自の担当領域のみ処理する（最小権限）。
 - 全タスクに `"presentation": { "close": true }` を設定し、完了後のゾンビターミナルを防止する。
 
 ## ターミナルクリーンアップ（ゾンビターミナル防止）
@@ -77,25 +77,25 @@
 
 ## Copilot Subagents（サブエージェント並列）
 
-- Tier-1（Orchestrator）は Subagents を使って「Coordinator（調整）」＋「Worker×N（仕様解析/テスト設計/解析）」を並列起動し、成果を統合する。
+- boss は Subagents を使って「elite（調整）」＋「mob×N（仕様解析/テスト設計/解析）」を並列起動し、成果を統合する。
 - サブエージェントに渡すタスクは **単機能・小さく・競合しない** 単位にする。
-- 重要：成果物は会話に埋めず、`output/` に配置してからCoordinatorが `status/dashboard.md` に要点をまとめる。
+- 重要：成果物は会話に埋めず、`output/` に配置してからeliteが `status/dashboard.md` に要点をまとめる。
 
 ## AgentHQ（Custom Agents / Prompt Files / Handoffs）
 
 各エージェントは `.github/agents/*.agent.md` に YAML frontmatter（tools/agents/handoffs）で定義。
 
 - **tools**: そのエージェントが使えるツールを明示的に制限（最小権限）
-- **agents**: 起動可能なサブエージェントを制限（Tier-3は `agents: []` で禁止）
+- **agents**: 起動可能なサブエージェントを制限（mobは `agents: []` で禁止）
 - **handoffs**: エージェント間のワークフロー遷移ボタンを定義
 
 役割別エージェント定義：
 
-- `.github/agents/Orchestrator (Tier-1).agent.md`（現在の表示名: Orchestrator (Tier-1)）
-- `.github/agents/Coordinator (Tier-2).agent.md`（現在の表示名: Coordinator (Tier-2)）
-- `.github/agents/Worker (Tier-3).agent.md`（現在の表示名: Worker (Tier-3)）
+- `.github/agents/boss.agent.md`（表示名: boss）
+- `.github/agents/elite.agent.md`（表示名: elite）
+- `.github/agents/mob.agent.md`（表示名: mob）
 
-> 名前を変えるために定義を変更するとキは `.github/persona.md` を編集し、同時に各 agent.md の `name:` を合わせる（詳細は persona.md 参照）。
+> 口調・自己紹介のカスタマイズは `.github/persona.md` + 各 `agent.md` のペルソナブロックのみ。エージェント名・ファイル名・YAML参照名は固定（変更不可）。
 
 ## 禁止
 

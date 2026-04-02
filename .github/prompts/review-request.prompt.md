@@ -1,7 +1,7 @@
 ﻿---
 name: review-request
-description: "Coordinator (Tier-2) に成果物のレビューを依頼する。"
-agent: "Coordinator (Reviewer/QA)"
+description: "elite に成果物のレビューを依頼する。"
+agent: "elite"
 tools:
   - read
   - search
@@ -40,5 +40,5 @@ tools:
 - ...
 ```
 
-NG の場合は、Workerへの修正指示を具体的に記述する。
-レビュー結果の詳細が必要な場合は `output/coordinator/review-<topic>.md` に保存する。
+NG の場合は、mobへの修正指示を具体的に記述する。
+レビュー結果の詳細が必要な場合は `output/elite/review-<topic>.md` に保存する。

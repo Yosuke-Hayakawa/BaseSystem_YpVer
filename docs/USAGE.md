@@ -1,7 +1,7 @@
 ﻿# 使い方（ソフトウェア第三者評価 — VS Code + Copilot Agent 運用）
 
 このワークスペースは、**ソフトウェア第三者評価業務**を AI 化するための「ファイル運用基盤」です。
-VS Code と Copilot Chat（Agent モード）で「Orchestrator/Coordinator/Worker」の役割分担を使って評価業務を進めます。
+VS Code と Copilot Chat（Agent モード）で「boss/elite/mob」の役割分担を使って評価業務を進めます。
 
 ---
 
@@ -28,36 +28,36 @@ VS Code のユーザー設定（JSON）に以下を追加してください。
 参照される instruction files：
 
 - 全体ルール：`.github/copilot-instructions.md`
-- Orchestrator (Tier-1)：`.github/instructions/orchestrator.instructions.md`
-- Coordinator (Tier-2)：`.github/instructions/coordinator.instructions.md`
-- 仕様解析（Worker-1）：`.github/instructions/spec-analyzer.instructions.md`
-- VT環境（Worker-2）：`.github/instructions/vt-environment.instructions.md`
-- テスト仕様書（Worker-3）：`.github/instructions/test-spec.instructions.md`
-- テストケース（Worker-4）：`.github/instructions/testcase.instructions.md`
-- 結果解析（Worker-5）：`.github/instructions/result-analyzer.instructions.md`
-- 報告書（Worker-6）：`.github/instructions/report-writer.instructions.md`
+- boss：`.github/instructions/boss.instructions.md`
+- elite：`.github/instructions/elite.instructions.md`
+- 仕様解析（mob-1）：`.github/instructions/spec-analyzer.instructions.md`
+- VT環境（mob-2）：`.github/instructions/vt-environment.instructions.md`
+- テスト仕様書（mob-3）：`.github/instructions/test-spec.instructions.md`
+- テストケース（mob-4）：`.github/instructions/testcase.instructions.md`
+- 結果解析（mob-5）：`.github/instructions/result-analyzer.instructions.md`
+- 報告書（mob-6）：`.github/instructions/report-writer.instructions.md`
 
 ---
 
-## ユーザの役割：Orchestratorへの指示の出し方
+## ユーザの役割：bossへの指示の出し方
 
 ユーザは **手を動かす人ではなく、判断と方向付けを担当** します。
-Orchestratorがオーケストレーションを全て行うため、やることは「指示を出す → 判断を返す → 成果物を承認する」の3つだけです。
+bossがオーケストレーションを全て行うため、やることは「指示を出す → 判断を返す → 成果物を承認する」の3つだけです。
 
 ### 🚀 最短ルート（3ステップ）
 
 ```
-Step 1: Copilot Chat で Orchestrator を選択し、評価業務の依頼を投げる
-Step 2: Orchestratorが「お伺い」してきたら A/B/C を選ぶ
+Step 1: Copilot Chat で boss を選択し、評価業務の依頼を投げる
+Step 2: bossが「お伺い」してきたら A/B/C を選ぶ
 Step 3: status/dashboard.md を見て output/ 配下の成果物を承認する
 ```
 
-### Step 1: Orchestratorに依頼を投げる
+### Step 1: bossに依頼を投げる
 
 **操作手順:**
 1. VS Code で Copilot Chat を開く（`Ctrl+Shift+I` またはサイドバー）
 2. チャットモードを **Agent** に切り替える
-3. エージェントを **Orchestrator (Tier-1)** に選択する
+3. エージェントを **boss** に選択する
 4. 業務別のテンプレート（下記）を参考に依頼を送信する
 
 ---
@@ -86,7 +86,7 @@ Step 3: status/dashboard.md を見て output/ 配下の成果物を承認する
 ■ 進め方
 1. まず仕様のポイントと試験観点を整理して見せてください
 2. 重要判断は私に確認してください
-3. タスク分解→並列作成→レビュー→統合の流れで進めてください
+3. タスク分解(elite)→並列作成(mob)→レビュー(elite)→統合(boss)の流れで進めてください
 ```
 
 ### テストケース作成を依頼する場合
@@ -105,7 +105,7 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 ■ 進め方
 1. まずテスト観点の分類方針を見せてください
 2. 重要判断は私に確認してください
-3. タスク分解→並列作成→レビュー→統合の流れで進めてください
+3. タスク分解(elite)→並列作成(mob)→レビュー(elite)→統合(boss)の流れで進めてください
 ```
 
 ### NG解析・報告書作成を依頼する場合
@@ -125,14 +125,14 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 ■ 進め方
 1. まず NG の一覧と根本原因候補を整理して見せてください
 2. 重要判断は私に確認してください
-3. 確認後に報告書ドラフトを生成してください
+3. タスク分解(elite)→並列作成(mob)→レビュー(elite)→統合(boss)の流れで進めてください
 ```
 
 ---
 
-## Step 2: Orchestratorの「お伺い」に答える
+## Step 2: bossの「お伺い」に答える
 
-Orchestratorは重要判断のたびに「🚨 お伺い」として確認を求めてきます：
+bossは重要判断のたびに「🚨 お伺い」として確認を求めてきます：
 
 ```
 論点: 〈何を決めるか〉
@@ -150,25 +150,25 @@ Orchestratorは重要判断のたびに「🚨 お伺い」として確認を求
 - 補足付き: `Bで。ただし〇〇は△△にしてほしい`
 - 複数一括: `判断1→A、判断2→推奨、判断3→Cで`
 
-> Orchestratorは回答が来るまで該当作業をブロックするので、早めに返すとスムーズです。
+> bossは回答が来るまで該当作業をブロックするので、早めに返すとスムーズです。
 
 ---
 
 ## Step 3: 成果物を確認・承認する
 
-Orchestratorが完了報告したら、`status/dashboard.md` でステータスを確認し、`output/` 配下の成果物をレビューします。
+bossが完了報告したら、`status/dashboard.md` でステータスを確認し、`output/` 配下の成果物をレビューします。
 
-| 成果物 | パス | 担当Worker |
+| 成果物 | パス | 担当mob |
 |---|---|---|
-| 仕様サマリー | `output/spec_summary.md` | Worker-1 |
-| 信号一覧 | `output/signal_list.md` | Worker-1 |
-| DBCドラフト | `output/dbc_draft.md` | Worker-2 |
-| CAPLスケルトン | `output/capl_skeleton.can` | Worker-2 |
-| テスト仕様書ドラフト | `output/test_spec_draft.md` | Worker-3 |
-| テストケース一覧 | `output/testcase_list.md` | Worker-4 |
-| NG解析レポート | `output/ng_analysis.md` | Worker-5 |
-| 懸念点確認シート | `output/concern_sheet_draft.md` | Worker-6 |
-| 試験報告書 | `output/test_report_draft.md` | Worker-6 |
+| 仕様サマリー | `output/spec_summary.md` | mob-1 |
+| 信号一覧 | `output/signal_list.md` | mob-1 |
+| DBCドラフト | `output/dbc_draft.md` | mob-2 |
+| CAPLスケルトン | `output/capl_skeleton.can` | mob-2 |
+| テスト仕様書ドラフト | `output/test_spec_draft.md` | mob-3 |
+| テストケース一覧 | `output/testcase_list.md` | mob-4 |
+| NG解析レポート | `output/ng_analysis.md` | mob-5 |
+| 懸念点確認シート | `output/concern_sheet_draft.md` | mob-6 |
+| 試験報告書 | `output/test_report_draft.md` | mob-6 |
 
 > **⚠️ 重要:** `output/` 配下の成果物はすべてAIが生成したドラフトです。
 > **人間によるレビュー・承認なしに最終成果物として使用しないでください。**
@@ -238,7 +238,7 @@ pip install -r requirements.txt
 | `.pptx` | スライドごとにタイトル・本文・テーブルを抽出 | 画像・図形は非対応 |
 
 変換後のファイルは `docs/spec/<元ファイル名>.md`（デフォルト）または `--out` で指定したディレクトリに出力されます。
-その後、Orchestrator へ「`docs/spec/product_spec.md` を参照して…」と依頼するだけです。
+その後、boss へ「`docs/spec/product_spec.md` を参照して…」と依頼するだけです。
 
 ### インストールされるライブラリ
 
@@ -262,155 +262,90 @@ pip install -r requirements.txt
 
 ### pip インストール時にプロキシが必要な場合
 
-ネットワークがプロキシ経由の環境の場合、次のいずれかの方法でインストールしてください。
+ネットワークがプロキシ経由の環境の場合、ご自身の環境のプロキシアドレスを確認の上、次のいずれかの方法でインストールしてください。
+プロキシアドレスは組織・ネットワーク環境によって異なります。IT管理部門または社内ドキュメントを参照してください。
 
-**方法1：VS Code タスクを使う（推奨）**
-
-> **ターミナル → タスクの実行 → `Python: セットアップ（プロキシ経由）`**
-
-**方法2：ターミナルで手動実行**
+**方法1：`--proxy` オプションで指定する**
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\pip install --proxy http://192.168.14.55:8080 -r requirements.txt
+.venv\Scripts\pip install --proxy http://<プロキシアドレス>:<ポート番号> -r requirements.txt
 ```
 
-**方法3：環境変数で永続設定（セッション内有効）**
+**方法2：環境変数で設定する（セッション内有効）**
 
 ```powershell
-$env:https_proxy = "http://192.168.14.55:8080"
-$env:http_proxy  = "http://192.168.14.55:8080"
+$env:https_proxy = "http://<プロキシアドレス>:<ポート番号>"
+$env:http_proxy  = "http://<プロキシアドレス>:<ポート番号>"
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 ```
 
-> プロキシアドレスが変わった場合は `tasks.json` の `Python: セットアップ（プロキシ経由）` のコマンド内の IP アドレスを更新してください。
+**方法3：VS Code タスクを使う**
+
+`.vscode/tasks.json` 内の `Python: セットアップ（プロキシ経由）` タスクのコマンドを、
+ご自身のプロキシアドレスに書き換えてから実行してください。
+
+> **ターミナル → タスクの実行 → `Python: セットアップ（プロキシ経由）`**
 
 ---
 
-## エージェントのテーマ変更（表示名・口調のカスタマイズ）
+## エージェントのテーマ変更（口調・自己紹介のカスタマイズ）
 
-エージェントの**表示名・自己紹介フレーズ・口調**は `.github/persona.md` の1ファイルだけで管理しています。
-ロールロジック（判断基準・権限・報告先）は変わりません。
+エージェントの**口調と自己紹介フレーズ**をテーマで切り替えられます。
+エージェント名（VS Code UI・ファイル名・YAML参照名）は常に固定です。
+ロールロジック（判断基準・権限・報告先）も変わりません。
 
-### デフォルトテーマ: Standard（Orchestrator / Coordinator / Worker）
+### 固定エージェント名
 
-初期状態では以下のテーマが有効です：
+| 層 | VS Code Agent 名（固定） |
+|---|---|
+| boss | `boss` |
+| elite | `elite` |
+| mob | `mob` |
 
-| 層 | 表示名 | VS Code Agent 名 |
-|---|---|---|
-| Tier-1 | Orchestrator | `Orchestrator (Tier-1)` |
-| Tier-2 | Coordinator  | `Coordinator (Tier-2)` |
-| Tier-3 | Worker       | `Worker (Tier-3)` |
+### テーマ切り替え手順（2ステップ）
 
-### テーマ切り替え手順
-
-**ステップ 1:** `.github/persona.md` を開く
-
-**ステップ 2:** 「現行テーマ」テーブルを書き換える（またはプリセットを貼り替える）
+**ステップ 1:** `.github/persona.md` の「現行テーマ」テーブルの「自己紹介フレーズ」「口調スタイル」を書き換える（またはプリセットから貼り替える）
 
 例: Racing テーマへ切り替える場合
 
 ```markdown
 ## 現行テーマ: Racing（レーシング）
 
-| 層 | ロールID | 表示名 | VS Code Agent名 | 自己紹介フレーズ | 口調スタイル |
-|---|---|---|---|---|---|
-| Tier-1 | orchestrator | Race Director | `Race Director (Orchestrator)` | 「私はRace Directorです」 | テキパキ・断言形式 |
-| Tier-2 | coordinator  | Pit Chief     | `Pit Chief (Coordinator)` | 「私はPit Chiefです」 | チェックリスト形式 |
-| Tier-3 | worker       | Mechanic      | `Mechanic (Worker)` | 「私はMechanicです」 | 作業ログ形式 |
+| 層 | 自己紹介フレーズ | 口調スタイル |
+|---|---|---|
+| boss | 「私はRace Directorです」 | テキパキ・断言形式 |
+| elite | 「私はPit Chiefです」 | チェックリスト形式 |
+| mob | 「私はMechanicです」 | 作業ログ形式 |
 ```
 
-**ステップ 3:** `.github/agents/` の 3 つのファイルを **リネーム** する
+**ステップ 2:** 各 `.github/agents/*.agent.md` のペルソナブロックを新テーマの口調・自己紹介に合わせて書き換える（3ファイル）
 
-> ⚠️ VS Code のエージェント選択 UI はファイル内の `name:` フィールドではなく**ファイル名**を表示します。
-> ファイル名を変えないと UI にはデフォルト名のままが表示されます。
-
-Racing テーマの場合:
-
-```powershell
-# .github/agents/ ディレクトリで実行
-Rename-Item "orchestrator.agent.md" "Race Director (Orchestrator).agent.md"
-Rename-Item "coordinator.agent.md"  "Pit Chief (Coordinator).agent.md"
-Rename-Item "worker.agent.md"       "Mechanic (Worker).agent.md"
-```
-
-**ステップ 4:** リネーム後、各ファイルの内部フィールドも「VS Code Agent名」列の値に合わせて更新する
-
-各ファイルで変更が必要な箇所は以下のとおりです。
-
-| フィールド | 説明 |
-|---|---|
-| `name:` | 自分自身のAgent名（ファイル名と一致させる） |
-| `agents:` リスト | 他エージェントの `name:` と完全一致させる |
-| `handoffs[].agent:` | 引き渡し先エージェントの `name:` と完全一致させる |
-| `> **ペルソナ** ブロック（本文）` | 表示名・口調・自己紹介フレーズを新テーマに書き換える |
-
-> **なぜ本文にも直書きするのか？**  
-> `persona.instructions.md` は「`persona.md` を参照せよ」という間接指示しか行わず、エージェント起動時に AI が自動でファイルを読みに行かない場合は口調が反映されません。  
-> `.agent.md` の本文はエージェント起動時にプロンプトへ必ず組み込まれるため、ここにペルソナを直書きするのが最も確実な方法です。
-
-各 `agent.md` 本文の先頭付近にある以下のブロックを書き換えてください：
+各 `agent.md` 本文の先頭付近にある以下のブロックの「口調」「自己紹介」行のみ書き換えます：
 
 ```markdown
 > **ペルソナ（必須・常に適用）**
-> - 名前：「〈表示名〉」
-> - 口調：〈口調スタイルの説明〉
-> - 自己紹介：「〈自己紹介フレーズ〉」
-> - 成果物（docs/ / output/ / status/ / コード）には口調・テーマ語彙を混入しない（常に中立な標準日本語で記録）
->
-> ※ペルソナ変更は `.github/persona.md` を編集してから本ファイルの上記ペルソナ欄も合わせて更新すること。
+> - 名前：「boss」  ← 変えない
+> - 口調：〈新テーマの口調スタイル〉  ← 書き換える
+> - 自己紹介：「〈新テーマの自己紹介フレーズ〉」  ← 書き換える
 ```
 
-Racing テーマの例:
+> **変えないもの**: `name:` / `agents:` / `handoffs:` / ファイル名 / `.prompt.md` の `agent:` / `instructions/`
 
-```yaml
-# orchestrator.agent.md
-name: "Race Director (Orchestrator)"
-agents:
-  - "Pit Chief (Coordinator)"
-  - "Mechanic (Worker)"
-handoffs:
-  - agent: "Pit Chief (Coordinator)"
-    ...
-  - agent: "Mechanic (Worker)"
-    ...
-```
-
-```yaml
-# coordinator.agent.md
-name: "Pit Chief (Coordinator)"
-agents:
-  - "Race Director (Orchestrator)"
-  - "Mechanic (Worker)"
-```
-
-```yaml
-# worker.agent.md
-name: "Mechanic (Worker)"
-```
-
-以上でテーマ切り替え完了です。
-
-**ステップ 5:** VS Code ウィンドウをリロードする
-
-コマンドパレット（`Ctrl+Shift+P`）→ `Developer: Reload Window`
-
-エージェント選択 UI に新しい名前が反映されます。
-
-> ロールロジックファイル（`instructions/`）は**触らない**でください。
+以上でテーマ切り替え完了です。VS Code のリロードは不要です。
 
 ### 利用可能なプリセット
 
 プリセットは `.github/persona.md` の「プリセット集」セクションにコメントアウトで収録されています。
 
-| テーマ名 | Tier-1 | Tier-2 | Tier-3 |
+| テーマ名 | boss 口調 | elite 口調 | mob 口調 |
 |---|---|---|---|
-| Standard（デフォルト） | Orchestrator | Coordinator | Worker |
-| Racing | Race Director | Pit Chief | Mechanic |
-| 戦国 | 将軍（Shogun） | 家老（Karo） | 足軽（Ashigaru） |
-| Military | General | Captain | Soldier |
-| Aviation | Mission Control | Flight Director | Crew Member |
+| Standard（デフォルト） | 簡潔・戦略的 | 論理的・リスト形式 | タスク集中・報告形式 |
+| Racing | テキパキ・断言形式 | チェックリスト形式 | 作業ログ形式 |
+| 戦国 | 武家風・断言形式 | 丁寧・進言形式 | 短文・命令受領形式 |
+| Military | 命令形・簡潔 | 任務確認形式 | 実行報告形式 |
+| Aviation | 冷静・状況確認形式 | チェックリスト形式 | 手順実行報告形式 |
 
 > 独自テーマを追加する場合は、「プリセット集」にコメントアウトで追記しておくと管理しやすいです。
 

@@ -24,11 +24,11 @@ license: MIT
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 - [ ] [完了を定義するテスト可能な基準]
 
-## Plan（Coordinatorが分解する観点）
-- Workerが並列に実行できる粒度に分ける
+## Plan（eliteが分解する観点）
+- mobが並列に実行できる粒度に分ける
 - 競合（同じファイル編集）が起きないように分担する
 
-## タスクリスト（Workerへ配布する単位）
+## タスクリスト（mobへ配布する単位）
 | task | assignee | input | output |
 |---|---|---|---|
 | | | | |
@@ -42,8 +42,8 @@ license: MIT
   - 各ACは検証可能（合格/不合格）であること
   - 形式: "X のとき、Y となる" または "X が与えられ、Y のとき、Z となる"
   - エッジケースとエラー条件を含める
-- **Plan（計画）**: 並列タスクへの分解方法をメモ（Coordinatorが実装）
-- **Task List（タスクリスト）**: 初期タスク分解（Coordinatorが洗練させる）
+- **Plan（計画）**: 並列タスクへの分解方法をメモ（eliteが実装）
+- **Task List（タスクリスト）**: 初期タスク分解（eliteが洗練させる）
 
 ## 3. ファイル命名
 
@@ -60,8 +60,8 @@ license: MIT
 
 仕様作成後：
 1. `status/dashboard.md` に新規仕様と初期ステータスを更新
-2. Coordinator（レビュー/QA エージェント）にタスク分解を依頼
-3. Orchestrator（オーケストレーター）が Worker（実行エージェント）にタスクを割り当て
+2. elite（レビュー/QA エージェント）にタスク分解を依頼
+3. boss（boss）が mob（実行エージェント）にタスクを割り当て
 
 ## 例
 
@@ -70,7 +70,7 @@ license: MIT
 
 ## 目的（Intent）
 
-- Coordinator (Tier-2) が進捗を status/dashboard.md に手動で転記する作業を自動化し、Workerの報告YAML から自動更新する。
+- elite が進捗を status/dashboard.md に手動で転記する作業を自動化し、mobの報告YAML から自動更新する。
 
 ## 制約（Constraints）
 
@@ -80,25 +80,25 @@ license: MIT
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 
-- [ ] Workerが報告YAMLを提出したとき、status/dashboard.md が自動更新される
+- [ ] mobが報告YAMLを提出したとき、status/dashboard.md が自動更新される
 - [ ] 更新後の dashboard.md が人間に読みやすい形式を維持している
-- [ ] エラー時はCoordinatorに通知され、手動フォールバックが可能である
+- [ ] エラー時はeliteに通知され、手動フォールバックが可能である
 
-## Plan（Coordinatorが分解する観点）
+## Plan（eliteが分解する観点）
 
-- YAML parser の実装（WorkerA）
-- Dashboard updater の実装（WorkerB）
-- Error handling の実装（WorkerC）
-- テストケース作成（WorkerD）
+- YAML parser の実装（mob-A）
+- Dashboard updater の実装（mob-B）
+- Error handling の実装（mob-C）
+- テストケース作成（mob-D）
 
-## タスクリスト（Workerへ配布する単位）
+## タスクリスト（mobへ配布する単位）
 
 | task | assignee | input | output |
 |---|---|---|---|
-| YAML parser | worker-1 | 報告YAML例 | parser.js |
-| Dashboard updater | worker-2 | parser.js | updater.js |
-| Error handling | worker-3 | updater.js | error-handler.js |
-| Test cases | worker-4 | 全実装 | test/ |
+| YAML parser | mob-1 | 報告YAML例 | parser.js |
+| Dashboard updater | mob-2 | parser.js | updater.js |
+| Error handling | mob-3 | updater.js | error-handler.js |
+| Test cases | mob-4 | 全実装 | test/ |
 ```
 
 ## 避けるべき一般的なミス

@@ -8,9 +8,9 @@
 
 ## 1. エグゼクティブサマリー
 
-設計部署が「Orchestrator（Tier-1）→Coordinator（Tier-2）→Worker（Tier-3）」のマルチエージェント体制を構築しているのと同様に、第三者評価チームも同構造のAI化を推進する。
+設計部署が「boss→elite→mob」のマルチエージェント体制を構築しているのと同様に、第三者評価チームも同構造のAI化を推進する。
 
-**目指す姿:** 作業者は **Orchestrator（Tier-1）にやりたいことを伝えるだけ** で、各業務ステップのドラフト成果物をAIが生成し、人間がレビュー・承認するフローに移行する。
+**目指す姿:** 作業者は **bossにやりたいことを伝えるだけ** で、各業務ステップのドラフト成果物をAIが生成し、人間がレビュー・承認するフローに移行する。
 
 ---
 
@@ -35,26 +35,26 @@
 ## 3. マルチエージェント構成
 
 ```
-チームオーナー（作業者）
+ユーザ（作業者）
 　│ やりたいことを自然言語で指示
 　▼
-Orchestrator（Tier-1）   ← 作業者が唯一やり取りする相手
-　│ 仕様確定・判断・タスク分解を指挥
+boss   ← 作業者が唯一やり取りする相手
+　│ 仕様確定・判断・タスク分解を指揮
 　▼
-Coordinator（Tier-2）
+elite
 　│ タスク分解・担当割当・進捗管理
 　├──────────────────────────────┐
 　▼                              ▼
 仕様解析エージェント          VT環境エージェント
-（Worker-1）                   （Worker-2）
+（mob-1）                   （mob-2）
 　│ 仕様書解析・要点抽出          │ DBCドラフト・CAPLドラフト
 　▼                              ▼
 テスト仕様書エージェント      テストケースエージェント
-（Worker-3）                   （Worker-4）
+（mob-3）                   （mob-4）
 　│ テスト仕様書ドラフト生成      │ テストケース一覧生成
 　▼                              ▼
 結果解析エージェント          報告書エージェント
-（Worker-5）                   （Worker-6）
+（mob-5）                   （mob-6）
 　│ NG内容分類・解析サポート      │ 懸念点シート・試験報告書生成
 ```
 
@@ -62,28 +62,28 @@ Coordinator（Tier-2）
 
 ## 4. 各エージェントの役割詳細
 
-### 4.1 Orchestrator（Tier-1）— 全体指挥
+### 4.1 boss— 全体指揮
 
 - **役割:** 作業者から指示を受け、業務全体を仕切る
 - **主な仕事:**
   - 作業者の意図を確認し、仕様・AC（完了条件）を確定する
-  - Coordinator（Tier-2）にタスク分解を依頼する
+  - eliteにタスク分解を依頼する
   - 重要判断事項を作業者に「お伺い」形式で提示する
   - 最終成果物のレビューを実施する
 - **入力:** 作業者のチャット指示、仕様書ファイル（PDF/Word/Excel）
 - **出力:** タスクリスト、進捗ダッシュボード更新、最終レポート
 
-### 4.2 Coordinator（Tier-2）— コーディネーター
+### 4.2 elite— コーディネーター
 
-- **役割:** Orchestratorの指示を受け、Workerへのタスク割当と調整を行う
+- **役割:** bossの指示を受け、mobへのタスク割当と調整を行う
 - **主な仕事:**
   - 業務ステップをサブタスクに分解する
-  - 各Workerの成果物を統合・取りまとめる
+  - 各mobの成果物を統合・取りまとめる
   - 進捗を `status/dashboard.md` に反映する
-- **入力:** Orchestratorからの指示、仕様書
+- **入力:** bossからの指示、仕様書
 - **出力:** サブタスク一覧、統合ドラフト文書
 
-### 4.3 仕様解析エージェント（Worker-1）
+### 4.3 仕様解析エージェント（mob-1）
 
 - **役割:** 仕様書群を解析し、テストに必要な情報を抽出・整理する
 - **主な仕事:**
@@ -94,7 +94,7 @@ Coordinator（Tier-2）
 - **入力:** 各種仕様書（PDF/Word/Excel）
 - **出力:** `output/spec_summary.md`（仕様サマリー）、 `output/signal_list.md`（信号一覧）
 
-### 4.4 VT環境エージェント（Worker-2）
+### 4.4 VT環境エージェント（mob-2）
 
 - **役割:** CANoe/VTシステム環境構築のドラフトを生成する
 - **主な仕事:**
@@ -105,7 +105,7 @@ Coordinator（Tier-2）
 - **入力:** 通信仕様書、ビットアサイン表
 - **出力:** `output/dbc_draft.md`（DBC定義ドラフト）、 `output/capl_skeleton.can`（CAPLスケルトン）
 
-### 4.5 テスト仕様書エージェント（Worker-3）
+### 4.5 テスト仕様書エージェント（mob-3）
 
 - **役割:** 仕様解析結果をもとに、テスト設計仕様書のドラフトを作成する
 - **主な仕事:**
@@ -116,7 +116,7 @@ Coordinator（Tier-2）
 - **入力:** `output/spec_summary.md`、仕様書サマリー、テンプレート構造情報
 - **出力:** `output/test_spec_draft.md`（テスト仕様書ドラフト、Markdownで確認用）
 
-### 4.6 テストケースエージェント（Worker-4）
+### 4.6 テストケースエージェント（mob-4）
 
 - **役割:** テスト仕様書をもとに、テストケース一覧を生成する
 - **主な仕事:**
@@ -127,7 +127,7 @@ Coordinator（Tier-2）
 - **入力:** `output/test_spec_draft.md`
 - **出力:** `output/testcase_list.md`（テストケース一覧）
 
-### 4.7 結果解析エージェント（Worker-5）
+### 4.7 結果解析エージェント（mob-5）
 
 - **役割:** テスト実行後のレポートやログを解析し、NG内容を整理する
 - **主な仕事:**
@@ -138,7 +138,7 @@ Coordinator（Tier-2）
 - **入力:** CANoeテストレポート（HTML/XML）、ログファイル（BLF/ASC）
 - **出力:** `output/ng_analysis.md`（NG解析レポート）
 
-### 4.8 報告書エージェント（Worker-6）
+### 4.8 報告書エージェント（mob-6）
 
 - **役割:** 懸念点確認シートと試験報告書のドラフトを生成する
 - **主な仕事:**
@@ -161,7 +161,7 @@ Coordinator（Tier-2）
 | **GitHub基礎** | アカウント作成、リポジトリ操作（clone/commit/push/pull）、ブランチ理解 | 全11名 |
 | **Copilot Chat基礎** | Copilot Chat の基本操作、Agentモードへの切り替え方 | 全11名 |
 | **プロンプト基礎** | 良いプロンプトの書き方（具体的に・制約を書く・期待する出力形式を書く） | 全11名 |
-| **マルチエージェント説明** | Orchestrator/Coordinator/Workerの役割、ファイル運用基盤の使い方（README.md/USAGE.md） | 全11名 |
+| **マルチエージェント説明** | boss/elite/mobの役割、ファイル運用基盤の使い方（README.md/USAGE.md） | 全11名 |
 
 > **推奨学習リソース:**
 > - [GitHub Skills](https://skills.github.com/) — Git/GitHub基礎（無料）
@@ -193,7 +193,7 @@ Coordinator（Tier-2）
 - **対象業務:** ステップ3（VT環境）、ステップ8（懸念点シート）、ステップ9（報告書）を追加
 - **対象メンバー:** 全員フル活用
 - **目標:**
-  - 作業者はOrchestratorへの指示とレビュー・承認のみを担当
+  - 作業者はbossへの指示とレビュー・承認のみを担当
   - 反復作業の80%以上をAIが初稿生成
 
 ---
@@ -205,8 +205,8 @@ Coordinator（Tier-2）
 ├── .github/
 │   ├── copilot-instructions.md        ← 全体ルール（本ファイルを更新）
 │   └── instructions/
-        ├── orchestrator.instructions.md          ← Orchestrator (Tier-1) ルール
-        ├── coordinator.instructions.md           ← Coordinator (Tier-2) ルール
+        ├── boss.instructions.md          ← boss ルール
+        ├── elite.instructions.md           ← elite ルール
 │       ├── spec-analyzer.instructions.md     ← 仕様解析エージェント
 │       ├── vt-environment.instructions.md    ← VT環境エージェント
 │       ├── test-spec.instructions.md         ← テスト仕様書エージェント
@@ -240,15 +240,15 @@ Coordinator（Tier-2）
 
 ---
 
-## 7. 作業者（チームオーナー）の操作フロー
+## 7. 作業者（ユーザ）の操作フロー
 
 Phase 3 完成後、作業者は以下の3ステップだけで業務を進められる。
 
 ```
-Step 1: Copilot Chat で Orchestrator を選択し、依頼を投げる
+Step 1: Copilot Chat で boss を選択し、依頼を投げる
          例: 「「○○製品のテスト仕様書を作りたい。仕様書を添付します。」
 
-Step 2: Orchestratorが「お伺い」してきたら選択肢を選ぶ
+Step 2: bossが「お伺い」してきたら選択肢を選ぶ
          例: 「Bで / 推奨案で / Aで、ただし〇〇は△△に変えて」
 
 Step 3: status/dashboard.md を見て成果物を承認する
@@ -339,7 +339,7 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 2. [ ] **GitHub基礎研修の実施**（全員、外部研修 or 社内勉強会）
 
 3. [ ] **本リポジトリのinstructions.mdファイル群の作成**（先行チーム2名）
-   - Orchestrator/Coordinator/Workerのinstructionsを業務に特化した内容で記述
+   - boss/elite/mobのinstructionsを業務に特化した内容で記述
 
 4. [ ] **パイロット案件の選定**（チームリーダー）
    - 進行中〜過去案件を選び、AI生成結果と実績成果物を比較評価
@@ -375,7 +375,7 @@ output/test_spec_draft.md のテスト仕様書をもとに、テストケース
 | Copilot Chat基礎 | チャットでの質問・生成依頼の仕方 |
 | Agentモード | Agentモードへの切り替えと使い方 |
 | 良いプロンプト | 具体的に書く・制約を書く・出力形式を指定する |
-| マルチエージェント | Orchestrator/Coordinator/Workerの概念と運用方法 |
+| マルチエージェント | boss/elite/mobの概念と運用方法 |
 
 ### Module 4：業務適用演習（3時間）
 

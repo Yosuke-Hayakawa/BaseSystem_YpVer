@@ -1,44 +1,44 @@
 ﻿---
 name: multi-agent-orchestration
-description: Orchestrator/Coordinator/Worker マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
+description: boss/elite/mob マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
 license: MIT
 ---
 
 # マルチエージェント オーケストレーション スキル
 
-このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：Orchestrator（オーケストレーター）、Coordinator（レビュー/QA）、Worker（実行者）。
+このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：boss、elite、mob。
 
 ## エージェントの役割と責任
 
-### Orchestrator（オーケストレーター）- Orchestrator
+### boss- boss
 **主要な役割**: 戦略的計画と意思決定
 
 **責任**:
 - `docs/spec/` に仕様を作成・検証
-- 重要な決定を行う（必要に応じてユーザーにエスカレーション）
-- サブエージェント経由で Coordinator と Worker を調整
+- 重要な決定を行う（必要に応じてユーザにエスカレーション）
+- サブエージェント経由で elite と mob を調整
 - 重要な決定を `docs/decisions.md` に更新
 - 全体の進捗を監視
 
 **主要スキル**: orchestration, specification-definition, requirements-analysis, task-planning, multi-agent-coordination, progress-tracking, decision-making, stakeholder-communication
 
-**利用可能なエージェント**: Coordinator, Worker, Plan
+**利用可能なエージェント**: elite, mob, Plan
 
-### Coordinator（レビュー/QA）- Coordinator
+### elite- elite
 **主要な役割**: 品質保証とタスク管理
 
 **責任**:
 - 仕様を並列タスクに分解（task-decomposition スキルを使用）
 - SOLID 原則、セキュリティ、仕様準拠のコードレビュー
 - `status/dashboard.md` を更新（進捗の単一の真実のソース）
-- Worker の割り当てを管理し、ブロッカーを解決
-- 結果を Orchestrator に報告
+- mob の割り当てを管理し、ブロッカーを解決
+- 結果を boss に報告
 
 **主要スキル**: code-review, quality-assurance, task-decomposition, solid-principles, security-analysis, risk-assessment, test-planning, specification-validation
 
-**利用可能なエージェント**: Worker
+**利用可能なエージェント**: mob
 
-### Worker（実行者）- Worker
+### mob- mob
 **主要な役割**: 集中的なタスク実行
 
 **責任**:
@@ -54,62 +54,62 @@ license: MIT
 
 ## 標準ワークフロー
 
-### フェーズ1: 仕様作成（Orchestrator）
+### フェーズ1: 仕様作成（boss）
 ```
-1. ユーザーが高レベルの要件を提供
-2. Orchestrator が docs/spec/<name>.md に仕様を作成
+1. ユーザが高レベルの要件を提供
+2. boss が docs/spec/<name>.md に仕様を作成
    - Intent: 何を、なぜ
    - Constraints: 技術的/セキュリティ上の制限
    - AC: テスト可能な受け入れ条件
-3. Orchestrator が重要な決定を確認
-   → はい: ユーザーの承認にエスカレーション
+3. boss が重要な決定を確認
+   → はい: ユーザの承認にエスカレーション
    → いいえ: フェーズ2に進む
 4. docs/decisions.md に決定を記録
 ```
 
-### フェーズ2: タスク分解（Coordinator）
+### フェーズ2: タスク分解（elite）
 ```
-1. Orchestrator が Coordinator にハンドオフ: "この仕様を分解してください"
-2. Coordinator が task-decomposition スキルを使用して仕様を分析
+1. boss が elite にハンドオフ: "この仕様を分解してください"
+2. elite が task-decomposition スキルを使用して仕様を分析
    - コンポーネントを特定
    - ファイル境界を確認（競合を回避）
    - 並列安全なタスクリストを作成
-3. Coordinator が status/dashboard.md をタスクで更新
-4. Coordinator が Orchestrator に報告:
+3. elite が status/dashboard.md をタスクで更新
+4. elite が boss に報告:
    - タスク数と並列化計画
    - リスク評価
    - ファイル所有権マップ
 ```
 
-### フェーズ3: 並列実行（Worker × N）
+### フェーズ3: 並列実行（mob × N）
 ```
-1. Orchestrator がサブエージェント経由で複数の Worker を起動
+1. boss がサブエージェント経由で複数の mob を起動
    - 各自がタスクリストから1つのタスクを取得
    - 各自が異なるファイルで作業
-2. Worker が独立して実行:
+2. mob が独立して実行:
    - 仕様と割り当てられたタスクを読む
    - 最小限の変更を行う
    - 必要に応じて output/ に成果物を作成
    - YAML 形式で報告
-3. Coordinator が進捗を監視（ダッシュボードを更新）
+3. elite が進捗を監視（ダッシュボードを更新）
 ```
 
-### フェーズ4: レビューと統合（Coordinator）
+### フェーズ4: レビューと統合（elite）
 ```
-1. Coordinator が Worker の出力をレビュー
+1. elite が mob の出力をレビュー
    - AC 準拠を確認
    - SOLID 原則を検証
    - セキュリティ分析（NULL チェック、境界）
    - テストカバレッジ
 2. 問題が見つかった場合:
-   → Coordinator が特定の Worker に修正をハンドオフ
+   → elite が特定の mob に修正をハンドオフ
 3. OK の場合:
-   → Coordinator が Orchestrator に報告: "最終検証の準備完了"
+   → elite が boss に報告: "最終検証の準備完了"
 ```
 
-### フェーズ5: 最終検証（Orchestrator）
+### フェーズ5: 最終検証（boss）
 ```
-1. Orchestrator が最終チェックを実行
+1. boss が最終チェックを実行
    - すべての AC が満たされているか？
    - ダッシュボードがすべてのタスクが完了していることを示しているか？
    - 決定が記録されているか？
@@ -121,17 +121,17 @@ license: MIT
 
 ## コミュニケーションプロトコル
 
-### Orchestrator → Coordinator ハンドオフ
+### boss → elite ハンドオフ
 ```markdown
 以下の仕様をタスクに分解してください。
-- Worker同士が同じファイルを触らない切り方（ファイル単位で競合回避）
+- mob同士が同じファイルを触らない切り方（ファイル単位で競合回避）
 - 担当/成果物/完了条件を明記
 - リスクTop3を添えて
 
 Spec: docs/spec/feature-x-v1.md
 ```
 
-### Coordinator → Worker ハンドオフ
+### elite → mob ハンドオフ
 ```markdown
 以下のタスクを実行してください。担当範囲のみ処理し、完了後に結果を返してください。
 
@@ -141,9 +141,9 @@ Output: <作成/変更するファイル>
 AC: <仕様から関連する受け入れ条件>
 ```
 
-### Worker → Coordinator 報告（YAML）
+### mob → elite 報告（YAML）
 ```yaml
-role: worker-N
+role: mob-N
 topic: <タスク名>
 status: done | error | blocked
 outputs:
@@ -156,12 +156,12 @@ skill_candidate:
   - <発見された専門領域>
 ```
 
-### Coordinator → Orchestrator 報告
+### elite → boss 報告
 ```markdown
 タスク分解が完了しました。
 
 Task count: 5 (3並列、2直列)
-Files: src/a.js (worker-1), src/b.js (worker-2), test/ab.test.js (worker-3)
+Files: src/a.js (mob-1), src/b.js (mob-2), test/ab.test.js (mob-3)
 Risks:
   1. 機能B は機能A に依存（順次実行が必要）
   2. API 変更により既存機能への影響あり
@@ -170,9 +170,9 @@ Risks:
 Dashboard: 更新済み (status/dashboard.md)
 ```
 
-## 重要な決定ゲート（チームオーナーお伺い）
+## 重要な決定ゲート（ユーザお伺い）
 
-Orchestrator または Coordinator が重要な決定に遭遇した場合：
+boss または elite が重要な決定に遭遇した場合：
 
 **形式**:
 ```markdown
@@ -197,18 +197,18 @@ Orchestrator または Coordinator が重要な決定に遭遇した場合：
 - output/ 外への成果物の配置
 - 運用フロー変更
 
-**その決定を進める前にユーザーの応答を待ってください。**
+**その決定を進める前にユーザの応答を待ってください。**
 
 ## ファイルとディレクトリの規則
 
 ### 真実のソース（一次情報）
 - `docs/spec/`: 仕様（Intent/Constraints/AC）
 - `docs/decisions.md`: 設計決定ログ
-- `status/dashboard.md`: 進捗追跡（Coordinator が所有）
+- `status/dashboard.md`: 進捗追跡（elite が所有）
 
 ### 成果物（生成物）
 - `output/`: すべての生成された成果物（調査メモ、ログ、比較表、ビルド出力）
-  - 例: `output/Worker-1/`, `output/Coordinator/review-2024-02-13.md`
+  - 例: `output/mob-1/`, `output/elite/review-2024-02-13.md`
 
 ### 指示書
 - `.github/copilot-instructions.md`: グローバルルール
@@ -236,36 +236,36 @@ Orchestrator または Coordinator が重要な決定に遭遇した場合：
 
 ### 例: 安全な並列化
 ```
-タスク1 (worker-1): src/auth.js を実装
-タスク2 (worker-2): src/logger.js を実装
-タスク3 (worker-3): test/auth.test.js を書く
-タスク4 (worker-4): test/logger.test.js を書く
+タスク1 (mob-1): src/auth.js を実装
+タスク2 (mob-2): src/logger.js を実装
+タスク3 (mob-3): test/auth.test.js を書く
+タスク4 (mob-4): test/logger.test.js を書く
 → 4つすべてが並列実行可能（ファイル競合なし）
 ```
 
 ## エラーハンドリング
 
-### Worker がエラーを報告した場合
+### mob がエラーを報告した場合
 ```
-1. Coordinator がエラーを分析
-2. 修正可能な場合: Coordinator が修正タスクを作成し、Worker に割り当て
-3. ブロッカーの場合: Coordinator が Orchestrator に報告
-4. Orchestrator が決定: 続行、方向転換、またはユーザーにエスカレーション
+1. elite がエラーを分析
+2. 修正可能な場合: elite が修正タスクを作成し、mob に割り当て
+3. ブロッカーの場合: elite が boss に報告
+4. boss が決定: 続行、方向転換、またはユーザにエスカレーション
 ```
 
 ### ファイル競合が発生した場合
 ```
 1. そのファイルでのすべての並列作業を停止
-2. Coordinator がタスクを順次化
+2. elite がタスクを順次化
 3. 順次実行で再開
 4. ダッシュボードを新しい計画で更新
 ```
 
 ## 進捗追跡
 
-Coordinator が `status/dashboard.md` を以下で更新：
+elite が `status/dashboard.md` を以下で更新：
 - [ ] ステータス付きタスクリスト（start/done/error/blocked）
-- [ ] Worker の割り当て
+- [ ] mob の割り当て
 - [ ] 完了率
 - [ ] ブロッカー（🚨 要対応）
 
@@ -275,9 +275,9 @@ Coordinator が `status/dashboard.md` を以下で更新：
 
 | Task | Assignee | Status | Output |
 |------|----------|--------|--------|
-| 認証を実装 | worker-1 | done ✅ | src/auth.js |
-| 認証テストを書く | worker-2 | done ✅ | test/auth.test.js |
-| API ドキュメントを更新 | worker-3 | in progress 🔄 | docs/api.md |
+| 認証を実装 | mob-1 | done ✅ | src/auth.js |
+| 認証テストを書く | mob-2 | done ✅ | test/auth.test.js |
+| API ドキュメントを更新 | mob-3 | in progress 🔄 | docs/api.md |
 
 完了率: 66% (2/3)
 ```
@@ -296,9 +296,9 @@ Coordinator が `status/dashboard.md` を以下で更新：
 ## よくある落とし穴
 
 - ❌ 仕様作成をスキップ（スコープクリープにつながる）
-- ❌ Worker に他のエージェントを呼ばせる（最小権限違反）
+- ❌ mob に他のエージェントを呼ばせる（最小権限違反）
 - ❌ 複数のエージェントが同じファイルを編集（マージ競合）
-- ❌ ユーザーの承認なしに重要な決定を行う
+- ❌ ユーザの承認なしに重要な決定を行う
 - ❌ ダッシュボードの更新を忘れる（進捗の可視性を失う）
 - ❌ output/ 外に成果物を作成（リポジトリが散らかる）
 - ❌ テスト前にコードを書く（品質が低下）

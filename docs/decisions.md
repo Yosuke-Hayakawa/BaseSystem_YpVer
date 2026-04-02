@@ -1,4 +1,4 @@
-# 設計判断ログ（decisions）
+﻿# 設計判断ログ（decisions）
 
 このファイルは、**各プロジェクト**で「なぜその設計にしたか」を短く残すためのログ（テンプレート）です。
 
@@ -35,24 +35,4 @@
 
 ---
 
-## 2026-03-20: Persona / Role 分離アーキテクチャの採用
-
-- いつ：2026-03-20
-- 何を：エージェントの「名前・口調（Persona）」と「ロールロジック（Role）」を分離。`persona.md` 1ファイルでテーマを切り替え可能にした。
-- なぜ：チームによってネーミングや口調を変えたいが、アウトプットの品質（ロジック）は変えたくないというニーズに対応するため。従来は名前変更に約15ファイルの編集が必要だった。
-- 代替案：各 instructions ファイルに直接テーマ分岐を書く（→ ロジックとペルソナが混在するため却下）
-- 反映先：
-  - 新規: `.github/persona.md`（唯一の変更点）
-  - 新規: `.github/instructions/persona.instructions.md`（全エージェント共通・applyTo: "**"）
-  - 変更: `.github/instructions/orchestrator.instructions.md`（Tier-1ロールIDに変更・ペルソナ記述を削除）
-  - 変更: `.github/instructions/coordinator.instructions.md`（Tier-2ロールIDに変更・ペルソナ記述を削除）
-  - 変更: `.github/instructions/worker.instructions.md`（Tier-3ロールIDに変更・ペルソナ記述を削除）
-  - 変更: `.github/agents/orchestrator.agent.md`（name: "Orchestrator (Tier-1)"、handoffs更新）
-  - 変更: `.github/agents/coordinator.agent.md`（name: "Coordinator (Tier-2)"、handoffs更新）
-  - 変更: `.github/agents/worker.agent.md`（name: "Worker (Tier-3)"、handoffs更新）
-  - 更新: `.github/copilot-instructions.md`（テーブルをロールIDベースに更新）
-- 影響：
-  - テーマ切り替え時の作業が「persona.md + agent.md×3の name: フィールド」だけに集約される
-  - ロジック（判断・報告・権限）は一切変わらないためアウトプット品質は保たれる
-  - 既存のファイルパスはorchestrator/coordinator/workerにリネーム済み
-  - プリセット（Standard/Racing/戦国/軍事/航空）をコメントアウトで保持しており、貼り替えるだけで切り替え可能
+<!-- プロジェクト固有の設計判断をここに追記してください -->

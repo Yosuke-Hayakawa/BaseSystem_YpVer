@@ -10,7 +10,7 @@
 - “真実のソース”はファイルとする（会話ログだけに依存しない）
 - 追加の実行エンジンは持たない（VS Code + Markdown 運用を維持）
 - 変更は小さく行い、適用理由を残す
-- Mechanicは最小権限（自分のタスク範囲のみ）
+- mob（mob）は最小権限（自分のタスク範囲のみ）
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 
@@ -24,18 +24,18 @@
 
 - 気づき（短期のメモ/根拠）: 必要なら `output/` に残す
   - 例: `output/reports/kaizen-<topic>.md`
-- 要点はPit Chiefへ返す（Pit Chiefが `status/dashboard.md` に集約して残す）
-  - 重要判断が必要な場合は、Race Directorにも共有する（チームオーナー確認の材料）
+- 要点はelite（elite）へ返す（eliteが `status/dashboard.md` に集約して残す）
+  - 重要判断が必要な場合は、boss（boss）にも共有する（ユーザ確認の材料）
 
-### 2) 採用判断（Race Director）
+### 2) 採用判断（boss / boss）
 
-- Race Directorが以下を判断する
+- boss（boss）が以下を判断する
   - 採用する / しない / 保留
   - 優先度（速度/品質/安全/学習）
 
-### 3) 反映（Pit Chiefが分解 → Mechanicが実装）
+### 3) 反映（eliteが分解 → mobが実装）
 
-- 採用する場合、Pit Chiefが変更をタスクへ分解し、Mechanicへ配布する
+- 採用する場合、elite（elite）が変更をタスクへ分解し、mob（mob）へ配布する
 - 反映先の例
   - 仕様テンプレ: `docs/spec/_template.md`
   - 使い方: `docs/USAGE.md`
@@ -48,11 +48,11 @@
 - 判断理由（設計/運用の決定）: `docs/decisions.md`
 - 完了報告（いつ何が反映されたか）: `status/dashboard.md`
 
-## タスクリスト（Pit Chief→Mechanicへ配布する単位の例）
+## タスクリスト（elite→mobへ配布する単位の例）
 
 | task | assignee | input | output |
 |---|---|---|---|
-| Kaizenエントリ書式案を作る | mechanic-1 | Spec（本書） | `output/` 配下のメモ（例：`output/mechanic/kaizen-entry-format.md`） |
-| ダッシュボードへ反映（集約） | pit-chief | 上記メモ | `status/dashboard.md` 更新 |
-| USAGEに改善フローを追記 | mechanic-2 | Spec（本書） | `docs/USAGE.md` 更新 |
-| decisionsに判断テンプレを追記 | mechanic-3 | Spec（本書） | `docs/decisions.md` 更新 |
+| Kaizenエントリ書式案を作る | mob-1 | Spec（本書） | `output/` 配下のメモ（例：`output/mob/kaizen-entry-format.md`） |
+| ダッシュボードへ反映（集約） | elite | 上記メモ | `status/dashboard.md` 更新 |
+| USAGEに改善フローを追記 | mob-2 | Spec（本書） | `docs/USAGE.md` 更新 |
+| decisionsに判断テンプレを追記 | mob-3 | Spec（本書） | `docs/decisions.md` 更新 |
