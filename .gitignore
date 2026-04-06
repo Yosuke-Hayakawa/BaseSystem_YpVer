@@ -1,33 +1,27 @@
-# --- OS / Editor ---
-.DS_Store
-Thumbs.db
+# データファイル（GitHubに上げない）
+*.dat
+*.csv
+*.xlsx
+*.xls
 
-# VS Code workspace state (keep settings/tasks in repo)
-.vscode/*.log
-.vscode/.ropeproject
+# ログデータ（ローカルのみ）
+波形解析/projects/*/data/
+波形解析/projects/*/要解析/
 
+# 波形キャプチャ画像（生成物）
+波形解析/波形取得/画像ファイル/
 
-# --- Build outputs (project-specific; extend as needed) ---
-dist/
-build/
-out/
+# PDFマニュアル
+波形解析/波形取得/説明書/
 
-# --- Logs / temp ---
-*.log
-*.tmp
-.tmp/
+# MCPサーバーログ
+mcp_audit.log
 
-# --- Generated artifacts (repo policy) ---
-# Keep all non-source artifacts under output/ and do not track them.
-output/**
-!output/.gitkeep
+# 一時ファイルフォルダ（中身はGit管理外、.gitkeepのみ追跡）
+一時/*
+!一時/.gitkeep
 
-# --- Python 仮想環境 / キャッシュ ---
-.venv/
+# その他
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-
-# --- Local sandbox (personal experiments, practice copies; never shared) ---
-sandbox/
+.claude/

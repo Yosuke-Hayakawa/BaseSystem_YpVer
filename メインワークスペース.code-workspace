@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Desktop/919D_CRAMAS自動結果解析"
+		},
+		{
+			"path": "../../../../simbase/simdat/919D_照合ECU"
+		},
+		{
+			"path": "../../../../いろいろ/一時置き/照合資料"
+		},
+		{
+			"path": "Y:/919D_照合ECU/011_実験部資料/02_テスト仕様"
+		}
+	],
+	"settings": {
+		"chat.agent.maxRequests": 500
+	}
+}

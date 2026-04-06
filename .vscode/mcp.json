@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "screenshot-server": {
+            "type": "stdio",
+            "command": "python",
+            "args": [
+                "-m", "fastmcp", "run", "mcp/mcp_image_server.py"
+            ]
+        }
+    }
+}
