@@ -17,25 +17,115 @@ VS Code と Copilot Chat（Agent モード）で「boss/elite/mob」の役割分
 
 ### instruction files の設定（最小）
 
-VS Code のユーザー設定（JSON）に以下を追加してください。
+このリポジトリのルール（エージェントの役割分担・出力制限など）を Copilot に読み込ませるために、
+VS Code のユーザー設定を1行追加します。**これをしないとエージェントが普通の Copilot と同じ動きになります。**
+
+#### 設定手順（初心者向け）
+
+**ステップ 1:** VS Code 上部のメニューから設定を開く
+
+- Windowsの場合：`Ctrl + Shift + P` を押し、コマンドパレットを開く
+- 「`Preferences: Open User Settings (JSON)`」と入力して Enter
+
+> または：`Ctrl + ,` → 右上のアイコン「設定をJSONで開く（`{}`マーク）」をクリック
+
+**ステップ 2:** 開いた `settings.json` の `}` （最後の閉じカッコ）の**直前の行末**に `,` を付けて、以下の1行を追加する
 
 ```jsonc
 {
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true
+  // ... 既存の設定 ...
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true   // ← この1行を追加
 }
 ```
 
-参照される instruction files：
+**ステップ 3:** ファイルを保存する（`Ctrl + S`）
 
-- 全体ルール：`.github/copilot-instructions.md`
-- boss：`.github/instructions/boss.instructions.md`
-- elite：`.github/instructions/elite.instructions.md`
-- 仕様解析（mob-1）：`.github/instructions/spec-analyzer.instructions.md`
-- VT環境（mob-2）：`.github/instructions/vt-environment.instructions.md`
-- テスト仕様書（mob-3）：`.github/instructions/test-spec.instructions.md`
-- テストケース（mob-4）：`.github/instructions/testcase.instructions.md`
-- 結果解析（mob-5）：`.github/instructions/result-analyzer.instructions.md`
-- 報告書（mob-6）：`.github/instructions/report-writer.instructions.md`
+> **確認方法:** `Ctrl + Shift + P` → 「`Preferences: Open User Settings (JSON)`」を開き、
+> `useInstructionFiles` という文字が含まれていれば設定完了です。
+
+自動適用される instruction files：
+
+- 全体ルール（全チャット・全エージェントに自動適用）：`.github/copilot-instructions.md`
+- ペルソナ（全ファイルに自動適用）：`.github/instructions/persona.instructions.md`
+
+各エージェントの詳細ルールは以下のファイルに記載されていますが、`applyTo` 指定がないため自動適用はされません。
+エージェント起動時は対応する `.github/agents/*.agent.md` の本文が適用されます。
+
+| 役割 | instructions ファイル（参照用） | agent ファイル（起動時に適用） |
+|---|---|---|
+| boss | `.github/instructions/orchestrator.instructions.md` | `.github/agents/boss.agent.md` |
+| elite | `.github/instructions/coordinator.instructions.md` | `.github/agents/elite.agent.md` |
+| 仕様解析（mob-1） | `.github/instructions/spec-analyzer.instructions.md` | `.github/agents/mob.agent.md` |
+| VT環境（mob-2） | `.github/instructions/vt-environment.instructions.md` | `.github/agents/mob.agent.md` |
+| テスト仕様書（mob-3） | `.github/instructions/test-spec.instructions.md` | `.github/agents/mob.agent.md` |
+| テストケース（mob-4） | `.github/instructions/testcase.instructions.md` | `.github/agents/mob.agent.md` |
+| 結果解析（mob-5） | `.github/instructions/result-analyzer.instructions.md` | `.github/agents/mob.agent.md` |
+| 報告書（mob-6） | `.github/instructions/report-writer.instructions.md` | `.github/agents/mob.agent.md` |
+
+---
+
+## `.github` 配下の AI 指示ファイルの役割ガイド
+
+`.github` フォルダには AI への指示を定義するファイルが複数あります。
+それぞれ **目的・適用タイミング** が異なるので、身近なたとえと一緒に整理します。
+
+### 一覧比較
+
+| 仕組み | たとえ | 適用タイミング | 主な用途 |
+|---|---|---|---|
+| **copilot-instructions.md** | 就業規則 | **常に全員に自動適用** | プロジェクト共通ルール |
+| **instructions/** | 業務手順書 | **自動**（対象を限定可能） | 役割別の詳細指示 |
+| **agents/** | 社員証＋権限証 | **エージェント起動時** | 誰が・何のツールを使えるか |
+| **prompts/** | マクロボタン | **ユーザが選択したとき** | 定型作業のショートカット |
+| **skills/** | 専門参考書 | **必要と判断されたとき** | ドメイン知識・ノウハウ |
+
+### 読み込み順のイメージ
+
+```
+copilot-instructions.md（常に読まれる — 就業規則）
+  └─ agents/*.agent.md（エージェント起動時 — 社員証・権限）
+       └─ instructions/*.instructions.md（自動 or agent から参照 — 業務手順書）
+            └─ skills/*/SKILL.md（必要なときだけ — 専門参考書）
+                 └─ prompts/*.prompt.md（ユーザが明示的に選んだとき — マクロボタン）
+```
+
+### 各ファイルの詳細
+
+#### 1. `copilot-instructions.md` — 全体ルールブック
+
+- **場所**: `.github/copilot-instructions.md`（1ファイルのみ）
+- **役割**: すべてのエージェント・すべての会話に自動で適用される共通ルール
+- **書く内容**: プロジェクト構成、禁止事項、命名規約、安全ルールなど
+
+#### 2. `instructions/` — 役割ごとの業務マニュアル
+
+- **場所**: `.github/instructions/*.instructions.md`
+- **役割**: 特定のエージェントや特定のファイル種類に対して自動適用される詳細指示
+- **書く内容**: その役割固有のミッション、手順、判断基準
+- **ポイント**: `copilot-instructions.md` との違いは **対象を絞れる** こと
+
+#### 3. `agents/` — エージェントの定義（名刺＋権限証）
+
+- **場所**: `.github/agents/*.agent.md`
+- **役割**: エージェントの名前、使えるツール、呼べるサブエージェント、ハンドオフ（引き継ぎ）を宣言
+- **書く内容**: YAML frontmatter（tools/agents/handoffs）＋ペルソナ＋基本行動指針
+- **ポイント**: instructions が「何をするか」なら、agents は「誰であるか＋何ができるか（権限）」
+
+#### 4. `prompts/` — 定型作業のショートカット
+
+- **場所**: `.github/prompts/*.prompt.md`
+- **役割**: よく使う操作をワンクリックで実行できるプロンプトテンプレート
+- **使い方**: チャット入力欄の **📎（クリップ）ボタン → Prompt Files** から選択
+- **例**: `create-spec.prompt.md`（新規仕様書作成）、`decompose-tasks.prompt.md`（タスク分解）
+
+#### 5. `skills/` — 専門知識の参考書
+
+- **場所**: `.github/skills/<スキル名>/SKILL.md`
+- **役割**: 特定のドメイン知識をまとめたもの。関連する質問が来たとき AI が自動で参照する
+- **書く内容**: 手順、ルール、テンプレート、ベストプラクティスなどの詳細ガイド
+- **ポイント**: instructions との違いは **常時適用ではない** こと。必要なときだけ読み込まれる
+
+> **迷ったら:** 全員に守らせたいルール → `copilot-instructions.md`、特定の役割の手順 → `instructions/`、ワンクリック操作 → `prompts/`
 
 ---
 
@@ -70,7 +160,8 @@ Step 3: status/dashboard.md を見て output/ 配下の成果物を承認する
 以下の製品のテスト仕様書（ドラフト）を作成してほしい。
 
 ■ 概要
-- 製品: 〈製品名・型番〉
+- 製品: 〈製品名・品番〉
+- 車種: 〈車種名〉
 - 対象試験: 非機能試験（ノイズ印加、電源電圧変動）、ユースケース試験
 - 参照仕様書: 〈添付ファイル名を列挙〉
 
@@ -160,8 +251,9 @@ bossが完了報告したら、`status/dashboard.md` でステータスを確認
 
 | 成果物 | パス | 担当mob |
 |---|---|---|
+| 仕様書Markdown変換 | `output/spec_md/` | mob-1 |
 | 仕様サマリー | `output/spec_summary.md` | mob-1 |
-| 信号一覧 | `output/signal_list.md` | mob-1 |
+| 通信フレーム・データ一覧 | `output/signal_list.md` | mob-1 |
 | DBCドラフト | `output/dbc_draft.md` | mob-2 |
 | CAPLスケルトン | `output/capl_skeleton.can` | mob-2 |
 | テスト仕様書ドラフト | `output/test_spec_draft.md` | mob-3 |
@@ -177,14 +269,8 @@ bossが完了報告したら、`status/dashboard.md` でステータスを確認
 
 ## 仕様書のセットアップ（プロジェクト開始時）
 
-評価業務を開始する前に、以下のテンプレートファイルを更新してください：
-
-| ファイル | 内容 |
-|---|---|
-| `docs/spec/product_spec.md` | 製品仕様の要点 |
-| `docs/spec/communication_spec.md` | 通信仕様（信号定義） |
-| `docs/spec/safety_requirements.md` | 機能安全要求（ASIL等） |
-
+製品仕様・通信仕様はバイナリ形式（PDF/Word/Excel）の仕様書を直接入力として使用します。 
+`docs/spec/`に各仕様書ファイルを置いてください。
 > 仕様書ファイル（PDF/Word/Excel）を Copilot Chat に直接添付して使うことも可能です。
 
 ---
@@ -238,7 +324,7 @@ pip install -r requirements.txt
 | `.pptx` | スライドごとにタイトル・本文・テーブルを抽出 | 画像・図形は非対応 |
 
 変換後のファイルは `docs/spec/<元ファイル名>.md`（デフォルト）または `--out` で指定したディレクトリに出力されます。
-その後、boss へ「`docs/spec/product_spec.md` を参照して…」と依頼するだけです。
+その後、boss へ「`docs/spec/<変換後ファイル名>.md` を参照して…」と依頼するだけです。
 
 ### インストールされるライブラリ
 

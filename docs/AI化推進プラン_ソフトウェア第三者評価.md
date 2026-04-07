@@ -218,9 +218,6 @@ elite
 │   ├── README.md
 │   ├── USAGE.md
 │   ├── spec/                          ← 仕様書の要点（Markdown化）
-│   │   ├── product_spec.md
-│   │   ├── communication_spec.md
-│   │   └── safety_requirements.md
 │   └── テスト設計仕様書_テンプレート_20260206.xlsm
 │
 ├── status/
