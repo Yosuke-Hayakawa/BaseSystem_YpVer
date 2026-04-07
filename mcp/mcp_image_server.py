@@ -1,14 +1,19 @@
 import logging
 import io
+import os
 import base64
 from pathlib import Path
 from PIL import Image as PILImage
 from fastmcp import FastMCP
 from fastmcp.utilities.types import Image
 
-# 監査ログ設定
+# 監査ログ設定（環境変数またはデフォルトパス）
+_log_path = os.environ.get(
+	"MCP_AUDIT_LOG",
+	str(Path(__file__).resolve().parent / "mcp_audit.log")
+)
 logging.basicConfig(
-	filename=str(Path(__file__).parent.parent / "波形取得" / "mcp_audit.log"),
+	filename=_log_path,
 	level=logging.INFO,
 	format="%(asctime)s %(levelname)s %(message)s"
 )

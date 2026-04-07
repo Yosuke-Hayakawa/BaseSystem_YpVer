@@ -2,23 +2,32 @@
 """
 NG解析結果MDから特異パターンのファイルを抽出して要解析フォルダに分類コピーする
 T1 NGファイル＋同じ試験セットの時系列datファイルを丸ごとコピーする
+プロジェクト固有設定はprojects/<name>/config.yamlで管理
 
 試験セットの法則:
-  000h00m27s ファイル → セット開始
+  セット開始マーカー ファイル → セット開始
   時系列datが続く
   T1 NG/OKファイル → セット末尾
-  次の 000h00m27s ファイル → 次セット開始
+  次のセット開始マーカー ファイル → 次セット開始
 """
 import re
 import shutil
 from pathlib import Path
 from collections import Counter
 
-# ====== 設定 ======
-RESULT_DIR = Path(r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\結果")
-LOG_DIR = Path(r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\ログデータ")
-OUT_DIR = Path(r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\要解析")
-# ==================
+from project_config import (
+	load_config, get_first_file_marker, parse_project_arg
+)
+
+_project_name, _remaining_args = parse_project_arg()
+CFG = load_config(_project_name)
+FIRST_FILE_MARKER = get_first_file_marker(CFG)
+
+# プロジェクトフォルダ基準のパス
+_project_dir = CFG['_project_dir']
+RESULT_DIR = _project_dir / "output"
+LOG_DIR = _project_dir / "data" / "ログデータ"
+OUT_DIR = _project_dir / "要解析"
 
 
 def find_latest_md(result_dir: Path) -> Path:
@@ -71,7 +80,7 @@ def build_test_sets(log_dir: Path) -> dict[str, list[Path]]:
 	current_set: list[Path] = []
 
 	for f in all_files:
-		if '000h00m27s' in f.name:
+		if FIRST_FILE_MARKER in f.name:
 			if current_set:
 				sets.append(current_set)
 			current_set = [f]

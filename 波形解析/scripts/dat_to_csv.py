@@ -2,10 +2,12 @@
 """
 dat→CSV結合スクリプト
 要解析フォルダ内の試験セットを1試験=1CSVに変換する
+プロジェクト固有設定はprojects/<name>/config.yamlで管理
 
 使い方:
   python dat_to_csv.py <要解析フォルダパス>
-  python dat_to_csv.py  (引数なしで要解析フォルダ全体を処理)
+  python dat_to_csv.py --project 919D
+  python dat_to_csv.py  (引数なしでデフォルトプロジェクトの要解析フォルダ全体を処理)
 """
 import re
 import os
@@ -15,9 +17,16 @@ import subprocess
 import pandas as pd
 from pathlib import Path
 
-XFILECONV = r"C:\simbase\system\bin\XFileConv.exe"
-TEMP_DIR = Path(r"C:\Users\CARAMAS4\.copilot\temp")
-ANOMALY_DIR = Path(r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\要解析")
+from project_config import (
+	load_config, get_xfileconv, get_first_file_marker, parse_project_arg
+)
+
+_project_name, _remaining_args = parse_project_arg()
+CFG = load_config(_project_name)
+XFILECONV = get_xfileconv(CFG)
+TEMP_DIR = CFG['temp_dir']
+FIRST_FILE_MARKER = get_first_file_marker(CFG)
+ANOMALY_DIR = CFG['_project_dir'] / "要解析"
 
 
 def convert_dat(dat_path: Path) -> pd.DataFrame | None:
@@ -65,7 +74,7 @@ def build_test_sets(folder: Path) -> list[dict]:
 	current: list[Path] = []
 
 	for f in all_dats:
-		if '000h00m27s' in f.name:
+		if FIRST_FILE_MARKER in f.name:
 			if current:
 				sets.append(current)
 			current = [f]
@@ -135,9 +144,9 @@ def process_folder(folder: Path):
 
 
 def main():
-	if len(sys.argv) >= 2:
+	if _remaining_args:
 		# 引数指定: 単一フォルダ処理
-		folder = Path(sys.argv[1])
+		folder = Path(_remaining_args[0])
 		if not folder.exists():
 			print(f"フォルダが見つかりません: {folder}")
 			return

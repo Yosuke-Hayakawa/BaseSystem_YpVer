@@ -21,8 +21,9 @@ CRAMAS HILSテストの解析・開発・技術調査を行うプロジェクト
 
 ## 関連フォルダ
 
-- CRAMASプロジェクト: `C:\simbase\simdat\919D_照合ECU\`
-- 仕様書: `C:\いろいろ\一時置き\照合資料\`
+- CRAMASプロジェクト: ワークスペース設定を参照
+- 仕様書: ワークスペース設定を参照
+- プロジェクト固有設定: `波形解析/projects/<製品名>/config.yaml`
 
 ## 必読ドキュメント
 
@@ -42,7 +43,7 @@ CRAMAS HILSテストの解析・開発・技術調査を行うプロジェクト
 
 - datファイルはXFileConvでCSV変換して読む（エンコード: cp932）
 - CRAMASファイルはShift_JIS
-- 解析結果は 波形解析/projects/919D/output/ に出力する
+- 解析結果は `波形解析/projects/<製品名>/output/` に出力する
 - UF編集時は必ず `一時/` にバックアップを作ってから編集する（詳細は `UF作成/README.md`）
 
 ## 画像閲覧機能（自作MCPサーバー）【Git共有可】
@@ -53,7 +54,7 @@ CRAMAS HILSテストの解析・開発・技術調査を行うプロジェクト
 ### 共有ファイル
 | ファイル | 場所 | 説明 |
 |----------|------|------|
-| `mcp_image_server.py` | `scripts/mcp/` | MCPサーバー本体 |
+| `mcp_image_server.py` | `mcp/` | MCPサーバー本体 |
 | `mcp.json` | `.vscode/` | VS Code用設定 |
 
 ### 他環境で使う手順
@@ -69,3 +70,18 @@ CRAMAS HILSテストの解析・開発・技術調査を行うプロジェクト
 ### セキュリティ
 拡張子制限・サイズ上限・マジックバイト確認・監査ログ付き。
 機密画像は送信対象にしないこと（Copilot経由でクラウド送信されるため）。
+
+## タスクナビゲーション
+
+作業を始める前に、該当するREADMEを読むこと。
+
+| やりたいこと | 読むべきREADME | 主要スクリプト/ファイル |
+|-------------|---------------|---------------------|
+| NG波形を解析したい | 波形解析/README.md | scripts/ng_check.py |
+| datをCSVに変換したい | 波形解析/README.md | scripts/dat_to_csv.py |
+| 波形を可視化したい | 波形解析/README.md | scripts/wave_viewer.py |
+| オシロ画面をキャプチャしたい | 波形取得/README.md | capture_screen.py |
+| uf.c/uf.hを編集したい | UF作成/README.md | ※バックアップ必須 |
+| 仕様書を確認したい | 仕様書/README.md | — |
+| 画像を直接見たい | mcp/README.md | list_images(), view_image() |
+| プロジェクト横断ツールを使いたい | ツール/README.md | restore_chat_sessions.py 等 |

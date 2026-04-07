@@ -17,12 +17,24 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 
-XFILECONV = r"C:\simbase\system\bin\XFileConv.exe"
-TEMP_DIR = Path(r"C:\Users\CARAMAS4\.copilot\temp")
+from project_config import load_config, get_xfileconv, get_first_file_marker
+
+# 設定読み込み（GUIアプリなので--project引数は使わず、デフォルトプロジェクトを使用）
+try:
+	CFG = load_config()
+	XFILECONV = get_xfileconv(CFG)
+	FIRST_FILE_MARKER = get_first_file_marker(CFG)
+	TEMP_DIR = CFG['temp_dir']
+except Exception:
+	XFILECONV = r"C:\simbase\system\bin\XFileConv.exe"
+	FIRST_FILE_MARKER = "000h00m27s"
+	TEMP_DIR = Path(__file__).resolve().parent.parent.parent / ".cache"
+
+TEMP_DIR = Path(TEMP_DIR)
 TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
 RE_TIMESERIES = re.compile(r'_\d+h\d+m\d+s\.dat$', re.IGNORECASE)
-RE_FIRST_FILE = re.compile(r'_000h00m27s\.dat$', re.IGNORECASE)
+RE_FIRST_FILE = re.compile(re.escape(FIRST_FILE_MARKER) + r'\.dat$', re.IGNORECASE)
 RE_T1 = re.compile(r'T1\((\d+)\).*_(OK|NG)[^.]*\.dat$', re.IGNORECASE)
 
 COLORS = [

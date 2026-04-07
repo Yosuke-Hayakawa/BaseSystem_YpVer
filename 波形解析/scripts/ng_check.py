@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-919D WakeSleep NG解析
-_NGファイルのng_number1～3ビットマスクからNG番号を特定して一覧化する
+CRAMAS NG解析
+_NGファイルのng_numberビットマスクからNG番号を特定して一覧化する
+プロジェクト固有設定はprojects/<name>/config.yamlで管理
 """
 
 import pandas as pd
@@ -12,32 +13,26 @@ import sys
 import re
 import glob
 from datetime import datetime
+from pathlib import Path
 
-XFILECONV = r"C:\simbase\system\bin\XFileConv.exe"
-LOG_DIR = r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\ログデータ"
-RESULT_DIR = r"C:\Users\CARAMAS4\Desktop\919D_CRAMAS自動結果解析\結果"
+from project_config import (
+	load_config, get_ng_names, get_ng_columns, get_step_column,
+	get_first_file_marker, get_xfileconv, parse_project_arg
+)
 
-# NG番号→説明（uf.cのNG一覧より）
-NG_NAMES = {
-	10: "Sleep失敗", 11: "Sleep失敗(1分待機できず)",
-	12: "エンジン始動失敗", 13: "エンジン停止失敗",
-	20: "ブザー誤吹鳴",
-	30: "インジケーター異常",
-	40: "UWB異常(Aコード照合)", 41: "UWB異常(エミュレータ出力)",
-	50: "ドアロック異常",
-	60: "CAN通信停止異常", 61: "CAN通信途絶",
-	70: "CLG1異常(時間超過)", 71: "CLG1異常(時間不足)",
-	72: "CLG2異常(時間超過)", 73: "CLG2異常(時間不足)",
-	74: "CLG5異常(動作停止中に動作)", 75: "CLG5異常(動作開始後に不動作)",
-	80: "メーターディスプレイ異常", 81: "ステロクロック異常", 82: "SWILイルミ異常",
-	90: "LIN通信停止異常", 91: "LIN通信途絶", 92: "PFW誤出力",
-}
+# --project 引数の解析
+_project_name, _remaining_args = parse_project_arg()
+CFG = load_config(_project_name)
+XFILECONV = get_xfileconv(CFG)
+NG_NAMES = get_ng_names(CFG)
+COL_INFO = get_ng_columns(CFG)
+STEP_COL_NAME = get_step_column(CFG)
+FIRST_FILE_MARKER = get_first_file_marker(CFG)
 
-COL_INFO = [
-	('ng_number1', 0),   # NG1～32
-	('ng_number2', 32),  # NG33～64
-	('ng_number3', 64),  # NG65～96
-]
+# デフォルトのログ/結果ディレクトリ（プロジェクトフォルダ基準）
+_project_dir = CFG['_project_dir']
+LOG_DIR = str(_project_dir / "data" / "ログデータ")
+RESULT_DIR = str(_project_dir / "output")
 
 
 def convert_dat_to_csv(dat_path):
@@ -68,7 +63,7 @@ def build_test_sets(log_dir):
 	)
 	sets, current = [], []
 	for f in all_files:
-		if '000h00m27s' in f:
+		if FIRST_FILE_MARKER in f:
 			if current:
 				sets.append(current)
 			current = [f]
@@ -136,7 +131,7 @@ def analyze_ng_file(dat_path, test_set_files=None, log_dir=None):
 		try: os.remove(csv_path)
 		except: pass
 
-	step_col = 'AfterStressChk_Step1' if 'AfterStressChk_Step1' in df.columns else None
+	step_col = STEP_COL_NAME if STEP_COL_NAME in df.columns else None
 
 	# T1先頭で既に立っているビットを検出
 	preexisting = set()
@@ -174,7 +169,7 @@ def analyze_ng_file(dat_path, test_set_files=None, log_dir=None):
 				try: os.remove(ecsv)
 				except: pass
 
-			e_step_col = 'AfterStressChk_Step1' if 'AfterStressChk_Step1' in edf.columns else None
+			e_step_col = STEP_COL_NAME if STEP_COL_NAME in edf.columns else None
 			for col, offset in COL_INFO:
 				if col not in edf.columns:
 					continue
@@ -199,7 +194,7 @@ def analyze_ng_file(dat_path, test_set_files=None, log_dir=None):
 
 
 def main():
-	log_dir = sys.argv[1] if len(sys.argv) > 1 else LOG_DIR
+	log_dir = _remaining_args[0] if _remaining_args else LOG_DIR
 	os.makedirs(RESULT_DIR, exist_ok=True)
 
 	# テストセット構築
@@ -222,7 +217,7 @@ def main():
 	ng_case_summary = {}
 
 	with open(md_path, 'w', encoding='utf-8') as f:
-		f.write(f"# 919D WakeSleep NG解析結果\n\n")
+		f.write(f"# {CFG.get('project_name', 'CRAMAS')} NG解析結果\n\n")
 		f.write(f"- 解析日時: {datetime.now().strftime('%Y/%m/%d %H:%M:%S')}\n")
 		f.write(f"- 対象フォルダ: {log_dir}\n")
 		f.write(f"- NGファイル数: {len(ng_files)}\n\n")

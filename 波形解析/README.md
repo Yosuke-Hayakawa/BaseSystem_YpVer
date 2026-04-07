@@ -6,6 +6,7 @@ CRAMAS HILSテストの波形データ解析ツール群とデータ。
 
 | ファイル | 場所 | 説明 |
 |----------|------|------|
+| project_config.py | scripts/ | プロジェクト設定ローダー |
 | ng_check.py | scripts/ | NG判定チェック（メイン解析スクリプト） |
 | dat_to_csv.py | scripts/ | dat→CSV一括変換 |
 | extract_anomaly.py | scripts/ | 異常値抽出 |
@@ -13,19 +14,18 @@ CRAMAS HILSテストの波形データ解析ツール群とデータ。
 | 波形ビューア起動.bat | scripts/ | wave_viewerのバッチラッパー |
 | NG解析.bat | ./ | ng_check.pyのバッチラッパー |
 
-## 波形取得（オシロスコープ自動操作）
+## プロジェクト構成
 
-`波形取得/` フォルダにオシロスコープ（テクトロニクス 2シリーズ）を自動操作するスクリプトがある。
-詳細は `波形取得/README.md` を参照。
+製品ごとに `projects/<製品名>/` を作り、`config.yaml` で固有設定を管理する。
 
-## プロジェクトデータ
-
-| フォルダ | 内容 | Git管理 |
-|----------|------|---------|
-| projects/919D/output/ | NG解析結果レポート（ng_check.py出力） | ✅ |
-| projects/919D/data/ログデータ/ | CRAMASの.datファイル（約2万件、138GB） | ❌ .gitignore |
-| projects/919D/data/OKファイル/ | 参照用OK波形（636MB） | ❌ .gitignore |
-| projects/919D/要解析/ | 未解析NGデータ | ❌ .gitignore |
+```
+projects/<製品名>/
+├── config.yaml     # NG番号辞書、カラム名、パス設定等
+├── docs/           # 製品固有リファレンス
+├── output/         # NG解析結果レポート
+├── data/           # ログデータ（.gitignore）
+└── 要解析/         # 特異パターンデータ（.gitignore）
+```
 
 ## 使い方
 
@@ -35,14 +35,16 @@ NG解析.bat
 ```
 または
 ```
-python scripts/ng_check.py
+python scripts/ng_check.py --project 919D
+python scripts/ng_check.py                    # プロジェクト自動検出
+python scripts/ng_check.py /path/to/logdir    # ログフォルダ直接指定
 ```
 
 ### dat→CSV変換
 ```
-python scripts/dat_to_csv.py <input.dat> <output.csv>
+python scripts/dat_to_csv.py --project 919D
+python scripts/dat_to_csv.py <フォルダパス>
 ```
-CSVの読み方: `pd.read_csv(path, encoding='cp932', skiprows=1, low_memory=False)`
 
 ### 波形ビューア
 ```
