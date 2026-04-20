@@ -10,16 +10,40 @@
 - タスクは小さく・独立に。担当するmobを明確に
 - 進捗/要点を `status/dashboard.md` に集約して更新する（単一更新者）
 
-## 担当できるmob一覧
+## mob の運用方針（汎用プール方式）
 
-| mob | 役割 | 入力 | 出力 |
+mob は固定の役割を持たない汎用ワーカー。elite が **タスクごとに必要な数だけ起動** し、適切なタスクテンプレートを渡して指示する。
+
+### タスクテンプレート一覧
+
+elite が mob に指示する際、該当テンプレートの内容を指示に含めて渡す。
+
+| テンプレート | Instructions ファイル | 入力 | 出力 |
 |---|---|---|---|
-| mob-1（仕様解析） | 仕様書解析・要点抽出 | 各種仕様書 | spec_summary.md, signal_list.md |
-| mob-2（VT環境） | DBC/CAPLドラフト生成 | signal_list.md | dbc_draft.md, capl_skeleton.can |
-| mob-3（テスト仕様書） | テスト設計仕様書ドラフト | spec_summary.md | test_spec_draft.md |
-| mob-4（テストケース） | テストケース一覧生成 | test_spec_draft.md | testcase_list.md |
-| mob-5（結果解析） | NG解析・ログ解析 | CANoeレポート、ログ | ng_analysis.md |
-| mob-6（報告書） | 懸念点シート・試験報告書 | ng_analysis.md, testcase_list.md | concern_sheet_draft.md, test_report_draft.md |
+| 仕様解析 | `spec-analyzer.instructions.md` | 各種仕様書 | spec_summary.md, signal_list.md |
+| VT環境 | `vt-environment.instructions.md` | signal_list.md | dbc_draft.md, capl_skeleton.can |
+| テスト仕様書 | `test-spec.instructions.md` | spec_summary.md | test_spec_draft.md |
+| テストケース | `testcase.instructions.md` | test_spec_draft.md | testcase_list.md |
+| 結果解析 | `result-analyzer.instructions.md` | CANoeレポート、ログ | ng_analysis.md |
+| 報告書 | `report-writer.instructions.md` | ng_analysis.md, testcase_list.md | concern_sheet_draft.md, test_report_draft.md |
+
+### mob 数の決定基準
+
+1. **作業量が少ない** → mob 1体にテンプレートを渡して実行
+2. **作業量が多い** → 同じテンプレートのタスクを複数 mob に分割して並列実行
+   - 例：仕様書10冊 → mob-A（仕様書1〜4）、mob-B（仕様書5〜7）、mob-C（仕様書8〜10）
+3. **分割時の出力** → ファイル競合を避けるため `output/<ファイル名>_partN.md` に分割し、最後に統合する
+
+### mob への指示に含める情報（必須）
+
+```markdown
+## あなたのタスク
+- タスクID: T01
+- タスクテンプレート: （テンプレートの内容をここに展開）
+- 入力: （読むべきファイル）
+- 出力: （書き出すファイルパス ※分割時は _partN を付与）
+- 完了条件: （AC）
+```
 
 ## ロギング場所（明記）
 
@@ -36,12 +60,21 @@ task_plan:
   requested_by: boss
   tasks:
     - id: T01
-      role: spec-analyzer
-      input: [<仕様書ファイル名>]
+      template: spec-analyzer
+      mob_count: 2
+      input: [仕様書A, 仕様書B, 仕様書C]
       output: [output/spec_summary.md, output/signal_list.md]
-      deadline: <任意>
+      split:
+        - mob: mob-A
+          input: [仕様書A, 仕様書B]
+          output: [output/spec_summary_part1.md, output/signal_list_part1.md]
+        - mob: mob-B
+          input: [仕様書C]
+          output: [output/spec_summary_part2.md, output/signal_list_part2.md]
+      merge: [output/spec_summary.md, output/signal_list.md]
     - id: T02
-      role: test-spec
+      template: test-spec
+      mob_count: 1
       input: [output/spec_summary.md]
       output: [output/test_spec_draft.md]
       depends_on: T01
@@ -57,7 +90,8 @@ task_plan:
 ## 最小権限
 
 - mobが同じファイルを同時編集しないよう、ファイル単位で切り分ける
-- mob-1〜4はフォワードパス（仕様→テスト設計）、mob-5〜6はバックワードパス（結果→報告）
+- 分割時は `_partN` サフィックスでファイルを分け、統合は elite が行う
+- フォワードパス（仕様→テスト設計）とバックワードパス（結果→報告）は並列実行可能
 
 ## 🚨 重要判断の扱い
 
