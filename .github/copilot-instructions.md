@@ -7,18 +7,29 @@
 
 ## 評価業務エージェント構成
 
-| 層 | ロールID | デフォルト表示名 | Instructions ファイル | 担当業務ステップ |
+| 層 | ロールID | デフォルト表示名 | Instructions ファイル | 担当 |
 |---|---|---|---|---|
-| Tier-1 | boss | boss | `orchestrator.instructions.md` | 全体指挥・仕様確定・担当者対応 |
+| Tier-1 | boss | boss | `orchestrator.instructions.md` | 全体指揮・仕様確定・担当者対応 |
 | Tier-2 | elite | elite | `coordinator.instructions.md` | タスク分解・進捗管理・mob調整 |
-| 仕様解析（mob-1） | mob | mob | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
-| VT環境（mob-2） | mob | mob | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
-| テスト仕様書（mob-3） | mob | mob | `test-spec.instructions.md` | ステップ4：テスト設計仕様書ドラフト |
-| テストケース（mob-4） | mob | mob | `testcase.instructions.md` | ステップ5：テストケース一覧生成 |
-| 結果解析（mob-5） | mob | mob | `result-analyzer.instructions.md` | ステップ7：NG解析・ログ解析 |
-| 報告書（mob-6） | mob | mob | `report-writer.instructions.md` | ステップ8・9：懸念点シート・報告書生成 |
+| Tier-3 | mob | mob（×N） | `worker.instructions.md` | elite から割り当てられたタスクを実行 |
+
+- mob は汎用ワーカー。固定の役割を持たず、**elite がタスクごとに必要な数だけ起動**する。
+- 各タスクに必要なドメイン知識・出力フォーマットは **タスクテンプレート**（後述）で渡す。
 
 > AI化スコープ外：ステップ2（ハードウェア準備）・ステップ6（テスト実行）は人間が担当
+
+## タスクテンプレート（elite → mob への指示素材）
+
+elite が mob にタスクを指示する際、該当するテンプレートの内容を指示に含めて渡す。
+
+| テンプレート | ファイル | 対応ステップ |
+|---|---|---|
+| 仕様解析 | `spec-analyzer.instructions.md` | ステップ1：製品仕様理解・信号一覧 |
+| VT環境 | `vt-environment.instructions.md` | ステップ3：DBC/CAPLドラフト生成 |
+| テスト仕様書 | `test-spec.instructions.md` | ステップ4：テスト設計仕様書ドラフト |
+| テストケース | `testcase.instructions.md` | ステップ5：テストケース一覧生成 |
+| 結果解析 | `result-analyzer.instructions.md` | ステップ7：NG解析・ログ解析 |
+| 報告書 | `report-writer.instructions.md` | ステップ8・9：懸念点シート・報告書生成 |
 
 ## 最重要ルール
 
@@ -41,18 +52,21 @@
 
 ## 成果物管理（output/ 配下）
 
-| 成果物 | ファイルパス | 担当mob |
+| 成果物 | ファイルパス | タスクテンプレート |
 |---|---|---|
-| 仕様書Markdown変換 | `output/spec_md/` | mob-1（仕様解析） |
-| 仕様サマリー | `output/spec_summary.md` | mob-1（仕様解析） |
-| 通信フレーム・データ一覧 | `output/signal_list.md` | mob-1（仕様解析） |
-| DBCドラフト | `output/dbc_draft.md` | mob-2（VT環境） |
-| CAPLスケルトン | `output/capl_skeleton.can` | mob-2（VT環境） |
-| テスト仕様書ドラフト | `output/test_spec_draft.md` | mob-3（テスト仕様書） |
-| テストケース一覧 | `output/testcase_list.md` | mob-4（テストケース） |
-| NG解析レポート | `output/ng_analysis.md` | mob-5（結果解析） |
-| 懸念点確認シート | `output/concern_sheet_draft.md` | mob-6（報告書） |
-| 試験報告書 | `output/test_report_draft.md` | mob-6（報告書） |
+| 仕様書Markdown変換 | `output/spec_md/` | 仕様解析 |
+| 仕様サマリー | `output/spec_summary.md` | 仕様解析 |
+| 通信フレーム・データ一覧 | `output/signal_list.md` | 仕様解析 |
+| DBCドラフト | `output/dbc_draft.md` | VT環境 |
+| CAPLスケルトン | `output/capl_skeleton.can` | VT環境 |
+| テスト仕様書ドラフト | `output/test_spec_draft.md` | テスト仕様書 |
+| テストケース一覧 | `output/testcase_list.md` | テストケース |
+| NG解析レポート | `output/ng_analysis.md` | 結果解析 |
+| 懸念点確認シート | `output/concern_sheet_draft.md` | 報告書 |
+| 試験報告書 | `output/test_report_draft.md` | 報告書 |
+
+> 作業量が多い場合、elite は同一テンプレートのタスクを複数 mob に分割して並列実行できる。
+> その際、出力ファイルの競合を避けるため `output/<ファイル名>_partN.md` 等に分割し、最後に統合する。
 
 ## ハルシネーション対策（全エージェント必須）
 
@@ -78,8 +92,10 @@
 
 ## Copilot Subagents（サブエージェント並列）
 
-- boss は Subagents を使って「elite（調整）」＋「mob×N（仕様解析/テスト設計/解析）」を並列起動し、成果を統合する。
+- boss は Subagents を使って「elite（調整）」＋「mob×N」を並列起動し、成果を統合する。
+- elite は作業量に応じて **必要な数だけ mob を起動** し、各 mob にタスクテンプレート＋具体的な入出力を指示する。
 - サブエージェントに渡すタスクは **単機能・小さく・競合しない** 単位にする。
+- 同一ステップ内でも作業量が多ければ複数 mob に分割して並列実行できる（例：仕様書10冊を3 mob で分担）。
 - 重要：成果物は会話に埋めず、`output/` に配置してからeliteが `status/dashboard.md` に要点をまとめる。
 
 ## AgentHQ（Custom Agents / Prompt Files / Handoffs）
