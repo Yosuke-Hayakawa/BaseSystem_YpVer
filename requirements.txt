@@ -6,3 +6,9 @@ pdfplumber>=0.11    # .pdf
 python-docx>=1.1    # .docx
 python-pptx>=1.0    # .pptx
 pandas>=2.0         # data analysis / aggregation
+
+# convert_to_openxml.py dependencies (doc->docx, xls->xlsx via COM)
+pywin32>=306        # Word/Excel COM automation (Windows only)
+
+# safe file deletion (all tools)
+send2trash>=1.8     # ゴミ箱経由のファイル削除（os.remove禁止ルール準拠）
