@@ -42,6 +42,17 @@ elite が mob にタスクを指示する際、該当するテンプレートの
 
 補足：会話/報告のルールは `docs/spec/agent-communication-v1.md` を正とする。
 
+## 共通リソースナビゲーション
+
+作業を始める前に、該当するREADMEを読むこと。
+
+| やりたいこと | 読むべきREADME | 備考 |
+|-------------|---------------|------|
+| CANoe/VTシステムを調べたい | CANoe_VT/README.md | マニュアル索引参照 |
+| CAPLの関数を調べたい | CANoe_VT/README.md | CAPL_Functions_Reference |
+| テストデータを解析したい | 波形解析/README.md | CANoeログ解析 |
+| オシロ画面をキャプチャしたい | 波形取得/README.md | テクトロ/横河 |
+
 ## ドキュメント運用（必須）
 
 - 仕様：`docs/spec/`（Markdown）
