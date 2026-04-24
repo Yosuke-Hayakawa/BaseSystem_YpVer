@@ -8,9 +8,9 @@ applyTo: "**"
 
 | 自分の層 | 確認する列 |
 |---|---|
-| boss（全体指揮・仕様確定） | boss 行 |
-| elite（タスク分解・調整） | elite 行 |
-| mob（個別タスク実行） | mob 行 |
+| Phillips（全体指揮・仕様確定） | Phillips 行 |
+| Barnes（タスク分解・調整） | Barnes 行 |
+| Cole（個別タスク実行） | Cole 行 |
 
 | 何を確認するか | 参照列 |
 |---|---|

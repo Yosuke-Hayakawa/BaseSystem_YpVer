@@ -1,6 +1,6 @@
-﻿# 履歴（このテンプレートリポジトリ自身）
+# 履歴（このテンプレートリポジトリ自身）
 
-このファイルは、このテンプレートリポジトリ（boss）の変更履歴・判断履歴を残すためのものです。
+このファイルは、このテンプレートリポジトリ（Phillips）の変更履歴・判断履歴を残すためのものです。
 
 - 利用者がテンプレートとして使用する際、`docs/decisions.md` は各プロジェクトの設計判断ログとして使えるよう **テンプレ化**します。
 - テンプレート側の履歴（いつ何を決めたか）は、この `docs/history.md` に退避します。
@@ -14,40 +14,40 @@
 - 何を：タスク実行エンジン（Python実装やシェルスクリプト）を内蔵せず、VS Code + Copilot Chat（Agentモード）と Markdown ファイルで運用する
 - なぜ：要求「VS Codeの設定と各種ファイル設定のみで実現」「Python/シェル排除」を優先
 - 代替案：Node/Pythonで実行エンジンを実装 / bashでキュー処理
-- 影響：ドキュメントと instruction を運用の中心にする（`docs/spec/`, `docs/decisions.md`, `status/dashboard.md`）。`.vscode/tasks.json` はプロジェクト固有コマンドの“器”として任意。
+- 影響：ドキュメントと instruction を運用の中心にする（`docs/spec/`, `docs/decisions.md`, `status/task.md`）。`.vscode/tasks.json` はプロジェクト固有コマンドの“器”として任意。
 
 ### 2026-02-05: 重要判断のユーザ確認ゲート + ロギング契約 + output/ 生成物制約を採用
 
 - 何を：
 	- 重要判断（技術選定、外部依存追加、破壊的変更、運用ルール変更など）はRace Directorがユーザに確認してから確定する
-	- ロギング契約を明確化する（Spec/Decisions/Dashboard/Output）
+	- ロギング契約を明確化する（Spec/Decisions/タスク管理/Output）
 	- 生成物（調査メモ、比較表、検証ログ、ビルド生成物、tmp等）は `output/` 配下に限定する
-	- `status/dashboard.md` は（当時）Race Directorが集約して更新する（単一更新者）
-		- 注：後続判断で dashboard の単一更新者は「Race Director→Pit Chief」へ変更済み
+	- `status/task.md` は（当時）Race Directorが集約して更新する（単一更新者）
+		- 注：後続判断で タスク管理 の単一更新者は「Race Director→Pit Chief」へ変更済み
 - なぜ：
 	- 複数エージェントが同一ファイルを編集して競合する事故を避けたい
 	- 判断待ちを見失わず、ユーザが“どこを見ればよいか”を固定したい
 	- 生成物がリポジトリ直下に散らばる運用コストを下げたい
 - 代替案：
-	- elite/mobも直接 `status/dashboard.md` を更新する（競合リスクが高い）
+	- Barnes/Coleも直接 `status/task.md` を更新する（競合リスクが高い）
 	- 生成物を各自の任意フォルダに置く（探索コストが高い）
-- 反映先：`docs/spec/agent-governance-v2.md`, `docs/USAGE.md`, `.github/agents/*.agent.md`, `.github/instructions/*.instructions.md`, `status/dashboard.md`, `.gitignore`
+- 反映先：`docs/spec/agent-governance-v2.md`, `docs/USAGE.md`, `.github/agents/*.agent.md`, `.github/instructions/*.instructions.md`, `status/task.md`, `.gitignore`
 - 影響：
 	- `output/` は基本的にGit管理しない（`output/.gitkeep` のみ例外）
 
-### 2026-02-05: 会話/報告プロトコル（v1）を導入し、dashboard単一更新者をPit Chiefに変更
+### 2026-02-05: 会話/報告プロトコル（v1）を導入し、タスク管理単一更新者をPit Chiefに変更
 
 - 何を：
 	- `docs/spec/agent-communication-v1.md` を追加し、話法（チャットのみ戦国風）・ユーザお伺いテンプレ・報告YAML（skill_candidate含む）を標準化
-	- `status/dashboard.md` の単一更新者を「Race Director」から「Pit Chief」へ変更
+	- `status/task.md` の単一更新者を「Race Director」から「Pit Chief」へ変更
 - なぜ：
 	- 判断待ち集約、報告フォーマット統一により運用の再現性を上げる
-	- dashboard更新をPit Chiefに集約し、Race Directorはユーザ対応と意思決定に集中できる
+	- タスク管理更新をPit Chiefに集約し、Race Directorはユーザ対応と意思決定に集中できる
 - 代替案：
-	- dashboard更新者はRace Directorのまま
-- 反映先：`docs/spec/agent-communication-v1.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md`, `.github/agents/*.agent.md`, `docs/USAGE.md`, `status/dashboard.md`
+	- タスク管理更新者はRace Directorのまま
+- 反映先：`docs/spec/agent-communication-v1.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md`, `.github/agents/*.agent.md`, `docs/USAGE.md`, `status/task.md`
 - 影響：
-	- Race Director/Mechanicは dashboard を直接編集しない（Pit Chiefへ報告→Pit Chiefが転記）
+	- Race Director/Mechanicは タスク管理 を直接編集しない（Pit Chiefへ報告→Pit Chiefが転記）
 	- Mechanicの報告に `skill_candidate` フィールドが追加
 
 ### 2026-02-09: AgentHQ移行（Custom Agents / Subagents / Prompt Files / Handoffs）
@@ -61,24 +61,24 @@
 	- VS Code の Custom Agents 機能に正式対応し、ワークフローの再現性を上げる
 - 代替案：
 	- 現状維持
-- 反映先：`.github/agents/*.agent.md`, `.github/prompts/*.prompt.md`, `docs/ARCHITECTURE.md`, `docs/USAGE.md`, `docs/spec/agenthq-migration-v1.md`, `status/dashboard.md`
+- 反映先：`.github/agents/*.agent.md`, `.github/prompts/*.prompt.md`, `docs/ARCHITECTURE.md`, `docs/USAGE.md`, `docs/spec/agenthq-migration-v1.md`, `status/task.md`
 - 影響：
 	- スラッシュコマンドや handoffs により操作性が改善
 
-### 2026-02-09: dashboard の運用/ひな形/履歴を分離し、ログ時刻を `YYYY-MM-DD-HH:MM` に統一
+### 2026-02-09: タスク管理 の運用/ひな形/履歴を分離し、ログ時刻を `YYYY-MM-DD-HH:MM` に統一
 
 - 何を：
-	- `status/dashboard.md` を実運用の最小構成に整理
-	- 記入ガイドを `status/dashboard.template.md` に分離
-	- テンプレートリポ自身の過去ログを `status/dashboard.history.md` に退避
+	- `status/task.md` を実運用の最小構成に整理
+	- 記入ガイドを `status/task.template.md` に分離
+	- テンプレートリポ自身の過去ログを `status/task.history.md` に退避
 	- ログ書式を `YYYY-MM-DD-HH:MM`（分単位）に統一（時刻不明は `00:00`）
 - なぜ：
 	- テンプレとしてのノイズ（例/履歴/説明の混在）を減らし、運用開始時に迷わない導線にする
 - 代替案：
-	- `status/dashboard.md` に説明/履歴/例を同居させる（将来の追記が読みにくくなる）
-- 反映先：`status/dashboard.md`, `status/dashboard.template.md`, `status/dashboard.history.md`, `docs/DASHBOARD.md`
+	- `status/task.md` に説明/履歴/例を同居させる（将来の追記が読みにくくなる）
+- 反映先：`status/task.md`, `status/task.template.md`, `status/task.history.md`, `docs/タスク管理.md`
 - 影響：
-	- チームオーナー（担当者）は `status/dashboard.md` を主に監視し、必要に応じて template/history を参照する
+	- チームオーナー（担当者）は `status/task.md` を主に監視し、必要に応じて template/history を参照する
 
 ### 2026-02-09: `docs/USAGE.md` を「準備 → Race Directorへの指示」中心に最小化（認知負荷低減）
 
@@ -114,18 +114,18 @@
 ### 2026-02-24: ドキュメント構成の見直し（重複削除 + 整理）
 
 - 何を：
-	- `docs/DASHBOARD.md`（薄いラッパーファイル）を削除し、内容を `docs/ARCHITECTURE.md` の「ダッシュボードの見方」セクションへ統合
-	- `status/dashboard.template.md` の重複セクション（コミュニケーションの見え方）を削除し、`docs/ARCHITECTURE.md` へ参照を統一
+	- `docs/タスク管理.md`（薄いラッパーファイル）を削除し、内容を `docs/ARCHITECTURE.md` の「タスク管理の見方」セクションへ統合
+	- `status/task.template.md` の重複セクション（コミュニケーションの見え方）を削除し、`docs/ARCHITECTURE.md` へ参照を統一
 	- `docs/decisions.md` のテンプレートリポ固有エントリ（skills フィールド）を `docs/history.md` へ移動し、`docs/decisions.md` を利用プロジェクト向けの純粋なテンプレートに整理
 - なぜ：
 	- 同じ内容が複数ファイルに散在し、どれが正しい情報か判断しにくかった
 	- `docs/decisions.md` にテンプレートリポ自身の履歴が混在していた（利用者が誤読するリスク）
 	- ファイル数を減らして「どこを見ればよいか」を明確にする
 - 代替案：
-	- `docs/DASHBOARD.md` を残し、内容を補充する：ファイル数が増え、参照先が分散する
-- 反映先：`docs/ARCHITECTURE.md`, `docs/decisions.md`, `docs/history.md`, `status/dashboard.md`, `status/dashboard.template.md`, `README.md`
+	- `docs/タスク管理.md` を残し、内容を補充する：ファイル数が増え、参照先が分散する
+- 反映先：`docs/ARCHITECTURE.md`, `docs/decisions.md`, `docs/history.md`, `status/task.md`, `status/task.template.md`, `README.md`
 - 影響：
-	- `docs/DASHBOARD.md` は存在しなくなる（旧リンクは `docs/ARCHITECTURE.md` へ読み替える）
+	- `docs/タスク管理.md` は存在しなくなる（旧リンクは `docs/ARCHITECTURE.md` へ読み替える）
 
 ### 2026-03-20: Persona / Role 分離アーキテクチャの採用
 
@@ -133,17 +133,17 @@
 - 何を：エージェントの「名前・口調（Persona）」と「ロールロジック（Role）」を分離。`persona.md` 1ファイルでテーマを切り替え可能にした。
 - なぜ：チームによってネーミングや口調を変えたいが、アウトプットの品質（ロジック）は変えたくないというニーズに対応するため。従来は名前変更に約15ファイルの編集が必要だった。
 - 代替案：各 instructions ファイルに直接テーマ分岐を書く（→ ロジックとペルソナが混在するため却下）
-- 反映先：`.github/persona.md`, `.github/instructions/persona.instructions.md`, `.github/instructions/boss.instructions.md`, `.github/instructions/elite.instructions.md`, `.github/instructions/mob.instructions.md`, `.github/agents/*.agent.md`, `.github/copilot-instructions.md`
+- 反映先：`.github/persona.md`, `.github/instructions/persona.instructions.md`, `.github/instructions/phillips.instructions.md`, `.github/instructions/barnes.instructions.md`, `.github/instructions/cole.instructions.md`, `.github/agents/*.agent.md`, `.github/copilot-instructions.md`
 - 影響：テーマ切り替え時の作業が「persona.md + agent.md×3の name: フィールド」だけに集約され、ロジックは不変
 
 ### 2026-03-20: エージェント名固定化（口調のみ変更可能に簡素化）
 
 - いつ：2026-03-20
-- 何を：テーマ変更機能を「口調・自己紹介フレーズのみ変更可能」に変更。エージェント名は常に `boss` / `elite` / `mob` に固定。
+- 何を：テーマ変更機能を「口調・自己紹介フレーズのみ変更可能」に変更。エージェント名は常に `Phillips` / `Barnes` / `Cole` に固定。
 - なぜ：従来のテーマ切替は約16箇所の変更が必要で、1つでも漏れると handoff/subagent/prompt が壊れるリスクがあった。口調のみの切替で変更箇所を4箇所に削減。
 - 代替案：A. 現状維持（却下）、B. 口調のみ変更可能（採用）
 - 反映先：`.github/persona.md`, `docs/USAGE.md`, `.github/copilot-instructions.md`
-- 影響：VS Code UI は常に boss/elite/mob 表示。テーマ切替時にファイルリネーム・YAML更新不要
+- 影響：VS Code UI は常に Phillips/Cole/Barnes/Volkova 表示。テーマ切替時にファイルリネーム・YAML更新不要
 
 ---
 

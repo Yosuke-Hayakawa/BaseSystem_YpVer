@@ -1,7 +1,7 @@
-﻿---
+---
 name: escalate
 description: "ユーザへの判断依頼（お伺い）を構造化する。"
-agent: "boss"
+agent: "Phillips"
 tools:
   - read
   - search
@@ -23,7 +23,7 @@ tools:
 
 ## 運用ルール
 
-- 判断待ちは `status/dashboard.md` の「🚨 要対応（ユーザ判断待ち）」に1行で集約する
+- 判断待ちは `status/task.md` の「🚨 要対応（ユーザ判断待ち）」に1行で集約する
 - ユーザの回答が出るまで、当該判断を含む作業をブロックする
 - 回答が確定したら `docs/decisions.md` に判断理由を記録する
 

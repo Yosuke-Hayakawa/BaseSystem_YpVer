@@ -1,4 +1,4 @@
-﻿---
+---
 name: spec-creation
 description: docs/spec/ ディレクトリに仕様書を作成するためのガイド。Intent/Constraints/AC パターンに従った新規仕様や機能要件の作成時に使用します。
 license: MIT
@@ -24,11 +24,11 @@ license: MIT
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 - [ ] [完了を定義するテスト可能な基準]
 
-## Plan（eliteが分解する観点）
-- mobが並列に実行できる粒度に分ける
+## Plan（Barnesが分解する観点）
+- Coleが並列に実行できる粒度に分ける
 - 競合（同じファイル編集）が起きないように分担する
 
-## タスクリスト（mobへ配布する単位）
+## タスクリスト（Coleへ配布する単位）
 | task | assignee | input | output |
 |---|---|---|---|
 | | | | |
@@ -42,13 +42,13 @@ license: MIT
   - 各ACは検証可能（合格/不合格）であること
   - 形式: "X のとき、Y となる" または "X が与えられ、Y のとき、Z となる"
   - エッジケースとエラー条件を含める
-- **Plan（計画）**: 並列タスクへの分解方法をメモ（eliteが実装）
-- **Task List（タスクリスト）**: 初期タスク分解（eliteが洗練させる）
+- **Plan（計画）**: 並列タスクへの分解方法をメモ（Barnesが実装）
+- **Task List（タスクリスト）**: 初期タスク分解（Barnesが洗練させる）
 
 ## 3. ファイル命名
 
 説明的なケバブケース名を使用：
-- 良い例: `multi-agent-orchestration-v1.md`, `dashboard-automation-v2.md`
+- 良い例: `multi-agent-orchestration-v1.md`, `タスク管理-automation-v2.md`
 - 避ける: `spec1.md`, `new-feature.md`
 
 ## 4. バージョン管理
@@ -59,46 +59,46 @@ license: MIT
 ## 5. ワークフローとの統合
 
 仕様作成後：
-1. `status/dashboard.md` に新規仕様と初期ステータスを更新
-2. elite（レビュー/QA エージェント）にタスク分解を依頼
-3. boss（boss）が mob（実行エージェント）にタスクを割り当て
+1. `status/task.md` に新規仕様と初期ステータスを更新
+2. Barnes（レビュー/QA エージェント）にタスク分解を依頼
+3. Phillips（Phillips）が Cole（実行エージェント）にタスクを割り当て
 
 ## 例
 
 ```markdown
-# 仕様: Dashboard Auto-update
+# 仕様: タスク管理 Auto-update
 
 ## 目的（Intent）
 
-- elite が進捗を status/dashboard.md に手動で転記する作業を自動化し、mobの報告YAML から自動更新する。
+- Barnes が進捗を status/task.md に手動で転記する作業を自動化し、Coleの報告YAML から自動更新する。
 
 ## 制約（Constraints）
 
-- dashboard.md のフォーマット（Markdown table）を維持する
+- タスク管理.md のフォーマット（Markdown table）を維持する
 - Git操作は report_progress ツールに依存し、直接 git commit しない
 - 既存の報告YAML（role/topic/status/outputs/summary）に変更を加えない
 
 ## 受け入れ条件（Acceptance Criteria / Outcomes）
 
-- [ ] mobが報告YAMLを提出したとき、status/dashboard.md が自動更新される
-- [ ] 更新後の dashboard.md が人間に読みやすい形式を維持している
-- [ ] エラー時はeliteに通知され、手動フォールバックが可能である
+- [ ] Coleが報告YAMLを提出したとき、status/task.md が自動更新される
+- [ ] 更新後の タスク管理.md が人間に読みやすい形式を維持している
+- [ ] エラー時はBarnesに通知され、手動フォールバックが可能である
 
-## Plan（eliteが分解する観点）
+## Plan（Barnesが分解する観点）
 
-- YAML parser の実装（mob-A）
-- Dashboard updater の実装（mob-B）
-- Error handling の実装（mob-C）
-- テストケース作成（mob-D）
+- YAML parser の実装（Cole）
+- タスク管理 updater の実装（Cole）
+- Error handling の実装（Cole）
+- テストケース作成（Cole）
 
-## タスクリスト（mobへ配布する単位）
+## タスクリスト（Coleへ配布する単位）
 
 | task | assignee | input | output |
 |---|---|---|---|
-| YAML parser | mob-1 | 報告YAML例 | parser.js |
-| Dashboard updater | mob-2 | parser.js | updater.js |
-| Error handling | mob-3 | updater.js | error-handler.js |
-| Test cases | mob-4 | 全実装 | test/ |
+| YAML parser | Cole | 報告YAML例 | parser.js |
+| タスク管理 updater | Cole | parser.js | updater.js |
+| Error handling | Cole | updater.js | error-handler.js |
+| Test cases | Cole | 全実装 | test/ |
 ```
 
 ## 避けるべき一般的なミス

@@ -10,10 +10,10 @@
       "problemMatcher": []
     },
     {
-      "label": "Docs: Open Dashboard",
+      "label": "Docs: Open タスク管理",
       "type": "shell",
       "command": "echo",
-      "args": ["Open status/dashboard.md"],
+      "args": ["Open status/task.md"],
       "presentation": { "close": true },
       "problemMatcher": []
     },

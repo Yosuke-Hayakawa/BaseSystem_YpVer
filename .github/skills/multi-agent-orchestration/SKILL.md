@@ -1,44 +1,44 @@
-﻿---
+---
 name: multi-agent-orchestration
-description: boss/elite/mob マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
+description: Phillips/Cole/Barnes/Volkova マルチエージェントワークフローを調整するためのガイド。仕様駆動・SOLID ベースの開発プロセスに従って複数のエージェントを調整する際に使用します。
 license: MIT
 ---
 
 # マルチエージェント オーケストレーション スキル
 
-このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：boss、elite、mob。
+このスキルは、3層エージェントシステムを調整するためのガイダンスを提供します：Phillips、Barnes、Cole。
 
 ## エージェントの役割と責任
 
-### boss- boss
+### Phillips- Phillips
 **主要な役割**: 戦略的計画と意思決定
 
 **責任**:
 - `docs/spec/` に仕様を作成・検証
 - 重要な決定を行う（必要に応じてユーザにエスカレーション）
-- サブエージェント経由で elite と mob を調整
+- サブエージェント経由で Barnes と Cole を調整
 - 重要な決定を `docs/decisions.md` に更新
 - 全体の進捗を監視
 
 **主要スキル**: orchestration, specification-definition, requirements-analysis, task-planning, multi-agent-coordination, progress-tracking, decision-making, stakeholder-communication
 
-**利用可能なエージェント**: elite, mob, Plan
+**利用可能なエージェント**: Barnes, Cole, Plan
 
-### elite- elite
+### Barnes- Barnes
 **主要な役割**: 品質保証とタスク管理
 
 **責任**:
 - 仕様を並列タスクに分解（task-decomposition スキルを使用）
 - SOLID 原則、セキュリティ、仕様準拠のコードレビュー
-- `status/dashboard.md` を更新（進捗の単一の真実のソース）
-- mob の割り当てを管理し、ブロッカーを解決
-- 結果を boss に報告
+- `status/task.md` を更新（進捗の単一の真実のソース）
+- Cole の割り当てを管理し、ブロッカーを解決
+- 結果を Phillips に報告
 
 **主要スキル**: code-review, quality-assurance, task-decomposition, solid-principles, security-analysis, risk-assessment, test-planning, specification-validation
 
-**利用可能なエージェント**: mob
+**利用可能なエージェント**: Cole
 
-### mob- mob
+### Cole - フィールドエージェント
 **主要な役割**: 集中的なタスク実行
 
 **責任**:
@@ -54,64 +54,64 @@ license: MIT
 
 ## 標準ワークフロー
 
-### フェーズ1: 仕様作成（boss）
+### フェーズ1: 仕様作成（Phillips）
 ```
 1. ユーザが高レベルの要件を提供
-2. boss が docs/spec/<name>.md に仕様を作成
+2. Phillips が docs/spec/<name>.md に仕様を作成
    - Intent: 何を、なぜ
    - Constraints: 技術的/セキュリティ上の制限
    - AC: テスト可能な受け入れ条件
-3. boss が重要な決定を確認
+3. Phillips が重要な決定を確認
    → はい: ユーザの承認にエスカレーション
    → いいえ: フェーズ2に進む
 4. docs/decisions.md に決定を記録
 ```
 
-### フェーズ2: タスク分解（elite）
+### フェーズ2: タスク分解（Barnes）
 ```
-1. boss が elite にハンドオフ: "この仕様を分解してください"
-2. elite が task-decomposition スキルを使用して仕様を分析
+1. Phillips が Barnes にハンドオフ: "この仕様を分解してください"
+2. Barnes が task-decomposition スキルを使用して仕様を分析
    - コンポーネントを特定
    - ファイル境界を確認（競合を回避）
    - 並列安全なタスクリストを作成
-3. elite が status/dashboard.md をタスクで更新
-4. elite が boss に報告:
+3. Barnes が status/task.md をタスクで更新
+4. Barnes が Phillips に報告:
    - タスク数と並列化計画
    - リスク評価
    - ファイル所有権マップ
 ```
 
-### フェーズ3: 並列実行（mob × N）
+### フェーズ3: 並列実行（Cole × N）
 ```
-1. boss がサブエージェント経由で複数の mob を起動
+1. Phillips がサブエージェント経由で複数の Cole を起動
    - 各自がタスクリストから1つのタスクを取得
    - 各自が異なるファイルで作業
-2. mob が独立して実行:
+2. Cole が独立して実行:
    - 仕様と割り当てられたタスクを読む
    - 最小限の変更を行う
    - 必要に応じて output/ に成果物を作成
    - YAML 形式で報告
-3. elite が進捗を監視（ダッシュボードを更新）
+3. Barnes が進捗を監視（タスク管理を更新）
 ```
 
-### フェーズ4: レビューと統合（elite）
+### フェーズ4: レビューと統合（Barnes）
 ```
-1. elite が mob の出力をレビュー
+1. Barnes が Cole の出力をレビュー
    - AC 準拠を確認
    - SOLID 原則を検証
    - セキュリティ分析（NULL チェック、境界）
    - テストカバレッジ
 2. 問題が見つかった場合:
-   → elite が特定の mob に修正をハンドオフ
+   → Barnes が特定の Cole に修正をハンドオフ
 3. OK の場合:
-   → elite が boss に報告: "最終検証の準備完了"
+   → Barnes が Phillips に報告: "最終検証の準備完了"
 ```
 
-### フェーズ5: 最終検証（boss）
+### フェーズ5: 最終検証（Phillips）
 ```
-1. boss が最終チェックを実行
+1. Phillips が最終チェックを実行
    - すべての AC が満たされているか？
-   - ダッシュボードがすべてのタスクが完了していることを示しているか？
+   - タスク管理がすべてのタスクが完了していることを示しているか？
    - 決定が記録されているか？
 2. OK の場合:
    → 完了としてマークし、report_progress 経由でコミット
@@ -121,17 +121,17 @@ license: MIT
 
 ## コミュニケーションプロトコル
 
-### boss → elite ハンドオフ
+### Phillips → Barnes ハンドオフ
 ```markdown
 以下の仕様をタスクに分解してください。
-- mob同士が同じファイルを触らない切り方（ファイル単位で競合回避）
+- Cole同士が同じファイルを触らない切り方（ファイル単位で競合回避）
 - 担当/成果物/完了条件を明記
 - リスクTop3を添えて
 
 Spec: docs/spec/feature-x-v1.md
 ```
 
-### elite → mob ハンドオフ
+### Barnes → Cole ハンドオフ
 ```markdown
 以下のタスクを実行してください。担当範囲のみ処理し、完了後に結果を返してください。
 
@@ -141,9 +141,9 @@ Output: <作成/変更するファイル>
 AC: <仕様から関連する受け入れ条件>
 ```
 
-### mob → elite 報告（YAML）
+### Cole → Barnes 報告（YAML）
 ```yaml
-role: mob-N
+role: Cole
 topic: <タスク名>
 status: done | error | blocked
 outputs:
@@ -156,23 +156,23 @@ skill_candidate:
   - <発見された専門領域>
 ```
 
-### elite → boss 報告
+### Barnes → Phillips 報告
 ```markdown
 タスク分解が完了しました。
 
 Task count: 5 (3並列、2直列)
-Files: src/a.js (mob-1), src/b.js (mob-2), test/ab.test.js (mob-3)
+Files: src/a.js (Cole), src/b.js (Cole), test/ab.test.js (Cole)
 Risks:
   1. 機能B は機能A に依存（順次実行が必要）
   2. API 変更により既存機能への影響あり
   3. テストカバレッジが現時点で60%（目標80%）
 
-Dashboard: 更新済み (status/dashboard.md)
+タスク管理: 更新済み (status/task.md)
 ```
 
 ## 重要な決定ゲート（ユーザお伺い）
 
-boss または elite が重要な決定に遭遇した場合：
+Phillips または Barnes が重要な決定に遭遇した場合：
 
 **形式**:
 ```markdown
@@ -204,11 +204,11 @@ boss または elite が重要な決定に遭遇した場合：
 ### 真実のソース（一次情報）
 - `docs/spec/`: 仕様（Intent/Constraints/AC）
 - `docs/decisions.md`: 設計決定ログ
-- `status/dashboard.md`: 進捗追跡（elite が所有）
+- `status/task.md`: 進捗追跡（Barnes が所有）
 
 ### 成果物（生成物）
 - `output/`: すべての生成された成果物（調査メモ、ログ、比較表、ビルド出力）
-  - 例: `output/mob-1/`, `output/elite/review-2024-02-13.md`
+  - 例: `output/Cole/`, `output/barnes/review-2024-02-13.md`
 
 ### 指示書
 - `.github/copilot-instructions.md`: グローバルルール
@@ -236,36 +236,36 @@ boss または elite が重要な決定に遭遇した場合：
 
 ### 例: 安全な並列化
 ```
-タスク1 (mob-1): src/auth.js を実装
-タスク2 (mob-2): src/logger.js を実装
-タスク3 (mob-3): test/auth.test.js を書く
-タスク4 (mob-4): test/logger.test.js を書く
+タスク1 (Cole): src/auth.js を実装
+タスク2 (Cole): src/logger.js を実装
+タスク3 (Cole): test/auth.test.js を書く
+タスク4 (Cole): test/logger.test.js を書く
 → 4つすべてが並列実行可能（ファイル競合なし）
 ```
 
 ## エラーハンドリング
 
-### mob がエラーを報告した場合
+### Cole がエラーを報告した場合
 ```
-1. elite がエラーを分析
-2. 修正可能な場合: elite が修正タスクを作成し、mob に割り当て
-3. ブロッカーの場合: elite が boss に報告
-4. boss が決定: 続行、方向転換、またはユーザにエスカレーション
+1. Barnes がエラーを分析
+2. 修正可能な場合: Barnes が修正タスクを作成し、Cole に割り当て
+3. ブロッカーの場合: Barnes が Phillips に報告
+4. Phillips が決定: 続行、方向転換、またはユーザにエスカレーション
 ```
 
 ### ファイル競合が発生した場合
 ```
 1. そのファイルでのすべての並列作業を停止
-2. elite がタスクを順次化
+2. Barnes がタスクを順次化
 3. 順次実行で再開
-4. ダッシュボードを新しい計画で更新
+4. タスク管理を新しい計画で更新
 ```
 
 ## 進捗追跡
 
-elite が `status/dashboard.md` を以下で更新：
+Barnes が `status/task.md` を以下で更新：
 - [ ] ステータス付きタスクリスト（start/done/error/blocked）
-- [ ] mob の割り当て
+- [ ] Cole の割り当て
 - [ ] 完了率
 - [ ] ブロッカー（🚨 要対応）
 
@@ -275,9 +275,9 @@ elite が `status/dashboard.md` を以下で更新：
 
 | Task | Assignee | Status | Output |
 |------|----------|--------|--------|
-| 認証を実装 | mob-1 | done ✅ | src/auth.js |
-| 認証テストを書く | mob-2 | done ✅ | test/auth.test.js |
-| API ドキュメントを更新 | mob-3 | in progress 🔄 | docs/api.md |
+| 認証を実装 | Cole | done ✅ | src/auth.js |
+| 認証テストを書く | Cole | done ✅ | test/auth.test.js |
+| API ドキュメントを更新 | Cole | in progress 🔄 | docs/api.md |
 
 完了率: 66% (2/3)
 ```
@@ -287,7 +287,7 @@ elite が `status/dashboard.md` を以下で更新：
 1. **常に仕様から始める** - コードの前に仕様
 2. **慎重に分解する** - ファイル競合を避ける
 3. **サブエージェントを使う** - 並列性を活用
-4. **ダッシュボードを更新** - 単一の真実のソース
+4. **タスク管理を更新** - 単一の真実のソース
 5. **重要な決定をエスカレーション** - 推測しない
 6. **最小限の変更を行う** - YAGNI 原則
 7. **進めながらテスト** - テストを後回しにしない
@@ -296,9 +296,9 @@ elite が `status/dashboard.md` を以下で更新：
 ## よくある落とし穴
 
 - ❌ 仕様作成をスキップ（スコープクリープにつながる）
-- ❌ mob に他のエージェントを呼ばせる（最小権限違反）
+- ❌ Cole に他のエージェントを呼ばせる（最小権限違反）
 - ❌ 複数のエージェントが同じファイルを編集（マージ競合）
 - ❌ ユーザの承認なしに重要な決定を行う
-- ❌ ダッシュボードの更新を忘れる（進捗の可視性を失う）
+- ❌ タスク管理の更新を忘れる（進捗の可視性を失う）
 - ❌ output/ 外に成果物を作成（リポジトリが散らかる）
 - ❌ テスト前にコードを書く（品質が低下）

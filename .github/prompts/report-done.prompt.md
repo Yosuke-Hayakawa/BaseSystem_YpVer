@@ -1,7 +1,7 @@
 ﻿---
 name: report-done
-description: "mob がタスク完了を報告する YAML テンプレート。"
-agent: "mob"
+description: "Cole がタスク完了を報告する YAML テンプレート。"
+agent: "Cole"
 tools:
   - read
 ---
@@ -9,7 +9,7 @@ tools:
 タスクが完了しました。以下の YAML テンプレートに従って報告してください。
 
 ```yaml
-role: mob-N
+role: Cole
 topic: <作業トピック>
 status: done
 outputs:
@@ -27,6 +27,6 @@ skill_candidate:
 
 - `status` は `done` / `error` / `blocked` のいずれか
 - `error` / `blocked` の場合は原因と再現手順（最小）を `summary` に含める
-- 重要判断が必要な場合は、elite（elite）だけでなくboss（boss）にも共有する
-- 調査メモや検証ログなど詳細な成果物は `output/mob/<task>/` に配置する
+- 重要判断が必要な場合は、Barnes（Barnes）だけでなくPhillips（Phillips）にも共有する
+- 調査メモや検証ログなど詳細な成果物は `output/cole/<task>/` に配置する
 - `skill_candidate` は0個でもフィールドは必須

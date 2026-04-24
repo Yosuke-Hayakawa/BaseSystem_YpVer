@@ -1,12 +1,12 @@
-﻿---
+---
 name: task-decomposition
-description: 仕様を並列かつ競合しないタスクに分解して mob（実行エージェント）に割り当てるためのガイド。SOLID 原則に従い、ファイル競合を回避しながら仕様を実行可能なタスクに分解する際に使用します。
+description: 仕様を並列かつ競合しないタスクに分解して Cole（実行エージェント）に割り当てるためのガイド。SOLID 原則に従い、ファイル競合を回避しながら仕様を実行可能なタスクに分解する際に使用します。
 license: MIT
 ---
 
 # タスク分解スキル
 
-仕様をタスクに分解する際（通常は elite（レビュー/QA エージェント）が実施）、競合なしで並列実行を可能にする以下の原則に従ってください。
+仕様をタスクに分解する際（通常は Barnes（レビュー/QA エージェント）が実施）、競合なしで並列実行を可能にする以下の原則に従ってください。
 
 ## 基本原則
 
@@ -16,17 +16,17 @@ license: MIT
 - 良い例: "機能Xを実装する" + 別タスク "機能Xのテストを書く"
 
 ### 2. ファイルレベルでの分離
-- **重要**: マージ競合を避けるため、異なる mob に異なるファイルを割り当てる
+- **重要**: マージ競合を避けるため、異なる Cole に異なるファイルを割り当てる
 - 複数のタスクが同じファイルを必要とする場合は、順次実行する（並列にしない）
 - 例:
   ```
   ✅ 良い（並列安全）:
-  - タスクA: file1.js を編集 (mob-1)
-  - タスクB: file2.js を編集 (mob-2)
+  - タスクA: file1.js を編集 (Cole)
+  - タスクB: file2.js を編集 (Cole)
   
   ❌ 悪い（競合リスク）:
-  - タスクA: config.js の 1-10行目を編集 (mob-1)
-  - タスクB: config.js の 20-30行目を編集 (mob-2)
+  - タスクA: config.js の 1-10行目を編集 (Cole)
+  - タスクB: config.js の 20-30行目を編集 (Cole)
   ```
 
 ### 3. 明確な入力と出力
@@ -52,8 +52,8 @@ license: MIT
 - 真に独立したタスクを並列実行のために特定
 
 ### ステップ3: 責任の割り当て
-- 各 mob に名前を付ける: `mob-1`, `mob-2`, など
-- 2つの mob が同じファイルを変更しないようにする
+- 各 Cole に名前を付ける: `Cole`, `Cole`, など
+- 2つの Cole が同じファイルを変更しないようにする
 - 作業負荷のバランスを取る（ほぼ同等の複雑さ）
 
 ### ステップ4: テーブル形式でドキュメント化
@@ -63,9 +63,9 @@ license: MIT
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| パーサーを実装 | mob-1 | 仕様 3.1節 | src/parser.js |
-| テストを作成 | mob-2 | 仕様 AC 1-3 | test/parser.test.js |
-| ドキュメントを更新 | mob-3 | src/parser.js | docs/api.md |
+| パーサーを実装 | Cole | 仕様 3.1節 | src/parser.js |
+| テストを作成 | Cole | 仕様 AC 1-3 | test/parser.test.js |
+| ドキュメントを更新 | Cole | src/parser.js | docs/api.md |
 ```
 
 ## 例: 複数ファイルの機能
@@ -76,8 +76,8 @@ license: MIT
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| ログインルート追加 | mob-1 | spec | server.js, auth.js |
-| ログアウトルート追加 | mob-2 | spec | server.js, auth.js |
+| ログインルート追加 | Cole | spec | server.js, auth.js |
+| ログアウトルート追加 | Cole | spec | server.js, auth.js |
 ```
 ☠️ 両方が `server.js` と `auth.js` を触る → マージ競合！
 
@@ -85,13 +85,13 @@ license: MIT
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| 認証サービス実装 | mob-1 | 仕様 AC 1-2 | src/auth-service.js |
-| ログインルート実装 | mob-2 | 仕様 AC 3 | routes/login.js |
-| ログアウトルート実装 | mob-3 | 仕様 AC 4 | routes/logout.js |
-| 認証テスト作成 | mob-4 | 仕様 AC 1-4 | test/auth.test.js |
-| API ドキュメント更新 | mob-5 | routes/*.js | docs/api/auth.md |
+| 認証サービス実装 | Cole | 仕様 AC 1-2 | src/auth-service.js |
+| ログインルート実装 | Cole | 仕様 AC 3 | routes/login.js |
+| ログアウトルート実装 | Cole | 仕様 AC 4 | routes/logout.js |
+| 認証テスト作成 | Cole | 仕様 AC 1-4 | test/auth.test.js |
+| API ドキュメント更新 | Cole | routes/*.js | docs/api/auth.md |
 ```
-✅ 各 mob が自分のファイルを持つ！
+✅ 各 Cole が自分のファイルを持つ！
 
 ## 共有ファイルの扱い
 
@@ -101,19 +101,19 @@ license: MIT
 ```markdown
 | task | assignee | input | output | depends_on |
 |---|---|---|---|---|
-| 基本設定を追加 | mob-1 | spec | config.js | - |
-| 機能A設定を追加 | mob-2 | config.js | config.js | mob-1 |
-| 機能B設定を追加 | mob-3 | config.js | config.js | mob-2 |
+| 基本設定を追加 | Cole | spec | config.js | - |
+| 機能A設定を追加 | Cole | config.js | config.js | Cole |
+| 機能B設定を追加 | Cole | config.js | config.js | Cole |
 ```
 
 ### オプション2: 別ファイルを作成
 ```markdown
 | task | assignee | input | output |
 |---|---|---|---|
-| 基本設定を作成 | mob-1 | spec | config/base.js |
-| 機能A設定を作成 | mob-2 | spec | config/feature-a.js |
-| 機能B設定を作成 | mob-3 | spec | config/feature-b.js |
-| 設定を統合 | mob-4 | config/*.js | config/index.js |
+| 基本設定を作成 | Cole | spec | config/base.js |
+| 機能A設定を作成 | Cole | spec | config/feature-a.js |
+| 機能B設定を作成 | Cole | spec | config/feature-b.js |
+| 設定を統合 | Cole | config/*.js | config/index.js |
 ```
 
 ## タスクサイズのガイドライン
@@ -124,13 +124,13 @@ license: MIT
 
 目標: **タスクあたり1〜3時間の作業**（経験豊富な開発者を想定）
 
-## boss への報告
+## Phillips への報告
 
 分解後、以下を提供：
 1. **タスク数**: "分解結果: 5タスク（3並列実行可）"
 2. **並列化計画**: どのタスクが並列実行可能か
 3. **リスク評価**: 潜在的なボトルネックや依存関係
-4. **ファイルマップ**: どの mob がどのファイルを担当するか
+4. **ファイルマップ**: どの Cole がどのファイルを担当するか
 
 ## よくあるミス
 
@@ -142,9 +142,9 @@ license: MIT
 
 ## ワークフローとの統合
 
-1. **受領**: boss から仕様を受け取る
+1. **受領**: Phillips から仕様を受け取る
 2. **分解**: このスキルのガイドラインを使用して分解
 3. **検証**: ファイル競合がないことを確認
-4. **報告**: タスクリストと共に boss に報告
-5. **更新**: `status/dashboard.md` にタスク割り当てを更新
-6. **監視**: mob の進捗を監視し、ブロッカーを解決
+4. **報告**: タスクリストと共に Phillips に報告
+5. **更新**: `status/task.md` にタスク割り当てを更新
+6. **監視**: Cole の進捗を監視し、ブロッカーを解決
